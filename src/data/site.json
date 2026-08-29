@@ -1,0 +1,18 @@
+{
+  "name": "Numele ONG",
+  "shortName": "ONG",
+  "donateUrl": "https://example.org/doneaza",
+  "email": "contact@example.org",
+  "social": [
+    { "label": "Facebook", "href": "https://facebook.com/" },
+    { "label": "Instagram", "href": "https://instagram.com/" },
+    { "label": "LinkedIn", "href": "https://linkedin.com/" }
+  ],
+  "nav": [
+    { "key": "nav.about", "path": "/about" },
+    { "key": "nav.programs", "path": "/programs" },
+    { "key": "nav.blog", "path": "/blog" },
+    { "key": "nav.transparency", "path": "/transparency" },
+    { "key": "nav.contact", "path": "/contact" }
+  ]
+}

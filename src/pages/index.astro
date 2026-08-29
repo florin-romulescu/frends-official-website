@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro';
+import { useTranslations, localizePath } from '../i18n';
+
+const lang = 'ro' as const;
+const t = useTranslations(lang);
+---
+
+<Base title={t('home.title')} description={t('home.description')}>
+  <PageIntro
+    heading={t('home.heading')}
+    lede={t('home.lede')}
+    cta={{ label: t('home.ctaPrograms'), href: localizePath('/programs', lang) }}
+  />
+</Base>

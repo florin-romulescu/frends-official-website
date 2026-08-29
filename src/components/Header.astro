@@ -1,0 +1,56 @@
+---
+/**
+ * Thin composition shell. All visual pieces are React components; this file
+ * exists only to resolve the locale-dependent props they need.
+ *
+ * Nothing in the header is hydrated — see MobileNav for why.
+ */
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  getAlternatePath,
+  otherLang,
+  languages,
+} from '../i18n';
+import { site } from '../data/site';
+import Brand from './Brand';
+import Nav from './Nav';
+import LangSwitch from './LangSwitch';
+import DonateButton from './DonateButton';
+import MobileNav from './MobileNav';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const items = site.nav.map((entry) => ({
+  label: t(entry.key),
+  href: localizePath(entry.path, lang),
+}));
+
+const target = otherLang(lang);
+const langSwitch = {
+  lang: target,
+  label: languages[target],
+  href: getAlternatePath(Astro.url, target),
+};
+const donate = { label: t('nav.donate'), href: site.donateUrl };
+---
+
+<header class="sticky top-0 z-40 border-b border-ink-500/10 bg-white/90 backdrop-blur">
+  <div class="container-content flex h-16 items-center justify-between gap-4">
+    <Brand name={site.name} href={localizePath('/', lang)} />
+
+    <div class="flex items-center gap-1">
+      <Nav items={items} currentPath={Astro.url.pathname} />
+      <LangSwitch {...langSwitch} className="hidden md:inline-flex" />
+      <DonateButton label={donate.label} href={donate.href} className="hidden md:inline-flex" />
+      <MobileNav
+        items={items}
+        donate={donate}
+        langSwitch={langSwitch}
+        openLabel={t('nav.menu')}
+      />
+    </div>
+  </div>
+</header>
