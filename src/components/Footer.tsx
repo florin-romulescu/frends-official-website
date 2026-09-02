@@ -1,65 +1,92 @@
 import type { NavItem, LinkProps } from './types';
+import SocialLinks from './SocialLinks';
 
 interface Props {
-  siteName: string;
+  tagline: string;
   email: string;
+  phone: string;
+  /** Address as separate lines, so the markup keeps the designed line breaks. */
+  addressLines: string[];
   items: NavItem[];
   social: LinkProps[];
   labels: {
-    nav: string;
-    followUs: string;
+    brand: string;
+    links: string;
+    contact: string;
+    address: string;
     rights: string;
   };
   year: number;
 }
 
-const Footer = ({ siteName, email, items, social, labels, year }: Props) => {
+const Footer = ({
+  tagline,
+  email,
+  phone,
+  addressLines,
+  items,
+  social,
+  labels,
+  year,
+}: Props) => {
   return (
-    <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-      <div className="lg:col-span-2">
-        <p className="text-lg font-bold tracking-tight text-brand-700">{siteName}</p>
-        <a
-          href={`mailto:${email}`}
-          className="mt-2 inline-block text-sm text-ink-500 hover:text-brand-700"
-        >
-          {email}
-        </a>
-      </div>
+    <div className="py-14">
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <img src="/icons/logo-footer.svg" alt={labels.brand} width={116} height={48} className="h-10 w-auto" />
+          <p className="mt-4 max-w-[330px] text-body-sm text-ink-muted">{tagline}</p>
+        </div>
 
-      <nav aria-label={labels.nav}>
-        <h2 className="text-sm font-semibold text-ink-900">{labels.nav}</h2>
-        <ul className="mt-3 space-y-2">
-          {items.map((item) => (
-            <li key={item.href}>
-              <a href={item.href} className="text-sm text-ink-500 hover:text-brand-700">
-                {item.label}
+        <nav aria-label={labels.links}>
+          <h2 className="font-sans text-body font-bold text-ink">{labels.links}</h2>
+          <ul className="mt-3 space-y-2">
+            {items.map((item) => (
+              <li key={item.href}>
+                <a href={item.href} className="text-body-sm text-ink-secondary hover:text-brand">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div>
+          <h2 className="font-sans text-body font-bold text-ink">{labels.contact}</h2>
+          <ul className="mt-3 space-y-2">
+            <li>
+              <a href={`mailto:${email}`} className="text-body-sm text-ink-secondary hover:text-brand">
+                {email}
               </a>
             </li>
-          ))}
-        </ul>
-      </nav>
-
-      <div>
-        <h2 className="text-sm font-semibold text-ink-900">{labels.followUs}</h2>
-        <ul className="mt-3 space-y-2">
-          {social.map((link) => (
-            <li key={link.href}>
+            <li>
               <a
-                href={link.href}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="text-sm text-ink-500 hover:text-brand-700"
+                href={`tel:${phone.replace(/\s/g, '')}`}
+                className="text-body-sm text-ink-secondary hover:text-brand"
               >
-                {link.label}
+                {phone}
               </a>
             </li>
-          ))}
-        </ul>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="font-sans text-body font-bold text-ink">{labels.address}</h2>
+          <address className="mt-3 text-body-sm text-ink-muted not-italic">
+            {addressLines.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </address>
+        </div>
       </div>
 
-      <p className="border-t border-ink-500/15 pt-6 text-xs text-ink-500 sm:col-span-2 lg:col-span-4">
-        © {year} {siteName}. {labels.rights}
-      </p>
+      <div className="mt-10 flex flex-col-reverse items-center gap-4 border-t border-border-default pt-6 sm:flex-row sm:justify-between">
+        <p className="text-caption text-ink-muted">
+          © {year} {labels.brand}. {labels.rights}
+        </p>
+        <SocialLinks links={social} />
+      </div>
     </div>
   );
 };

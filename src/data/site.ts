@@ -22,10 +22,14 @@ export interface NavEntry {
 export interface SiteData {
   name: string;
   shortName: string;
-  donateUrl: string;
   email: string;
+  phone: string;
+  addressLines: string[];
+  volunteerUrl: string;
   social: SocialLink[];
   nav: NavEntry[];
+  /** The footer's link column, which is a different set from the header nav. */
+  footerNav: NavEntry[];
 }
 
 export const site: SiteData = siteJson as SiteData;

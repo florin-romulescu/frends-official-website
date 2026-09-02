@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+import aboutPhoto from '../../assets/img/about-group.jpg';
+import Pill from '../Pill';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const tags = [t('about.tag1'), t('about.tag2'), t('about.tag3')];
+---
+
+<section class="container-content py-16 lg:py-24">
+  <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+    <figure class="relative order-2 lg:order-1">
+      <Image
+        src={aboutPhoto}
+        alt={t('about.photoAlt')}
+        widths={[480, 768, 1024, 1400]}
+        sizes="(width >= 64rem) 50vw, 100vw"
+        class="aspect-[699/560] w-full rounded-panel object-cover"
+        loading="lazy"
+      />
+      <figcaption>
+        <Pill variant="caption" className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6">
+          {t('about.photoCaption')}
+        </Pill>
+      </figcaption>
+    </figure>
+
+    <div class="order-1 lg:order-2">
+      <h2 class="font-display text-display font-extrabold text-brand">{t('about.heading')}</h2>
+      <p class="mt-6 text-body-lg">{t('about.body')}</p>
+      <p class="mt-6 text-body-lg font-black">{t('about.moreLead')}</p>
+
+      <ul class="mt-4 flex flex-wrap gap-3">
+        {tags.map((tag) => <li><Pill variant="gray">{tag}</Pill></li>)}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+---
+import { getImage } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+import { events } from '../../data/events';
+import type { EventStatus } from '../types';
+import Carousel from '../Carousel';
+import EventCard from '../EventCard';
+import Pill from '../Pill';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+/*
+ * `<Image />` cannot be used inside a React component (see README), so the
+ * images are resolved here and handed down as plain, serializable props.
+ */
+const cards = await Promise.all(
+  events.map(async (event) => {
+    const optimized = await getImage({
+      src: event.image,
+      widths: [440, 880],
+      sizes: '(width >= 40rem) 26rem, 85vw',
+    });
+    return {
+      ...event,
+      resolved: {
+        src: optimized.src,
+        srcSet: optimized.srcSet.attribute || undefined,
+        width: optimized.attributes.width,
+        height: optimized.attributes.height,
+      },
+    };
+  }),
+);
+
+const statusLabels: Record<EventStatus, string> = {
+  open: t('events.status.open'),
+  ongoing: t('events.status.ongoing'),
+  completed: t('events.status.completed'),
+};
+---
+
+<section class="container-wide">
+  <div class="rounded-panel bg-accent-warm px-4 py-12 lg:px-10 lg:py-14">
+    <div class="flex justify-center">
+      <Pill variant="title">{t('events.title')}</Pill>
+    </div>
+
+    <div class="mt-10">
+      <Carousel
+        id="events"
+        label={t('events.title')}
+        labels={{
+          first: t('events.first'),
+          last: t('events.last'),
+          slide: (n: number) => `${t('events.title')} ${n}`,
+        }}
+      >
+        {
+          cards.map((event) => (
+            <EventCard
+              title={event.title}
+              period={event.period}
+              description={event.description}
+              image={event.resolved}
+              imageAlt={event.imageAlt}
+              status={event.status}
+              statusLabel={statusLabels[event.status]}
+              href={event.href}
+              readMoreLabel={t('events.readMore')}
+            />
+          ))
+        }
+      </Carousel>
+    </div>
+  </div>
+</section>

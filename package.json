@@ -12,7 +12,8 @@
     "astro": "astro",
     "check": "astro check",
     "budget": "node scripts/check-js-budget.mjs",
-    "verify": "astro check && astro build && node scripts/check-js-budget.mjs"
+    "verify": "astro check && astro build && node scripts/check-js-budget.mjs",
+    "images": "node scripts/optimize-source-images.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.4",
@@ -29,6 +30,7 @@
     "@astrojs/check": "^0.9.10",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
+    "sharp": "^0.35.4",
     "typescript": "^6.0.3"
   }
 }

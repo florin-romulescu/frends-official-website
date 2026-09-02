@@ -1,8 +1,9 @@
 import type { NavItem } from './types';
+import Button from './Button';
 
 interface Props {
   items: NavItem[];
-  donate: { label: string; href: string };
+  cta: { label: string; href: string };
   openLabel: string;
 }
 
@@ -19,12 +20,12 @@ interface Props {
  * A drawer would need a backdrop, click-outside dismissal and body scroll lock,
  * none of which are possible without JS; a dropdown needs none of them.
  */
-const MobileNav = ({ items, donate, openLabel }: Props) => {
+const MobileNav = ({ items, cta, openLabel }: Props) => {
   return (
-    <details className="group relative md:hidden">
+    <details className="group relative lg:hidden">
       <summary
         aria-label={openLabel}
-        className="flex size-10 cursor-pointer items-center justify-center rounded-md text-ink-700 marker:hidden hover:bg-brand-50 [&::-webkit-details-marker]:hidden"
+        className="flex size-11 cursor-pointer items-center justify-center rounded-pill text-ink marker:hidden hover:bg-surface-subtle [&::-webkit-details-marker]:hidden"
       >
         <svg
           aria-hidden="true"
@@ -39,25 +40,26 @@ const MobileNav = ({ items, donate, openLabel }: Props) => {
         </svg>
       </summary>
 
-      <div className="absolute right-0 z-50 mt-2 w-64 rounded-xl border border-ink-500/10 bg-white p-2 shadow-xl">
-        <nav aria-label={openLabel} className="flex flex-col">
+      <div className="absolute right-0 z-50 mt-3 w-64 rounded-nav border border-border-default bg-surface p-2 shadow-nav">
+        <ul className="flex flex-col">
           {items.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-3 text-base font-medium text-ink-700 hover:bg-brand-50 hover:text-brand-700"
-            >
-              {item.label}
-            </a>
+            <li key={item.href}>
+              <a
+                href={item.href}
+                aria-current={item.current ? 'page' : undefined}
+                className={`block rounded-pill px-3 py-3 text-body-lg transition-colors hover:bg-surface-subtle ${
+                  item.current ? 'bg-surface-subtle font-bold' : ''
+                }`}
+              >
+                {item.label}
+              </a>
+            </li>
           ))}
-        </nav>
+        </ul>
 
-        <a
-          href={donate.href}
-          className="mt-1 flex items-center justify-center rounded-full bg-accent-600 px-5 py-3 text-base font-semibold text-white hover:bg-accent-500"
-        >
-          {donate.label}
-        </a>
+        <Button href={cta.href} className="mt-2 w-full">
+          {cta.label}
+        </Button>
       </div>
     </details>
   );

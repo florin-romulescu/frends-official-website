@@ -1,29 +1,94 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 /*
- * Design tokens. Rebranding the site should mean editing this block and nothing
- * else — components reference these via Tailwind utilities (bg-brand-600, etc).
+ * Design tokens — the single source of truth for the FRENDS brand.
+ *
+ * Every value here is lifted from the Figma brand book (node 311:426). The
+ * comment after each colour is its Figma variable name, so a token renamed in
+ * Figma can be traced to the utility it produces here. Components MUST consume
+ * these through Tailwind utilities (bg-brand, text-ink-muted, text-h2) and
+ * never hardcode a hex value — rebranding should mean editing this block only.
  */
 @theme {
-  --color-brand-50:  oklch(0.97 0.02 175);
-  --color-brand-100: oklch(0.93 0.05 175);
-  --color-brand-200: oklch(0.87 0.08 175);
-  --color-brand-400: oklch(0.72 0.13 175);
-  --color-brand-600: oklch(0.55 0.13 175);
-  --color-brand-700: oklch(0.46 0.11 175);
-  --color-brand-900: oklch(0.30 0.07 175);
+  /* ---- Colour ---------------------------------------------------------- */
+  --color-brand: #00afef; /* brand/primary */
+  --color-brand-dark: #0d97c9; /* brand/primary-dark */
+  --color-brand-light: #74d5f9; /* brand/primary-light */
+  --color-accent-warm: #f9c274; /* accent/warm */
 
-  --color-accent-500: oklch(0.72 0.17 55);
-  --color-accent-600: oklch(0.63 0.17 55);
+  --color-ink: #000000; /* text/primary */
+  --color-ink-secondary: #4e4d4d; /* text/secondary */
+  --color-ink-muted: #868686; /* text/muted */
+  --color-on-brand: #ffffff; /* text/on-brand */
 
-  --color-ink-500: oklch(0.55 0.01 260);
-  --color-ink-700: oklch(0.38 0.01 260);
-  --color-ink-900: oklch(0.22 0.01 260);
+  --color-surface: #ffffff; /* surface/page */
+  --color-surface-subtle: #ededed; /* surface/subtle */
+  --color-surface-placeholder: #d9d9d9; /* surface/placeholder */
+  --color-border-default: #eaeaea; /* border/default */
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --color-status-open: #8ce38f; /* status/open */
+  --color-status-ongoing: #e3cc8c; /* status/ongoing */
+  --color-status-completed: #e38c8c; /* status/completed */
+
+  /* ---- Type families --------------------------------------------------- */
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --container-content: 72rem;
+  /*
+   * ---- Type scale ------------------------------------------------------
+   *
+   * The brand book is a single 1728px desktop artboard, so the mobile and
+   * tablet sizes are ours. Rather than redeclare each size at every
+   * breakpoint, the display and heading steps interpolate with clamp():
+   * the min lands at ~375px, the max at the 1728px the design was drawn on.
+   * That makes them correct at every width in between — including the tablet
+   * sizes nobody drew — and keeps the responsive behaviour in the token
+   * instead of scattered across component class lists.
+   *
+   * Body steps stay fixed: 16px body copy should not shrink on a phone.
+   */
+  --text-display: clamp(2rem, 1.15rem + 3.6vw, 3.5rem); /* 32 → 56  Display/H1 */
+  --text-display--line-height: 1.08;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); /* 28 → 40  Heading/H2 */
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem); /* 22 → 28  Heading/H3 */
+  --text-h3--line-height: 1.2;
+  --text-h4: clamp(1.25rem, 1.19rem + 0.26vw, 1.375rem); /* 20 → 22  Heading/H4 */
+  --text-h4--line-height: 1.25;
+  --text-h5: 1.125rem; /* 18      Heading/H5 */
+  --text-h5--line-height: 1.35;
+  --text-stat: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem); /* 22 → 28  Accent/Stat */
+  --text-stat--line-height: 1.2;
+
+  --text-body-lg: 1.125rem; /* 18  Body/Large */
+  --text-body-lg--line-height: 1.55;
+  --text-body: 1rem; /* 16  Body/Base */
+  --text-body--line-height: 1.55;
+  --text-body-sm: 0.875rem; /* 14  Body/Small */
+  --text-body-sm--line-height: 1.5;
+  --text-caption: 0.75rem; /* 12  Body/Caption */
+  --text-caption--line-height: 1.45;
+
+  /* ---- Radius ---------------------------------------------------------- */
+  --radius-pill: 1rem; /* 16 — buttons, goal cards, nav items */
+  --radius-nav: 1.25rem; /* 20 — the header nav pill */
+  --radius-card: 1.5rem; /* 24 — stat card, section title pill */
+  --radius-panel: 2rem; /* 32 — photos, coloured section bands */
+  --radius-media: 2.5rem; /* 40 — impact photos */
+
+  /* ---- Elevation ------------------------------------------------------- */
+  --shadow-card: 0 8px 24px 0 rgb(0 0 0 / 0.12);
+  --shadow-nav: 0 6px 20px 0 rgb(10 61 84 / 0.13);
+  --shadow-control: 0 4px 6px 0 rgb(0 0 0 / 0.18);
+
+  /*
+   * Content width. The design's nav pill spans 159px→1569px on a 1728px
+   * artboard, so the content column is 1410px ≈ 88rem.
+   */
+  --container-content: 88rem;
 }
 
 @layer base {
@@ -33,22 +98,30 @@
   }
 
   body {
-    background-color: white;
-    color: var(--color-ink-900);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     text-wrap: pretty;
   }
 
-  h1, h2, h3, h4 {
+  /*
+   * The brand book sets every text style to 100% line-height. That is right
+   * for the display and heading steps (and they keep it, near enough, via the
+   * --line-height tokens above) but it would clip the descenders on Romanian
+   * ă/ș/ț in running copy, so the body steps get real leading instead.
+   */
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-heading);
+    font-weight: 500;
     text-wrap: balance;
-    font-weight: 700;
-    letter-spacing: -0.02em;
   }
 
   /* Visible keyboard focus everywhere. Accessibility is a requirement here,
      not a polish item — see the alt-text rule in the content schema. */
   :focus-visible {
-    outline: 2px solid var(--color-brand-600);
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -80,5 +153,51 @@
 
   @media (width >= 64rem) {
     padding-inline: 2rem;
+  }
+}
+
+/*
+ * Near-full-bleed gutter for the coloured section bands.
+ *
+ * The events and goals panels are drawn 1660px wide on a 1728px artboard, so
+ * they sit outside the 1408px text column. Keeping them wide is not decoration:
+ * three 440px event cards plus their arrows only fit at this width, and at the
+ * narrower column the third card is always clipped.
+ */
+@utility container-wide {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 108rem;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+}
+
+/*
+ * Horizontal snap track for the event carousel.
+ *
+ * The design draws prev/next arrows and dots, which normally implies a
+ * JavaScript carousel. This site ships zero JS by contract (see
+ * scripts/check-js-budget.mjs), so the track is native overflow scrolling with
+ * scroll-snap: swipe, trackpad and keyboard all work natively and the arrows
+ * are anchor links that jump to a snap target. No runtime, no hydration.
+ */
+@utility snap-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
   }
 }

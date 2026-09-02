@@ -2,28 +2,28 @@ import type { NavItem } from './types';
 
 interface Props {
   items: NavItem[];
-  currentPath: string;
 }
 
-const Nav = ({ items, currentPath }: Props) => {
+/** Desktop nav links, shown inside the header's white pill. */
+const Nav = ({ items }: Props) => {
   return (
-    <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
-      {items.map((item) => {
-        const isCurrent = currentPath === item.href || currentPath === `${item.href}/`;
-        return (
+    <ul className="hidden items-center gap-1.5 lg:flex">
+      {items.map((item) => (
+        <li key={item.href}>
           <a
-            key={item.href}
             href={item.href}
-            aria-current={isCurrent ? 'page' : undefined}
-            className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-brand-50 hover:text-brand-700 ${
-              isCurrent ? 'text-brand-700' : 'text-ink-700'
+            aria-current={item.current ? 'page' : undefined}
+            className={`flex h-12 items-center justify-center rounded-pill px-5 text-body whitespace-nowrap transition-colors ${
+              item.current
+                ? 'bg-surface-subtle font-bold text-ink'
+                : 'text-ink hover:bg-surface-subtle'
             }`}
           >
             {item.label}
           </a>
-        );
-      })}
-    </nav>
+        </li>
+      ))}
+    </ul>
   );
 };
 

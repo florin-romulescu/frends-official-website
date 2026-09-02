@@ -1,0 +1,32 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+/*
+ * The design shows four empty placeholder rectangles — the partner logos had
+ * not been supplied when it was drawn. They are rendered as labelled
+ * placeholders rather than bare grey boxes so the gap is obvious in review
+ * instead of looking like a rendering bug.
+ *
+ * TODO: replace with real partner logos and links.
+ */
+const placeholderCount = 4;
+---
+
+<section class="container-content py-16 lg:py-24">
+  <h2 class="text-h2">{t('partners.title')}</h2>
+
+  <ul class="mt-10 flex flex-wrap gap-6">
+    {
+      Array.from({ length: placeholderCount }, (_, i) => (
+        <li
+          class="grid h-32 w-32 place-items-center rounded-[13px] bg-surface-placeholder p-3 text-center text-caption text-ink-muted lg:h-36 lg:w-36"
+        >
+          {t('partners.placeholder')} {i + 1}
+        </li>
+      ))
+    }
+  </ul>
+</section>

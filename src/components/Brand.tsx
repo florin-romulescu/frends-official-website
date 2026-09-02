@@ -1,21 +1,22 @@
 interface Props {
-  name: string;
   href: string;
+  /** Accessible name — the logo is an image, so it needs a text equivalent. */
+  name: string;
+  className?: string;
 }
 
-const Brand = ({ name, href }: Props) => {
+/** The FRENDS wordmark, exported from Figma as SVG. */
+const Brand = ({ href, name, className = '' }: Props) => {
   return (
-    <a
-      href={href}
-      className="flex items-center gap-2 text-lg font-bold tracking-tight text-brand-700 hover:text-brand-900"
-    >
-      <span
-        aria-hidden="true"
-        className="grid size-8 place-items-center rounded-lg bg-brand-600 text-sm font-black text-white"
-      >
-        {name.slice(0, 1)}
-      </span>
-      <span>{name}</span>
+    <a href={href} className={`inline-flex items-center ${className}`}>
+      <span className="sr-only">{name}</span>
+      <img
+        src="/icons/logo.svg"
+        alt=""
+        width={116}
+        height={48}
+        className="h-9 w-auto lg:h-12"
+      />
     </a>
   );
 };

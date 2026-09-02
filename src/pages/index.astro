@@ -1,16 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro';
-import { useTranslations, localizePath } from '../i18n';
+import Hero from '../components/sections/Hero.astro';
+import Events from '../components/sections/Events.astro';
+import About from '../components/sections/About.astro';
+import Goals from '../components/sections/Goals.astro';
+import Impact from '../components/sections/Impact.astro';
+import Partners from '../components/sections/Partners.astro';
+import { useTranslations } from '../i18n';
 
 const lang = 'ro' as const;
 const t = useTranslations(lang);
 ---
 
 <Base title={t('home.title')} description={t('home.description')}>
-  <PageIntro
-    heading={t('home.heading')}
-    lede={t('home.lede')}
-    cta={{ label: t('home.ctaPrograms'), href: localizePath('/programs', lang) }}
-  />
+  <Hero />
+  <Events />
+  <About />
+  <Goals />
+  <Impact />
+  <Partners />
 </Base>

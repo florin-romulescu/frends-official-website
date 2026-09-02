@@ -6,20 +6,28 @@ import Footer from './Footer';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const items = site.nav.map((entry) => ({
+const items = site.footerNav.map((entry) => ({
   label: t(entry.key),
   href: localizePath(entry.path, lang),
 }));
 ---
 
-<footer class="mt-24 border-t border-ink-500/10 bg-brand-50/40">
+<footer class="mt-24 border-t border-border-default">
   <div class="container-content">
     <Footer
-      siteName={site.name}
+      tagline={t('footer.tagline')}
       email={site.email}
+      phone={site.phone}
+      addressLines={site.addressLines}
       items={items}
       social={site.social}
-      labels={{ nav: t('footer.nav'), followUs: t('footer.followUs'), rights: t('footer.rights') }}
+      labels={{
+        brand: site.name,
+        links: t('footer.links'),
+        contact: t('footer.contact'),
+        address: t('footer.address'),
+        rights: t('footer.rights'),
+      }}
       year={new Date().getFullYear()}
     />
   </div>
