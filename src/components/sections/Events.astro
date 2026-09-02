@@ -3,6 +3,8 @@ import { getImage } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import { events } from '../../data/events';
 import type { EventStatus } from '../types';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
 import Carousel from '../Carousel';
 import EventCard from '../EventCard';
 import Pill from '../Pill';
@@ -40,13 +42,11 @@ const statusLabels: Record<EventStatus, string> = {
 };
 ---
 
-<section class="container-wide">
-  <div class="rounded-panel bg-accent-warm px-4 py-12 lg:px-10 lg:py-14">
-    <div class="flex justify-center">
-      <Pill variant="title">{t('events.title')}</Pill>
-    </div>
+<Section space="sm" band="warm" width="wide">
+  <Stack gap="xl" align="center">
+    <Pill variant="title">{t('events.title')}</Pill>
 
-    <div class="mt-10">
+    <div class="w-full">
       <Carousel
         id="events"
         label={t('events.title')}
@@ -73,5 +73,5 @@ const statusLabels: Record<EventStatus, string> = {
         }
       </Carousel>
     </div>
-  </div>
-</section>
+  </Stack>
+</Section>

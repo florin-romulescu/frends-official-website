@@ -34,7 +34,7 @@ const EventCard = ({
   readMoreLabel,
 }: Props) => {
   return (
-    <article className="relative flex h-full w-[85vw] flex-col overflow-hidden rounded-panel bg-surface shadow-card sm:w-[26rem] lg:w-[27.5rem]">
+    <article className="relative flex h-full w-[85vw] max-w-[27.5rem] flex-col overflow-hidden rounded-panel bg-surface shadow-card sm:w-[26rem] xl:w-[27.5rem]">
       <div className="relative aspect-[440/190] w-full shrink-0 overflow-hidden">
         <img
           src={image.src}

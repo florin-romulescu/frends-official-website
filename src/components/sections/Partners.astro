@@ -1,5 +1,8 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import Grid from '../../layouts/primitives/Grid.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -15,18 +18,22 @@ const t = useTranslations(lang);
 const placeholderCount = 4;
 ---
 
-<section class="container-content py-16 lg:py-24">
-  <h2 class="text-h2">{t('partners.title')}</h2>
+<Section space="lg">
+  <Stack gap="xl">
+    <h2 class="text-h2">{t('partners.title')}</h2>
 
-  <ul class="mt-10 flex flex-wrap gap-6">
-    {
-      Array.from({ length: placeholderCount }, (_, i) => (
-        <li
-          class="grid h-32 w-32 place-items-center rounded-[13px] bg-surface-placeholder p-3 text-center text-caption text-ink-muted lg:h-36 lg:w-36"
-        >
-          {t('partners.placeholder')} {i + 1}
-        </li>
-      ))
-    }
-  </ul>
-</section>
+    {/*
+      Capped at four columns so the logos keep their designed size on a wide
+      screen instead of stretching to fill the row.
+    */}
+    <Grid as="ul" min="8rem" gap="md" class="max-w-[42rem]">
+      {
+        Array.from({ length: placeholderCount }, (_, i) => (
+          <li class="grid aspect-square place-items-center rounded-[13px] bg-surface-placeholder p-3 text-center text-caption text-ink-muted">
+            {t('partners.placeholder')} {i + 1}
+          </li>
+        ))
+      }
+    </Grid>
+  </Stack>
+</Section>

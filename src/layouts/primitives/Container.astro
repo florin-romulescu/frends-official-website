@@ -1,0 +1,26 @@
+---
+/**
+ * Horizontal width + gutter control.
+ *
+ * `width` names the *role* of the column, not a pixel value, so a caller never
+ * has to remember that the text column is 88rem and the coloured bands are
+ * 108rem.
+ */
+interface Props {
+  width?: 'prose' | 'content' | 'wide' | 'full';
+  as?: 'div' | 'section' | 'header' | 'footer' | 'main';
+  class?: string;
+}
+
+const { width = 'content', as: Tag = 'div', class: className = '' }: Props = Astro.props;
+
+const widths = {
+  /* Reading measure. Capped in ch so it tracks font size, not viewport. */
+  prose: 'mx-auto w-full max-w-[68ch] px-4 sm:px-6',
+  content: 'container-content',
+  wide: 'container-wide',
+  full: 'w-full',
+} as const;
+---
+
+<Tag class:list={[widths[width], className]}><slot /></Tag>

@@ -4,6 +4,9 @@ import { getLangFromUrl, useTranslations } from '../../i18n';
 import greenup from '../../assets/img/impact-greenup.jpg';
 import poster from '../../assets/img/impact-poster.jpg';
 import event from '../../assets/img/impact-event.jpg';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import Grid from '../../layouts/primitives/Grid.astro';
 import ImpactCard from '../ImpactCard';
 import Pill from '../Pill';
 
@@ -41,7 +44,7 @@ const cards = await Promise.all(
     const optimized = await getImage({
       src: project.image,
       widths: [409, 818],
-      sizes: '(width >= 64rem) 26rem, (width >= 40rem) 45vw, 90vw',
+      sizes: '(width >= 80rem) 26rem, (width >= 40rem) 45vw, 90vw',
     });
     return {
       ...project,
@@ -56,24 +59,31 @@ const cards = await Promise.all(
 );
 ---
 
-<section class="container-content py-16 lg:py-24">
-  <div class="flex flex-col items-center text-center">
-    <Pill variant="title">{t('impact.title')}</Pill>
-    <p class="mt-6 max-w-[434px] text-body font-bold text-ink-muted">{t('impact.lede')}</p>
-  </div>
+<Section space="lg">
+  <Stack gap="xl">
+    <Stack gap="md" align="center" class="text-center">
+      <Pill variant="title">{t('impact.title')}</Pill>
+      <p class="max-w-[434px] text-body font-bold text-ink-muted">{t('impact.lede')}</p>
+    </Stack>
 
-  <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      cards.map((project) => (
-        <li>
-          <ImpactCard
-            image={project.resolved}
-            imageAlt={project.imageAlt}
-            stats={project.stats}
-            caption={project.caption}
-          />
-        </li>
-      ))
-    }
-  </ul>
-</section>
+    {/*
+      `min="20rem"` rather than a column count: the stat pills overlaid on these
+      photos need ~320px before "4,000+ puieți plantați" wraps, so the third
+      column should appear when there is room for it, not at a fixed viewport.
+    */}
+    <Grid as="ul" min="20rem" gap="lg">
+      {
+        cards.map((project) => (
+          <li>
+            <ImpactCard
+              image={project.resolved}
+              imageAlt={project.imageAlt}
+              stats={project.stats}
+              caption={project.caption}
+            />
+          </li>
+        ))
+      }
+    </Grid>
+  </Stack>
+</Section>

@@ -37,7 +37,8 @@ would have put ~60 KB gzipped of React runtime on every page of the site.
 - `src/components/*.tsx` — the component library. Static by default.
 - `src/components/*.astro` — thin composition shells that resolve locale props.
 - `src/components/sections/*.astro` — one file per homepage section. These own
-  layout and data wiring; the `.tsx` components below them own appearance.
+  data wiring; the primitives own layout and the `.tsx` components own appearance.
+- `src/layouts/primitives/*.astro` — the layout primitives. See below.
 - `src/layouts/Base.astro` — html shell, head, font preloads, skip link.
 - `src/styles/global.css` — **the design tokens**. See "Design system" below.
 - `src/styles/fonts.css` — generated `@font-face` block for the self-hosted fonts.
@@ -90,6 +91,41 @@ rather than oversights:
    but Google Fonts' Lato has no 800 cut — it goes 700 → 900. Faking 800 would
    leave the browser to synthesize it.
 3. **The carousel has no JavaScript.** See below.
+
+### Layout primitives
+
+Arrangement lives in `src/layouts/primitives/`, not in per-section class lists.
+A primitive controls width, rhythm, wrapping and column behaviour; it never sets
+a colour, and every breakpoint decision on the site is made in one of these six
+files.
+
+| Primitive | Controls | Key prop |
+|---|---|---|
+| `Container` | width + gutter | `width="prose\|content\|wide\|full"` |
+| `Section`   | vertical rhythm + coloured band | `space`, `band`, `width` |
+| `Stack`     | vertical flow, one gap | `gap`, `align` |
+| `Cluster`   | horizontal flow that wraps | `gap`, `justify` |
+| `Grid`      | auto-fit columns | `min="20rem"` |
+| `Split`     | two columns that stack | `at="xl"`, `ratio`, `reverse` |
+
+Two rules make the difference between this scaling and not:
+
+**`Grid` takes a minimum item width, never a column count.** `min="20rem"` says
+"drop a column before an item gets narrower than 20rem" and lets the browser fit
+as many as will fit. A hardcoded `sm:grid-cols-2 lg:grid-cols-3` measures the
+*viewport* instead of the space the list actually has, so it breaks the moment
+the list moves into a narrower parent — and it was why the impact cards went to
+three columns at 1024px and wrapped their stat pills onto two lines.
+
+**`Split` defaults to `at="xl"` (1280px), not `lg`.** The design is a 1728px
+artboard; at 1024 its two columns are ~460px each, which turned the hero heading
+into four lines and squeezed the photo beside it. Sections that genuinely fit
+earlier pass `at="lg"` explicitly.
+
+Because these own the breakpoints, the sections are nearly free of them — the
+only `sm:`/`lg:`/`xl:` classes left in `src/components/sections/` position the
+hero's overlapping stat card and the goals logo, both of which are genuinely
+bespoke.
 
 ### Fonts
 

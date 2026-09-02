@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import goalsBg from '../../assets/img/goals-bg.jpg';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import Grid from '../../layouts/primitives/Grid.astro';
 import GoalCard from '../GoalCard';
 import Pill from '../Pill';
 
@@ -18,45 +21,42 @@ const goals = [
 ];
 ---
 
-<section class="container-wide py-8">
-  <div class="relative overflow-hidden rounded-panel bg-brand-light">
-    <Image
-      src={goalsBg}
-      alt=""
-      widths={[768, 1280, 1660]}
-      sizes="100vw"
-      class="absolute inset-0 size-full object-cover opacity-20"
-      loading="lazy"
-    />
+<Section space="sm" band="sky" width="wide">
+  <Image
+    slot="background"
+    src={goalsBg}
+    alt=""
+    widths={[768, 1280, 1660]}
+    sizes="100vw"
+    class="absolute inset-0 size-full object-cover opacity-20"
+    loading="lazy"
+  />
 
-    <div class="relative px-4 py-12 lg:px-10 lg:py-14">
-      <div class="flex justify-center">
-        <Pill variant="title">{t('goals.title')}</Pill>
-      </div>
+  <Stack gap="xl" align="center">
+    <Pill variant="title">{t('goals.title')}</Pill>
 
-      {/*
-        The design floats the six cards around a central logo on desktop. That
-        arrangement only reads as a composition when there is room for it, so
-        below `lg` the same list becomes a plain single column and the logo is
-        dropped rather than shrunk into the middle of the text.
-      */}
-      <div class="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-8">
-        <ul class="flex flex-col gap-4 sm:gap-6 lg:gap-14">
-          {goals.slice(0, 3).map((goal, i) => <GoalCard index={i + 1} label={goal} />)}
-        </ul>
+    {/*
+      The design floats the six goals either side of the logo mark. That reads
+      as a composition only when each column is wide enough for a title to fit
+      on one or two lines, so it is an `xl` arrangement: two columns with a gap
+      wide enough for the logo, which is centred over it.
 
-        <img
-          src="/icons/logo-mark.svg"
-          alt=""
-          width={220}
-          height={120}
-          class="col-span-full mx-auto hidden h-28 w-auto lg:col-span-1 lg:block"
-        />
+      Below `xl` this stays ONE auto-fit list. Splitting it into two lists of
+      three — the obvious way to get the desktop composition — left an orphan
+      card on its own row at every width where the grid resolved to two columns.
+    */}
+    <div class="relative w-full">
+      <Grid as="ul" min="16rem" gap="md" class="xl:grid-flow-col xl:grid-cols-2 xl:grid-rows-3 xl:gap-x-[19rem] xl:gap-y-14">
+        {goals.map((goal, i) => <GoalCard index={i + 1} label={goal} />)}
+      </Grid>
 
-        <ul class="flex flex-col gap-4 sm:gap-6 lg:gap-14">
-          {goals.slice(3).map((goal, i) => <GoalCard index={i + 4} label={goal} />)}
-        </ul>
-      </div>
+      <img
+        src="/icons/logo-mark.svg"
+        alt=""
+        width={220}
+        height={120}
+        class="absolute top-1/2 left-1/2 hidden h-28 w-auto -translate-x-1/2 -translate-y-1/2 xl:block"
+      />
     </div>
-  </div>
-</section>
+  </Stack>
+</Section>

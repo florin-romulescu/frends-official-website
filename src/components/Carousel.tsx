@@ -39,19 +39,24 @@ const Carousel = ({ children, label, id, labels }: Props) => {
   const firstId = `${id}-slide-1`;
   const lastId = `${id}-slide-${slides.length}`;
 
+  /*
+   * Shown from `xl` only. Below that the two 80px arrows plus their gaps ate
+   * roughly a fifth of the track, which cost a whole visible card; scrolling and
+   * the dots below still reach every slide.
+   */
   const arrow =
-    'grid size-14 shrink-0 place-items-center rounded-full bg-surface shadow-control transition-transform hover:scale-105 lg:size-20';
+    'hidden size-14 shrink-0 place-items-center rounded-full bg-surface shadow-control transition-transform hover:scale-105 xl:grid xl:size-20';
 
   return (
     <div className="relative">
       <div className="flex items-stretch gap-4">
-        <a href={`#${firstId}`} className={`${arrow} hidden lg:grid`}>
+        <a href={`#${firstId}`} className={arrow}>
           <span className="sr-only">{labels.first}</span>
           <img src="/icons/arrow.png" alt="" width={32} height={32} className="size-8 rotate-180" />
         </a>
 
         <ul
-          className="snap-track -mx-4 flex-1 gap-6 px-4 py-2 lg:mx-0 lg:px-0"
+          className="snap-track -mx-4 flex-1 gap-6 px-4 py-2 xl:mx-0 xl:px-0"
           tabIndex={0}
           role="group"
           aria-label={label}
@@ -63,7 +68,7 @@ const Carousel = ({ children, label, id, labels }: Props) => {
           ))}
         </ul>
 
-        <a href={`#${lastId}`} className={`${arrow} hidden lg:grid`}>
+        <a href={`#${lastId}`} className={arrow}>
           <span className="sr-only">{labels.last}</span>
           <img src="/icons/arrow.png" alt="" width={32} height={32} className="size-8" />
         </a>

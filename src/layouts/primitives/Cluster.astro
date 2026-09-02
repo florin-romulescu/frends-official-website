@@ -1,0 +1,37 @@
+---
+/**
+ * Horizontal group that wraps instead of overflowing — button rows, tag lists,
+ * social icons.
+ *
+ * Wrapping is the default rather than an opt-in: a row of Romanian labels is
+ * long, and the alternative to wrapping is a horizontal scrollbar on a phone.
+ */
+interface Props {
+  gap?: 'xs' | 'sm' | 'md' | 'lg';
+  justify?: 'start' | 'center' | 'end' | 'between';
+  align?: 'start' | 'center' | 'end';
+  as?: 'div' | 'ul' | 'nav';
+  class?: string;
+}
+
+const {
+  gap = 'sm',
+  justify = 'start',
+  align = 'center',
+  as: Tag = 'div',
+  class: className = '',
+}: Props = Astro.props;
+
+const gaps = { xs: 'gap-2', sm: 'gap-3', md: 'gap-4', lg: 'gap-6' } as const;
+const justifies = {
+  start: 'justify-start',
+  center: 'justify-center',
+  end: 'justify-end',
+  between: 'justify-between',
+} as const;
+const aligns = { start: 'items-start', center: 'items-center', end: 'items-end' } as const;
+---
+
+<Tag class:list={['flex flex-wrap', gaps[gap], justifies[justify], aligns[align], className]}>
+  <slot />
+</Tag>
