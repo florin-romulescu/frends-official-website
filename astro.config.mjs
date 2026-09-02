@@ -8,9 +8,10 @@ export default defineConfig({
   // TODO: replace with the real domain before Phase 5 (sitemap/RSS need it absolute).
   site: 'https://example.org',
 
-  // Romanian is the default locale and is served from the root: `/` = RO, `/en/` = EN.
+  // Romanian only for now, served from the root. The i18n block stays so a
+  // second locale is a one-line addition here plus a dictionary in src/data/i18n.
   i18n: {
-    locales: ['ro', 'en'],
+    locales: ['ro'],
     defaultLocale: 'ro',
     routing: { prefixDefaultLocale: false },
   },

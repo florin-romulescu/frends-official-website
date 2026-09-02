@@ -1,10 +1,8 @@
 import type { NavItem } from './types';
-import type { Lang } from '../i18n';
 
 interface Props {
   items: NavItem[];
   donate: { label: string; href: string };
-  langSwitch: { lang: Lang; label: string; href: string };
   openLabel: string;
 }
 
@@ -21,7 +19,7 @@ interface Props {
  * A drawer would need a backdrop, click-outside dismissal and body scroll lock,
  * none of which are possible without JS; a dropdown needs none of them.
  */
-const MobileNav = ({ items, donate, langSwitch, openLabel }: Props) => {
+const MobileNav = ({ items, donate, openLabel }: Props) => {
   return (
     <details className="group relative md:hidden">
       <summary
@@ -53,14 +51,6 @@ const MobileNav = ({ items, donate, langSwitch, openLabel }: Props) => {
             </a>
           ))}
         </nav>
-
-        <a
-          href={langSwitch.href}
-          hrefLang={langSwitch.lang}
-          className="block rounded-md px-3 py-3 text-base font-medium text-ink-500 hover:bg-brand-50"
-        >
-          {langSwitch.label}
-        </a>
 
         <a
           href={donate.href}

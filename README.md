@@ -35,10 +35,11 @@ would have put ~60 KB gzipped of React runtime on every page of the site.
 
 - `src/components/*.tsx` — the component library. Static by default.
 - `src/components/*.astro` — thin composition shells that resolve locale props.
-- `src/layouts/Base.astro` — html shell, head, hreflang alternates, skip link.
+- `src/layouts/Base.astro` — html shell, head, skip link.
 - `src/i18n/index.ts` — locale detection, translation, path localization.
-- `src/data/i18n/{ro,en}.json` — UI strings. `ro.json` defines the key set;
-  a key missing from `en.json` is a **compile error**, not a silent fallback.
+- `src/data/i18n/ro.json` — UI strings, and the source of truth for the key set.
+  Every dictionary is typed `Record<UIKey, string>`, so when a second locale is
+  added a missing key is a **compile error**, not a silent fallback.
 - `src/data/site.json` — site identity, nav, socials, donate URL.
 
 **Two React-in-Astro rules to remember:**
@@ -49,13 +50,21 @@ would have put ~60 KB gzipped of React runtime on every page of the site.
 
 ## i18n
 
-Romanian is the default locale and is served from the root:
+**Romanian only for now**, served from the root (`/`). There is no language
+switcher and no `hreflang` alternates, because there is nothing to switch to.
 
-- `/` — Romanian
-- `/en/` — English
+The plumbing is still in place, so adding a locale is a contained change:
 
-`getAlternatePath()` powers the language switcher so it keeps the reader on the
-same page rather than dropping them on the homepage.
+1. Add it to `locales` in `astro.config.mjs` and to `languages` in
+   `src/i18n/index.ts`.
+2. Add `src/data/i18n/<code>.json`. Any key present in `ro.json` but missing
+   there fails `pnpm check`.
+3. Register it in `dictionaries` in `src/i18n/index.ts`.
+4. Add the pages under `src/pages/<code>/`. `localizePath()` already prefixes
+   non-default locales, so nav and links follow automatically.
+5. Restore the language switcher — `LangSwitch.tsx`, `getAlternatePath()` and
+   `otherLang()` were removed in the single-locale cleanup and are recoverable
+   from git history.
 
 ## Deploying to Cloudflare Pages
 
