@@ -3,7 +3,7 @@ interface Props {
   href: string;
 }
 
-export default function Brand({ name, href }: Props) {
+const Brand = ({ name, href }: Props) => {
   return (
     <a
       href={href}
@@ -18,4 +18,6 @@ export default function Brand({ name, href }: Props) {
       <span>{name}</span>
     </a>
   );
-}
+};
+
+export default Brand;

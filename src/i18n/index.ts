@@ -19,47 +19,40 @@ export type UIKey = keyof typeof ro;
  */
 const dictionaries: Record<Lang, Record<UIKey, string>> = { ro, en };
 
-export function isLang(value: string): value is Lang {
-  return value in languages;
-}
+export const isLang = (value: string): value is Lang => value in languages;
 
 /** `/en/blog` -> `en`; `/blog` -> `ro`. */
-export function getLangFromUrl(url: URL): Lang {
+export const getLangFromUrl = (url: URL): Lang => {
   const [, maybeLang] = url.pathname.split('/');
   return maybeLang && isLang(maybeLang) ? maybeLang : defaultLang;
-}
+};
 
-export function useTranslations(lang: Lang) {
+export const useTranslations = (lang: Lang) => {
   const dict = dictionaries[lang];
-  return function t(key: UIKey): string {
-    return dict[key];
-  };
-}
+  return (key: UIKey): string => dict[key];
+};
 
 /** Strip a leading locale segment, yielding a locale-independent path. */
-export function stripLangPrefix(pathname: string): string {
+export const stripLangPrefix = (pathname: string): string => {
   const [, maybeLang, ...rest] = pathname.split('/');
   if (maybeLang && isLang(maybeLang) && maybeLang !== defaultLang) {
     return '/' + rest.join('/');
   }
   return pathname;
-}
+};
 
 /** `('/blog', 'en')` -> `/en/blog`; `('/blog', 'ro')` -> `/blog`. */
-export function localizePath(path: string, lang: Lang): string {
+export const localizePath = (path: string, lang: Lang): string => {
   const clean = '/' + stripLangPrefix(path).replace(/^\/+/, '');
   if (lang === defaultLang) return clean;
   return clean === '/' ? `/${lang}/` : `/${lang}${clean}`;
-}
+};
 
 /**
  * The same page in the other locale, so the language switcher keeps the reader
  * where they were instead of dumping them on the homepage.
  */
-export function getAlternatePath(url: URL, target: Lang): string {
-  return localizePath(url.pathname, target);
-}
+export const getAlternatePath = (url: URL, target: Lang): string =>
+  localizePath(url.pathname, target);
 
-export function otherLang(lang: Lang): Lang {
-  return lang === 'ro' ? 'en' : 'ro';
-}
+export const otherLang = (lang: Lang): Lang => (lang === 'ro' ? 'en' : 'ro');

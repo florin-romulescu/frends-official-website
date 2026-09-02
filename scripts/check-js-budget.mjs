@@ -19,7 +19,7 @@ const ALLOWED_ISLAND_ROUTES = {
   // '/search':  'Pagefind UI is inherently interactive',
 };
 
-async function htmlFiles(dir) {
+const htmlFiles = async (dir) => {
   const out = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
@@ -27,7 +27,7 @@ async function htmlFiles(dir) {
     else if (entry.name.endsWith('.html')) out.push(full);
   }
   return out;
-}
+};
 
 const toRoute = (file) => {
   const rel = relative(DIST, file).split(sep).join('/');

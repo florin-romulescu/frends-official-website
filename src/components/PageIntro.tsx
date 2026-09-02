@@ -4,7 +4,7 @@ interface Props {
   cta?: { label: string; href: string };
 }
 
-export default function PageIntro({ heading, lede, cta }: Props) {
+const PageIntro = ({ heading, lede, cta }: Props) => {
   return (
     <section className="container-content py-20 sm:py-28">
       <div className="max-w-2xl">
@@ -21,4 +21,6 @@ export default function PageIntro({ heading, lede, cta }: Props) {
       </div>
     </section>
   );
-}
+};
+
+export default PageIntro;

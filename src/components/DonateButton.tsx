@@ -4,7 +4,7 @@ interface Props {
   className?: string;
 }
 
-export default function DonateButton({ label, href, className = '' }: Props) {
+const DonateButton = ({ label, href, className = '' }: Props) => {
   return (
     <a
       href={href}
@@ -13,4 +13,6 @@ export default function DonateButton({ label, href, className = '' }: Props) {
       {label}
     </a>
   );
-}
+};
+
+export default DonateButton;

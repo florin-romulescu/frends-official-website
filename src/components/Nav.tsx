@@ -5,7 +5,7 @@ interface Props {
   currentPath: string;
 }
 
-export default function Nav({ items, currentPath }: Props) {
+const Nav = ({ items, currentPath }: Props) => {
   return (
     <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
       {items.map((item) => {
@@ -25,4 +25,6 @@ export default function Nav({ items, currentPath }: Props) {
       })}
     </nav>
   );
-}
+};
+
+export default Nav;

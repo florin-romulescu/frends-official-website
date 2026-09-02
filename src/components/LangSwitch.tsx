@@ -13,7 +13,7 @@ interface Props {
  * so it needs no JavaScript. `href` already points at the current page in the
  * other locale, so the reader stays where they were.
  */
-export default function LangSwitch({ lang, label, href, className = '' }: Props) {
+const LangSwitch = ({ lang, label, href, className = '' }: Props) => {
   return (
     <a
       href={href}
@@ -23,4 +23,6 @@ export default function LangSwitch({ lang, label, href, className = '' }: Props)
       {label}
     </a>
   );
-}
+};
+
+export default LangSwitch;

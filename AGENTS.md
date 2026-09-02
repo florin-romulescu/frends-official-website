@@ -1,3 +1,19 @@
+## Code style
+
+Declare every function as an arrow function assigned to a `const` — no `function`
+declarations or function expressions, anywhere. React components included:
+
+```tsx
+const Brand = ({ name, href }: Props) => {
+  return <a href={href}>{name}</a>;
+};
+
+export default Brand;
+```
+
+Name the `const` rather than exporting an anonymous arrow, so the component shows
+up under its own name in React DevTools and stack traces.
+
 ## Development
 
 When starting the dev server, use background mode:

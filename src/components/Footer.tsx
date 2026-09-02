@@ -13,7 +13,7 @@ interface Props {
   year: number;
 }
 
-export default function Footer({ siteName, email, items, social, labels, year }: Props) {
+const Footer = ({ siteName, email, items, social, labels, year }: Props) => {
   return (
     <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
       <div className="lg:col-span-2">
@@ -62,4 +62,6 @@ export default function Footer({ siteName, email, items, social, labels, year }:
       </p>
     </div>
   );
-}
+};
+
+export default Footer;

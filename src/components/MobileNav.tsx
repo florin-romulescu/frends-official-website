@@ -21,7 +21,7 @@ interface Props {
  * A drawer would need a backdrop, click-outside dismissal and body scroll lock,
  * none of which are possible without JS; a dropdown needs none of them.
  */
-export default function MobileNav({ items, donate, langSwitch, openLabel }: Props) {
+const MobileNav = ({ items, donate, langSwitch, openLabel }: Props) => {
   return (
     <details className="group relative md:hidden">
       <summary
@@ -71,4 +71,6 @@ export default function MobileNav({ items, donate, langSwitch, openLabel }: Prop
       </div>
     </details>
   );
-}
+};
+
+export default MobileNav;
