@@ -2,8 +2,6 @@
 
 Landing page + blog for Frends. Astro 7 (static) · React 19 components · Sveltia CMS · Cloudflare Pages.
 
-Full architecture and rationale: `~/.claude/plans/let-s-think-on-how-linked-elephant.md`.
-
 ## Requirements
 
 Node ≥ 22.12 (see `.nvmrc`) and pnpm.
