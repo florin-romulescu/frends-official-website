@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
 import { site } from '../../data/site';
 import heroPhoto from '../../assets/img/hero-group.jpg';
@@ -8,10 +8,25 @@ import Split from '../../layouts/primitives/Split.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import Cluster from '../../layouts/primitives/Cluster.astro';
 import Button from '../Button';
+import PhotoCard from '../PhotoCard';
+import PhotoCardSlot from '../PhotoCardSlot';
 import Pill from '../Pill';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const optimized = await getImage({
+  src: heroPhoto,
+  widths: [480, 768, 1024, 1400],
+  sizes: '(width >= 80rem) 50vw, 100vw',
+});
+
+const photo = {
+  src: optimized.src,
+  srcSet: optimized.srcSet.attribute || undefined,
+  width: optimized.attributes.width,
+  height: optimized.attributes.height,
+};
 ---
 <Section id="acasa" space="md">
   <Split at="xl" gap="xl">
@@ -28,28 +43,19 @@ const t = useTranslations(lang);
       </Cluster>
     </Stack>
 
-    <figure class="relative">
-      <Image
-        src={heroPhoto}
-        alt={t('hero.photoAlt')}
-        widths={[480, 768, 1024, 1400]}
-        sizes="(width >= 80rem) 50vw, 100vw"
-        class="aspect-[699/460] w-full rounded-panel object-cover"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <figcaption>
-        <Pill variant="caption" className="absolute top-4 left-4 lg:top-6 lg:left-6">
-          {t('hero.photoCaption')}
-        </Pill>
-      </figcaption>
+    <PhotoCard image={photo} imageAlt={t('hero.photoAlt')} shape="landscape" priority>
+      <PhotoCardSlot corner="top-left">
+        <Pill variant="caption">{t('hero.photoCaption')}</Pill>
+      </PhotoCardSlot>
 
-      <p
-        class="absolute right-4 bottom-4 flex max-w-[280px] items-center gap-2.5 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:-right-6 xl:-bottom-6 xl:p-6"
-      >
-        <img src="/icons/help.png" alt="" width={36} height={36} class="size-9 shrink-0" />
-        <span>{t('hero.statCard')}</span>
-      </p>
-    </figure>
+      <PhotoCardSlot corner="bottom-right">
+        <p
+          class="flex max-w-[280px] items-center gap-2.5 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:p-6"
+        >
+          <img src="/icons/help.png" alt="" width={36} height={36} class="size-9 shrink-0" />
+          <span>{t('hero.statCard')}</span>
+        </p>
+      </PhotoCardSlot>
+    </PhotoCard>
   </Split>
 </Section>

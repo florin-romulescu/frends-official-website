@@ -7,7 +7,8 @@ import event from '../../assets/img/impact-event.jpg';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import Grid from '../../layouts/primitives/Grid.astro';
-import ImpactCard from '../ImpactCard';
+import PhotoCard from '../PhotoCard';
+import PhotoCardSlot from '../PhotoCardSlot';
 import Pill from '../Pill';
 
 const lang = getLangFromUrl(Astro.url);
@@ -64,12 +65,20 @@ const cards = await Promise.all(
       {
         cards.map((project) => (
           <li>
-            <ImpactCard
-              image={project.resolved}
-              imageAlt={project.imageAlt}
-              stats={project.stats}
-              caption={project.caption}
-            />
+            <PhotoCard image={project.resolved} imageAlt={project.imageAlt}>
+              <PhotoCardSlot corner="top-left">
+                {project.stats.map((stat) => (
+                  <Pill variant="stat">{stat}</Pill>
+                ))}
+              </PhotoCardSlot>
+              {project.caption && (
+                <PhotoCardSlot corner="bottom-left">
+                  <Pill variant="note" className="text-left">
+                    {project.caption}
+                  </Pill>
+                </PhotoCardSlot>
+              )}
+            </PhotoCard>
           </li>
         ))
       }
