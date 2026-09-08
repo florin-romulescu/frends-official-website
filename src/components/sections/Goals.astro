@@ -44,9 +44,16 @@ const goals = [
       Below `xl` this stays ONE auto-fit list. Splitting it into two lists of
       three — the obvious way to get the desktop composition — left an orphan
       card on its own row at every width where the grid resolved to two columns.
+
+      The two `xl` columns are sized to the card (265px) and pushed apart with
+      `justify-between` inside a centred, capped wrapper. They were previously
+      two `1fr` tracks holding fixed-width cards, so each card hugged the left
+      of a much wider track: the left column sat on the band edge while the
+      right one left ~380px of dead space, and neither sat symmetrically about
+      the logo that is centred between them.
     */}
-    <div class="relative w-full">
-      <Grid as="ul" min="16rem" gap="md" class="xl:grid-flow-col xl:grid-cols-2 xl:grid-rows-3 xl:gap-x-[19rem] xl:gap-y-14">
+    <div class="relative mx-auto w-full xl:max-w-[70rem]">
+      <Grid as="ul" min="16rem" gap="md" class="xl:grid-flow-col xl:grid-cols-[265px_265px] xl:grid-rows-3 xl:justify-between xl:gap-y-14">
         {goals.map((goal, i) => <GoalCard index={i + 1} label={goal} />)}
       </Grid>
 

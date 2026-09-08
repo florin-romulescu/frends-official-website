@@ -1,0 +1,98 @@
+---
+/**
+ * Horizontal carousel with NO JavaScript.
+ *
+ * The design shows prev/next arrows and position dots, which usually means a
+ * hydrated island. Hydrating it here would have been expensive out of all
+ * proportion: this is the only interactive thing on the page, so a React
+ * runtime would be downloaded for one widget and the route would need a JS
+ * budget entry (scripts/check-js-budget.mjs).
+ *
+ * Instead the track is a native scroll-snap container. Swipe, trackpad, shift-
+ * scroll and arrow keys (the region is focusable) all work with zero runtime,
+ * and every control is a plain anchor to a slide id — which browsers resolve by
+ * scrolling the nearest scrollable ancestor.
+ *
+ * The honest limitation: the arrows jump to the first and last slide rather
+ * than stepping one at a time, because "the slide after whichever is currently
+ * showing" is not knowable without script. They are labelled accordingly.
+ *
+ * This is an `.astro` component, not React, and `count` is a prop rather than
+ * something derived from the children. A React component cannot enumerate slot
+ * children handed to it by Astro — the whole slot arrives as one opaque node —
+ * so `Children.toArray(children)` returned a single item however many cards
+ * were passed. Every card ended up inside ONE slide `<li>`, which is why they
+ * rendered edge to edge (the track gap sits *between* slides) and why the dots
+ * collapsed to a single dot. Slides are therefore wrapped by the caller with
+ * `<CarouselSlide />`.
+ */
+interface Props {
+  /** Accessible name for the scroll region, e.g. "Evenimente". */
+  label: string;
+  /** Used to build stable slide anchor ids. Must be unique per page. */
+  id: string;
+  /** Number of slides passed in. Drives the dots and the arrow targets. */
+  count: number;
+  labels: {
+    /** e.g. "Primul eveniment" */
+    first: string;
+    /** e.g. "Ultimul eveniment" */
+    last: string;
+    /** Receives the 1-based slide number, e.g. (n) => `Evenimentul ${n}` */
+    slide: (n: number) => string;
+  };
+}
+
+const { label, id, count, labels }: Props = Astro.props;
+
+const firstId = `${id}-slide-1`;
+const lastId = `${id}-slide-${count}`;
+
+/*
+ * Shown from `xl` only. Below that the two 80px arrows plus their gaps ate
+ * roughly a fifth of the track, which cost a whole visible card; scrolling and
+ * the dots below still reach every slide.
+ */
+const arrow =
+  'hidden size-14 shrink-0 place-items-center rounded-full bg-surface shadow-control transition-transform hover:scale-105 xl:grid xl:size-20';
+---
+
+<div class="relative">
+  <div class="flex items-stretch gap-4">
+    <a href={`#${firstId}`} class={arrow}>
+      <span class="sr-only">{labels.first}</span>
+      <img src="/icons/arrow.png" alt="" width={32} height={32} class="size-8 rotate-180" />
+    </a>
+
+    {/* `min-w-0` so the track may shrink below its content width and scroll,
+        instead of pushing the arrows out of the band. */}
+    <ul
+      class="snap-track -mx-4 min-w-0 flex-1 gap-6 px-4 py-2 xl:mx-0 xl:px-0"
+      tabindex="0"
+      role="group"
+      aria-label={label}
+    >
+      <slot />
+    </ul>
+
+    <a href={`#${lastId}`} class={arrow}>
+      <span class="sr-only">{labels.last}</span>
+      <img src="/icons/arrow.png" alt="" width={32} height={32} class="size-8" />
+    </a>
+  </div>
+
+  <ul class="mt-6 flex items-center justify-center gap-2">
+    {
+      Array.from({ length: count }, (_, i) => (
+        <li>
+          <a
+            href={`#${id}-slide-${i + 1}`}
+            class="block size-2.5 rounded-full bg-surface/70 transition-colors hover:bg-surface"
+          >
+            <span class="sr-only">{labels.slide(i + 1)}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

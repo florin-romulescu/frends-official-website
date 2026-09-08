@@ -7,7 +7,7 @@ interface Props {
 /** One numbered objective from the "Obiectivele FRENDS" band. */
 const GoalCard = ({ index, label }: Props) => {
   return (
-    <li className="flex w-full items-center gap-3 rounded-pill bg-surface px-4 py-2 font-heading text-ink lg:w-[265px]">
+    <li className="flex w-full items-center gap-3 rounded-pill bg-surface px-4 py-2 font-heading text-ink">
       <span className="text-h4 shrink-0" aria-hidden="true">
         {index}.
       </span>
