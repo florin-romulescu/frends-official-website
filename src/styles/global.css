@@ -95,6 +95,9 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Clears the sticky nav (max 68px tall + its 16px offset) so an anchor
+       target never lands underneath it. The carousel controls are anchors. */
+    scroll-padding-top: 6rem;
   }
 
   body {

@@ -28,38 +28,33 @@ const items = site.nav.map((entry) => {
 const cta = { label: t('nav.volunteer'), href: localizePath(site.volunteerUrl, lang) };
 ---
 
-<header class="relative">
-  {/* Sky band. The nav pill below overlaps its lower edge, as in the design. */}
-  <div class="relative overflow-hidden bg-linear-to-b from-[#21b4ec] to-brand-light">
-    <Image
-      src={sky}
-      alt=""
-      widths={[768, 1280, 1728]}
-      sizes="100vw"
-      class="absolute inset-0 size-full object-cover opacity-15"
-      loading="eager"
-    />
-    <div class="container-content relative flex h-24 items-center justify-between lg:h-31">
-      <Brand href={localizePath('/', lang)} name={site.name} />
-      <SocialLinks links={site.social} className="[&_img]:brightness-0 [&_img]:invert" />
-    </div>
-  </div>
-
-  <div class="container-content relative -mt-8 lg:-mt-9">
-    {/*
-      Below `lg` the pill has no nav links in it, so it shrinks to its contents
-      and sits against the right edge. Left full-width it rendered as a wide
-      empty white bar with two controls stranded in the corner.
-    */}
-    <div
-      class="ml-auto flex h-16 w-fit items-center justify-between gap-2 rounded-nav bg-surface px-3 shadow-nav lg:ml-0 lg:h-17 lg:w-full lg:gap-4 lg:pr-2.5 lg:pl-3.5"
-    >
-      <Nav items={items} />
-
-      <div class="flex items-center gap-2 lg:flex-1 lg:justify-end">
-        <Button href={cta.href}>{cta.label}</Button>
-        <MobileNav items={items} cta={cta} openLabel={t('nav.menu')} />
-      </div>
-    </div>
+<header class="relative overflow-hidden bg-linear-to-b from-[#21b4ec] to-brand-light">
+  <Image
+    src={sky}
+    alt=""
+    widths={[768, 1280, 1728]}
+    sizes="100vw"
+    class="absolute inset-0 size-full object-cover opacity-15"
+    loading="eager"
+  />
+  <div class="container-content relative flex h-24 items-center justify-between lg:h-31">
+    <Brand href={localizePath('/', lang)} name={site.name} />
+    <SocialLinks links={site.social} className="[&_img]:brightness-0 [&_img]:invert" />
   </div>
 </header>
+
+<nav
+  aria-label={t('nav.primary')}
+  class="sticky top-3 z-40 container-content -mt-8 lg:top-4 lg:-mt-9"
+>
+ <div
+    class="ml-auto flex h-16 w-fit items-center justify-between gap-2 rounded-nav bg-surface px-3 shadow-nav lg:ml-0 lg:h-17 lg:w-full lg:gap-4 lg:pr-2.5 lg:pl-3.5"
+  >
+    <Nav items={items} />
+
+    <div class="flex items-center gap-2 lg:flex-1 lg:justify-end">
+      <Button href={cta.href}>{cta.label}</Button>
+      <MobileNav items={items} cta={cta} openLabel={t('nav.menu')} />
+    </div>
+  </div>
+</nav>

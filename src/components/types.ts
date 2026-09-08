@@ -2,7 +2,6 @@
 export interface NavItem {
   label: string;
   href: string;
-  /** Marks the current page in the nav. Resolved by the .astro shell. */
   current?: boolean;
 }
 

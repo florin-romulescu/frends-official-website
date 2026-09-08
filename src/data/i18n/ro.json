@@ -7,17 +7,15 @@
   "nav.contact": "Contact",
   "nav.volunteer": "Fii Voluntar",
   "nav.menu": "Meniu",
+  "nav.primary": "Navigare principală",
   "nav.skipToContent": "Sari la conținut",
-
   "home.title": "Pagina principală",
   "home.description": "Asociația FRENDS Pentru Dezvoltare — comunitate de voluntari care dezvoltă proiecte cu impact social real.",
-
   "hero.heading": "Centrul FRENDS pentru Dezvoltare",
   "hero.lede": "Alătură-te unei comunități de voluntari care dezvoltă proiecte cu impact social real!",
   "hero.photoCaption": "Oarja, 2025",
   "hero.photoAlt": "Voluntarii FRENDS adunați în fața cortului taberei de la Oarja",
   "hero.statCard": "Peste 50 de voluntari activi",
-
   "events.title": "Evenimente",
   "events.readMore": "Află mai multe",
   "events.first": "Primul eveniment",
@@ -25,7 +23,6 @@
   "events.status.open": "Înregistrări Deschise",
   "events.status.ongoing": "În desfășurare",
   "events.status.completed": "Terminat",
-
   "about.heading": "Cine suntem noi",
   "about.body": "Suntem o organizație non-guvernamentală și non-profit care oferă mai mult decât o simplă experiență de voluntariat – Frends este o șansă: de a-ți dezvolta abilitățile, de a cunoaște oameni ca tine și de a-ți lăsa amprenta în societate. Împreună, creștem profesional și personal prin fiecare nou proiect dus până la capăt. Dacă ești ambițios și gata să faci parte din ceva mai mare… felicitări, ești un om ca noi!",
   "about.moreLead": "Astăzi, FRENDS este mult mai mult decât o organizație. Este:",
@@ -34,7 +31,6 @@
   "about.tag3": "o a doua casă",
   "about.photoCaption": "Predeal, 2025",
   "about.photoAlt": "Voluntarii FRENDS într-o sală de conferință la evenimentul din Predeal",
-
   "goals.title": "Obiectivele FRENDS",
   "goals.1": "Dezvoltarea Voluntarilor",
   "goals.2": "Construirea unei Comunități cu Impact Social",
@@ -42,13 +38,10 @@
   "goals.4": "Susținerea Educației Non-Formale",
   "goals.5": "Crearea de Proiecte Utile Societății",
   "goals.6": "Dezvoltarea Parteneriatelor de lungă durată",
-
   "impact.title": "Impactul Nostru",
   "impact.lede": "De la proiecte educaționale la evenimente culturale și acțiuni de mediu",
-
   "partners.title": "Partenerii noștri",
   "partners.placeholder": "Logo partener",
-
   "footer.links": "Link-uri Utile",
   "footer.contact": "Contact",
   "footer.address": "Adresă",
