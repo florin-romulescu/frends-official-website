@@ -1,22 +1,13 @@
 import type { ReactNode } from 'react';
+import type { BaseProp } from './types';
 
 type Variant = 'title' | 'caption' | 'stat' | 'gray' | 'note';
 
-interface Props {
+interface Props extends BaseProp {
   children: ReactNode;
   variant?: Variant;
-  className?: string;
 }
 
-/**
- * The rounded label that appears all over the design — as a section title
- * floating over a coloured band, as a photo caption, as a stat overlay on an
- * impact photo, and as a grey tag in the about section.
- *
- * These are one component rather than five because they differ only in type
- * step, radius and surface. Consumers say what the pill *is* (`variant="stat"`)
- * and never how it looks.
- */
 const variants: Record<Variant, string> = {
   title:
     'rounded-card bg-surface px-4 py-2 font-heading text-h2 text-ink',

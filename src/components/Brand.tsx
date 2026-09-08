@@ -1,11 +1,10 @@
-interface Props {
+import type { BaseProp } from "./types";
+
+interface Props extends BaseProp {
   href: string;
-  /** Accessible name — the logo is an image, so it needs a text equivalent. */
   name: string;
-  className?: string;
 }
 
-/** The FRENDS wordmark, exported from Figma as SVG. */
 const Brand = ({ href, name, className = '' }: Props) => {
   return (
     <a href={href} className={`inline-flex items-center ${className}`}>

@@ -3,7 +3,6 @@ import StatusBadge from './StatusBadge';
 
 interface Props {
   title: string;
-  /** Human-readable date range, e.g. "Octombrie 2025 - Aprilie 2026". */
   period: string;
   description: string;
   image: ResolvedImage;
@@ -11,17 +10,9 @@ interface Props {
   status: EventStatus;
   statusLabel: string;
   href: string;
-  /** Translated call to action, e.g. "Află mai multe". */
   readMoreLabel: string;
 }
 
-/**
- * A single event in the carousel.
- *
- * The whole card is one link with an ::after overlay rather than a link only on
- * the "read more" text: it keeps a single tab stop per card and makes the whole
- * surface tappable on a phone, without nesting interactive elements.
- */
 const EventCard = ({
   title,
   period,

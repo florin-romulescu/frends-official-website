@@ -1,10 +1,4 @@
 ---
-/**
- * Thin composition shell. All visual pieces are React components; this file
- * exists only to resolve the locale-dependent props they need.
- *
- * Nothing in the header is hydrated — see MobileNav for why.
- */
 import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n';
 import { site } from '../data/site';
@@ -27,7 +21,6 @@ const items = site.nav.map((entry) => {
 
 const cta = { label: t('nav.volunteer'), href: localizePath(site.volunteerUrl, lang) };
 ---
-
 <header class="relative overflow-hidden bg-linear-to-b from-[#21b4ec] to-brand-light">
   <Image
     src={sky}

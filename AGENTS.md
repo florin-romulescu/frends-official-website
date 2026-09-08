@@ -21,7 +21,8 @@ no restating a prop's type in a docblock, no narrating a change or the approach
 that was rejected — put that in the response or the commit message, where it
 belongs. The dev adds the comments that are actually worth keeping.
 
-Leave existing comments alone unless the code under them changes.
+The source is comment-free by design. If you find a comment, the dev put it
+there — leave it alone unless the code under it changes.
 
 ## Development
 

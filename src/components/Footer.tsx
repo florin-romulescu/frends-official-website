@@ -5,7 +5,6 @@ interface Props {
   tagline: string;
   email: string;
   phone: string;
-  /** Address as separate lines, so the markup keeps the designed line breaks. */
   addressLines: string[];
   items: NavItem[];
   social: LinkProps[];

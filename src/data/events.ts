@@ -15,14 +15,6 @@ export interface EventEntry {
   imageAlt: string;
 }
 
-/**
- * Homepage carousel content.
- *
- * TODO (Phase 3): this becomes a content collection backed by the CMS. It is a
- * typed module rather than JSON for now so the image imports go through
- * `astro:assets` — a bare path string in JSON would skip optimization and ship
- * the 4000px originals.
- */
 export const events: EventEntry[] = [
   {
     id: 'inscrieri',

@@ -13,16 +13,10 @@ const t = useTranslations(lang);
 
 const tags = [t('about.tag1'), t('about.tag2'), t('about.tag3')];
 ---
-
 <Section id="despre" space="lg">
-  {/* `reverse` puts the photo first above xl; stacked, the heading still leads. */}
   <Split at="xl" gap="xl" reverse>
     <Stack gap="lg">
       <h2 class="font-display text-display font-extrabold text-brand">{t('about.heading')}</h2>
-      {/*
-        Capped in ch, not px: at 768 this paragraph ran the full width of the
-        viewport at ~110 characters a line, well past a comfortable measure.
-      */}
       <p class="max-w-[62ch] text-body-lg">{t('about.body')}</p>
       <p class="text-body-lg font-black">{t('about.moreLead')}</p>
       <Cluster as="ul" gap="sm">

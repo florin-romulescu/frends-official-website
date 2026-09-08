@@ -7,25 +7,12 @@ import Grid from '../../layouts/primitives/Grid.astro';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-/*
- * The design shows four empty placeholder rectangles — the partner logos had
- * not been supplied when it was drawn. They are rendered as labelled
- * placeholders rather than bare grey boxes so the gap is obvious in review
- * instead of looking like a rendering bug.
- *
- * TODO: replace with real partner logos and links.
- */
 const placeholderCount = 4;
 ---
-
 <Section id="parteneri" space="lg">
   <Stack gap="xl">
     <h2 class="text-h2">{t('partners.title')}</h2>
 
-    {/*
-      Capped at four columns so the logos keep their designed size on a wide
-      screen instead of stretching to fill the row.
-    */}
     <Grid as="ul" min="8rem" gap="md" class="max-w-[42rem]">
       {
         Array.from({ length: placeholderCount }, (_, i) => (

@@ -7,19 +7,6 @@ interface Props {
   openLabel: string;
 }
 
-/**
- * Mobile navigation, built on <details>/<summary> so it ships ZERO JavaScript.
- *
- * This started as a hydrated island and cost ~60 KB gzipped of React runtime on
- * every page of the site — the header is global, so a single `client:*` here
- * taxes even pages with no other interactivity. The browser gives us the whole
- * behaviour for free: <summary> is focusable, toggles on Enter/Space, and
- * manages aria-expanded itself.
- *
- * It renders as an inline dropdown rather than an overlay drawer on purpose.
- * A drawer would need a backdrop, click-outside dismissal and body scroll lock,
- * none of which are possible without JS; a dropdown needs none of them.
- */
 const MobileNav = ({ items, cta, openLabel }: Props) => {
   return (
     <details className="group relative lg:hidden">

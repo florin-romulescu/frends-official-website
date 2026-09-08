@@ -1,35 +1,16 @@
 ---
-/**
- * One slide of a `<Carousel />`. The caller wraps each item, because the
- * carousel itself cannot enumerate its slot children (see Carousel.astro).
- *
- * The slide, not the card inside it, owns the width: it is the flex item the
- * track lays out, and the `xl` width is a percentage of the track, which only
- * resolves on a child of the track.
- */
 interface Props {
-  /** Must match the `id` given to the surrounding `<Carousel />`. */
   id: string;
-  /** 1-based position, so the anchor targets line up with the dots. */
   index: number;
 }
 
 const { id, index }: Props = Astro.props;
 
-/*
- * Below `xl` a card is a near-full-width panel you swipe through.
- *
- * At `xl` the design shows three 440px cards at once, but three of those plus
- * the two arrows only fit at the full 108rem band; on anything narrower the
- * track overflowed and the first card was permanently clipped. Sizing the
- * slide as a third of the track instead makes three fit at every desktop
- * width, and the 27.5rem cap keeps them at the drawn size once there is room.
- * `3rem` is the two `gap-6` gutters between the three slides.
- */
-const width =
-  'w-[85vw] max-w-[27.5rem] sm:w-[26rem] xl:w-[calc((100%-3rem)/3)] xl:max-w-[27.5rem]';
+const oneThirdOfTrack = 'xl:w-[calc((100%-3rem)/3)] xl:max-w-[27.5rem]';
 ---
-
-<li id={`${id}-slide-${index}`} class:list={['flex scroll-mx-4', width]}>
+<li
+  id={`${id}-slide-${index}`}
+  class:list={['flex scroll-mx-4 w-[85vw] max-w-[27.5rem] sm:w-[26rem]', oneThirdOfTrack]}
+>
   <slot />
 </li>

@@ -13,10 +13,6 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-/*
- * `<Image />` cannot be used inside a React component (see README), so the
- * images are resolved here and handed down as plain, serializable props.
- */
 const cards = await Promise.all(
   events.map(async (event) => {
     const optimized = await getImage({
@@ -42,7 +38,6 @@ const statusLabels: Record<EventStatus, string> = {
   completed: t('events.status.completed'),
 };
 ---
-
 <Section id="evenimente" space="sm" band="warm" width="wide">
   <Stack gap="xl" align="center">
     <Pill variant="title">{t('events.title')}</Pill>

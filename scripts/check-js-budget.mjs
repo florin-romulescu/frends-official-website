@@ -1,23 +1,9 @@
-/**
- * Fails the build if a page ships JavaScript it is not budgeted for.
- *
- * The site's performance story rests on React components rendering to static
- * HTML at build time. That property is invisible in code review — one stray
- * `client:*` directive in a shared layout silently puts ~60 KB of React runtime
- * on every page. This check makes that regression loud.
- *
- * To budget a page, add its route to ALLOWED_ISLAND_ROUTES with a reason.
- */
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 
 const DIST = 'dist';
 
-/** route -> why it is allowed to hydrate */
-const ALLOWED_ISLAND_ROUTES = {
-  // '/contact': 'contact form needs client-side validation + Turnstile',
-  // '/search':  'Pagefind UI is inherently interactive',
-};
+const ALLOWED_ISLAND_ROUTES = {};
 
 const htmlFiles = async (dir) => {
   const out = [];

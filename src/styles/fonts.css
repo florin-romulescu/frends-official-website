@@ -1,15 +1,3 @@
-/*
- * Self-hosted brand fonts (Montserrat / Poppins / Lato).
- *
- * Served from our own origin rather than fonts.googleapis.com: a third-party
- * font request would be the only render-blocking cross-origin hit on a site
- * that otherwise ships zero JavaScript, and it costs an extra DNS + TLS
- * round trip before any text can paint.
- *
- * latin-ext is not optional here — Romanian ă, ș and ț live in that subset.
- * Generated from the Google Fonts CSS API; see README for how to refresh.
- */
-
 @font-face {
   font-family: 'Lato';
   font-style: normal;

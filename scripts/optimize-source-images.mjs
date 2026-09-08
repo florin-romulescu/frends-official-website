@@ -1,23 +1,9 @@
-/**
- * Downscale the source photos in src/assets/img to the largest size the site
- * actually renders them at.
- *
- * Assets exported from Figma come out at their original capture resolution —
- * the hero photo arrived as a 4096px, 13 MB JPEG. `astro:assets` generates
- * correct responsive variants from that, but the `src` fallback it emits is the
- * full-size image, and the originals still land in git at ~49 MB.
- *
- * Run this after pulling new assets out of Figma. It rewrites the files in
- * place, so it is idempotent — a second run finds them already small enough and
- * `withoutEnlargement` keeps it from upscaling anything.
- */
 import sharp from 'sharp';
 import { readdir, stat, rename } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const DIR = 'src/assets/img';
 
-/** file -> widest width the layout ever asks for, plus retina headroom. */
 const MAX_WIDTH = {
   'hero-group.jpg': 1680,
   'about-group.jpg': 1680,

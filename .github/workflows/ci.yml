@@ -20,7 +20,4 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # Typecheck, build, and enforce the JS budget. The budget check is the
-      # guard against a stray `client:*` directive quietly putting the React
-      # runtime on every page.
       - run: pnpm verify

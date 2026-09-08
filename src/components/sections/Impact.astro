@@ -13,11 +13,6 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-/*
- * TODO (Phase 3): this moves to the CMS alongside `events`. The stat strings
- * stay literal rather than going through i18n because they are content, not UI
- * chrome — a second locale would translate them per entry, not per key.
- */
 const projects = [
   {
     image: greenup,
@@ -58,7 +53,6 @@ const cards = await Promise.all(
   }),
 );
 ---
-
 <Section id="impact" space="lg">
   <Stack gap="xl">
     <Stack gap="md" align="center" class="text-center">
@@ -66,11 +60,6 @@ const cards = await Promise.all(
       <p class="max-w-[434px] text-body font-bold text-ink-muted">{t('impact.lede')}</p>
     </Stack>
 
-    {/*
-      `min="20rem"` rather than a column count: the stat pills overlaid on these
-      photos need ~320px before "4,000+ puieți plantați" wraps, so the third
-      column should appear when there is room for it, not at a fixed viewport.
-    */}
     <Grid as="ul" min="20rem" gap="lg">
       {
         cards.map((project) => (

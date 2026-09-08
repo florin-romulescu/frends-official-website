@@ -1,10 +1,4 @@
 ---
-/**
- * Vertical flow with one consistent gap.
- *
- * Replaces per-child `mt-*` classes, which are the usual reason vertical
- * rhythm drifts once a section is edited.
- */
 interface Props {
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   align?: 'start' | 'center' | 'end' | 'stretch';
@@ -14,7 +8,6 @@ interface Props {
 
 const { gap = 'md', align = 'stretch', as: Tag = 'div', class: className = '' }: Props = Astro.props;
 
-/* Gaps grow with the viewport so desktop breathes without a second scale. */
 const gaps = {
   xs: 'gap-2',
   sm: 'gap-3 sm:gap-4',
@@ -30,5 +23,4 @@ const aligns = {
   stretch: 'items-stretch',
 } as const;
 ---
-
 <Tag class:list={['flex flex-col', gaps[gap], aligns[align], className]}><slot /></Tag>

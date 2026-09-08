@@ -1,18 +1,4 @@
 ---
-/**
- * Responsive grid whose column count follows the available space.
- *
- * `min` is the narrowest an item may get before a column is dropped; the grid
- * then fits as many as will fit. This is the point of the component: it removes
- * breakpoint guessing entirely. The alternative — `sm:grid-cols-2
- * lg:grid-cols-3` — hardcodes a column count against the *viewport*, so the
- * same list breaks when it is later placed inside a narrower parent, and it was
- * why the impact cards went to three columns at 1024px and wrapped their stat
- * pills onto two lines.
- *
- * The inner `min(…, 100%)` keeps the track from overflowing a viewport narrower
- * than `min` itself, which is the classic auto-fit bug on small phones.
- */
 interface Props {
   min?: '8rem' | '12rem' | '16rem' | '20rem' | '24rem' | '28rem';
   gap?: 'sm' | 'md' | 'lg';
@@ -22,10 +8,6 @@ interface Props {
 
 const { min = '16rem', gap = 'md', as: Tag = 'div', class: className = '' }: Props = Astro.props;
 
-/*
- * Written out rather than interpolated: Tailwind scans source text for class
- * names, so a template literal would produce a class that never gets generated.
- */
 const mins = {
   '8rem': 'grid-cols-[repeat(auto-fit,minmax(min(8rem,100%),1fr))]',
   '12rem': 'grid-cols-[repeat(auto-fit,minmax(min(12rem,100%),1fr))]',
@@ -37,5 +19,4 @@ const mins = {
 
 const gaps = { sm: 'gap-4', md: 'gap-6', lg: 'gap-6 lg:gap-8' } as const;
 ---
-
 <Tag class:list={['grid', mins[min], gaps[gap], className]}><slot /></Tag>

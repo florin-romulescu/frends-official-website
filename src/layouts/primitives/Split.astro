@@ -1,16 +1,4 @@
 ---
-/**
- * Two-column text/media layout that stacks below a stated breakpoint.
- *
- * `at` is explicit and defaults to `xl` (1280px) rather than `lg`, because the
- * design was drawn on a 1728px artboard: at 1024px these two columns are ~460px
- * each, which turns the hero heading into four lines and squeezes the photo.
- * Sections that genuinely fit earlier can pass `at="lg"`.
- *
- * `reverse` swaps the visual order above the breakpoint only, so the stacked
- * order stays whatever the markup says — which is what screen readers and
- * keyboard users follow.
- */
 interface Props {
   at?: 'md' | 'lg' | 'xl';
   ratio?: '1:1' | '1:2' | '2:1';
@@ -50,7 +38,6 @@ const reverses = {
 const gaps = { md: 'gap-8', lg: 'gap-10 xl:gap-14', xl: 'gap-12 xl:gap-20' } as const;
 const aligns = { start: 'items-start', center: 'items-center', stretch: 'items-stretch' } as const;
 ---
-
 <div
   class:list={[
     'grid',

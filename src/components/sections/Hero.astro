@@ -13,7 +13,6 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
-
 <Section id="acasa" space="md">
   <Split at="xl" gap="xl">
     <Stack gap="lg">
@@ -29,12 +28,6 @@ const t = useTranslations(lang);
       </Cluster>
     </Stack>
 
-    {/*
-      The stat card overlaps the photo's lower-right corner in the design. Below
-      `xl` there is no room to hang it outside the image, so it tucks inside the
-      frame instead of pushing the section wider — an overlap that causes a
-      horizontal scrollbar on a phone is worse than one that doesn't.
-    */}
     <figure class="relative">
       <Image
         src={heroPhoto}

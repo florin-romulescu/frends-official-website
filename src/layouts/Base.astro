@@ -17,7 +17,6 @@ const t = useTranslations(lang);
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
-
 <!doctype html>
 <html lang={lang}>
   <head>
@@ -25,12 +24,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    {/*
-      Preload only the two faces that paint above the fold — the Montserrat cut
-      used by the h1 and Lato's regular latin subset. Preloading all twelve
-      would put ~160 KB on the critical path to save a swap on text nobody has
-      scrolled to yet.
-    */}
     <link rel="preload" href="/fonts/montserrat-800-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/lato-400-latin.woff2" as="font" type="font/woff2" crossorigin />
 

@@ -4,7 +4,6 @@ interface Props {
   items: NavItem[];
 }
 
-/** Desktop nav links, shown inside the header's white pill. */
 const Nav = ({ items }: Props) => {
   return (
     <ul className="hidden items-center gap-1.5 lg:flex">

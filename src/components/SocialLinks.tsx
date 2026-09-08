@@ -1,16 +1,9 @@
-import type { LinkProps } from './types';
+import type { BaseProp, LinkProps } from './types';
 
-interface Props {
+interface Props extends BaseProp {
   links: LinkProps[];
-  className?: string;
 }
 
-/**
- * Icon row for Facebook / Instagram / TikTok.
- *
- * The icon file is chosen from the link label, so `site.json` stays a plain
- * list of label+href and never has to name an asset path.
- */
 const icons: Record<string, string> = {
   Facebook: '/icons/facebook.svg',
   Instagram: '/icons/instagram.svg',

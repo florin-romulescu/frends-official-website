@@ -1,25 +1,10 @@
 ---
-/**
- * A page section: vertical rhythm, column width, and the optional coloured
- * band the design uses for Events and Goals.
- *
- * Sections previously hand-rolled `container-content py-16 lg:py-24` each time,
- * which is how the spacing drifted between them. Here the caller states intent
- * — `<Section space="lg" band="warm" width="wide">` — and the scale is defined
- * once.
- *
- * A `band` needs a wider column than running text (the events carousel only
- * fits three cards at `wide`), so passing one without `width="wide"` is almost
- * always a mistake; it is left to the caller rather than forced, because the
- * impact section wants a band-less wide row.
- */
 import Container from './Container.astro';
 
 interface Props {
   space?: 'none' | 'sm' | 'md' | 'lg';
   band?: 'none' | 'warm' | 'sky';
   width?: 'prose' | 'content' | 'wide' | 'full';
-  /** Inner padding of a band. Ignored when `band="none"`. */
   bandPadding?: 'md' | 'lg';
   id?: string;
   class?: string;
@@ -54,13 +39,11 @@ const bandPaddings = {
 
 const hasBand = band !== 'none';
 ---
-
 <section id={id} class:list={[spaces[space], className]}>
   <Container width={width}>
     {
       hasBand ? (
         <div class:list={['relative overflow-hidden rounded-panel', bands[band]]}>
-          {/* Optional decorative background image, rendered behind the content. */}
           <slot name="background" />
           <div class:list={['relative', bandPaddings[bandPadding]]}>
             <slot />
