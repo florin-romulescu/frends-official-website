@@ -125,6 +125,30 @@
   }
 }
 
+@utility section-space-sm {
+  padding-block: 1.5rem;
+
+  @media (width >= 64rem) {
+    padding-block: 2.5rem;
+  }
+}
+
+@utility section-space-md {
+  padding-block: 2rem;
+
+  @media (width >= 64rem) {
+    padding-block: 3.5rem;
+  }
+}
+
+@utility section-space-lg {
+  padding-block: 3rem;
+
+  @media (width >= 64rem) {
+    padding-block: 4.5rem;
+  }
+}
+
 @utility snap-track {
   display: flex;
   overflow-x: auto;
