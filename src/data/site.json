@@ -15,7 +15,14 @@
     { "label": "TikTok", "href": "https://tiktok.com/" }
   ],
   "nav": [
-    { "key": "nav.centre", "path": "/" },
+    {
+      "key": "nav.centre",
+      "path": "/",
+      "children": [
+        { "key": "nav.centreLanding", "path": "/" },
+        { "key": "nav.departments", "path": "/departamente" }
+      ]
+    },
     { "key": "nav.community", "path": "/comunitate" },
     { "key": "nav.projects", "path": "/proiecte" },
     { "key": "nav.blog", "path": "/blog" },

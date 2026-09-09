@@ -9,6 +9,7 @@ export interface SocialLink {
 export interface NavEntry {
   key: UIKey;
   path: string;
+  children?: NavEntry[];
 }
 
 export interface SiteData {

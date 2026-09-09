@@ -1,13 +1,11 @@
 import type { NavItem } from './types';
-import Button from './Button';
 
 interface Props {
   items: NavItem[];
-  cta: { label: string; href: string };
   openLabel: string;
 }
 
-const MobileNav = ({ items, cta, openLabel }: Props) => {
+const MobileNav = ({ items, openLabel }: Props) => {
   return (
     <details className="group relative lg:hidden">
       <summary
@@ -40,13 +38,27 @@ const MobileNav = ({ items, cta, openLabel }: Props) => {
               >
                 {item.label}
               </a>
+
+              {item.children && (
+                <ul className="ms-3 flex flex-col border-s border-border-default ps-2">
+                  {item.children.map((child) => (
+                    <li key={child.href}>
+                      <a
+                        href={child.href}
+                        aria-current={child.current ? 'page' : undefined}
+                        className={`block rounded-pill px-3 py-2.5 text-body transition-colors hover:bg-surface-subtle ${
+                          child.current ? 'bg-surface-subtle font-bold' : ''
+                        }`}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
-
-        <Button href={cta.href} className="mt-2 w-full">
-          {cta.label}
-        </Button>
       </div>
     </details>
   );
