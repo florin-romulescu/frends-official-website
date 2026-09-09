@@ -16,7 +16,7 @@
   ],
   "nav": [
     {
-      "key": "nav.centre",
+      "key": "nav.about",
       "path": "/",
       "children": [
         { "key": "nav.centreLanding", "path": "/" },

@@ -2,6 +2,7 @@ export interface NavItem {
   label: string;
   href: string;
   current?: boolean;
+  active?: boolean;
   children?: NavItem[];
 }
 

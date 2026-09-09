@@ -33,7 +33,7 @@ const MobileNav = ({ items, openLabel }: Props) => {
                 href={item.href}
                 aria-current={item.current ? 'page' : undefined}
                 className={`block rounded-pill px-3 py-3 text-body-lg transition-colors hover:bg-surface-subtle ${
-                  item.current ? 'bg-surface-subtle font-bold' : ''
+                  item.active ? 'bg-surface-subtle font-bold' : ''
                 }`}
               >
                 {item.label}
@@ -47,7 +47,7 @@ const MobileNav = ({ items, openLabel }: Props) => {
                         href={child.href}
                         aria-current={child.current ? 'page' : undefined}
                         className={`block rounded-pill px-3 py-2.5 text-body transition-colors hover:bg-surface-subtle ${
-                          child.current ? 'bg-surface-subtle font-bold' : ''
+                          child.active ? 'bg-surface-subtle font-bold' : ''
                         }`}
                       >
                         {child.label}

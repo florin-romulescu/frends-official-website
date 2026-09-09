@@ -13,7 +13,7 @@ const Nav = ({ items }: Props) => {
             href={item.href}
             aria-current={item.current ? 'page' : undefined}
             className={`flex h-12 items-center justify-center gap-2 rounded-pill px-5 text-body whitespace-nowrap transition-colors ${
-              item.current
+              item.active
                 ? 'bg-surface-subtle font-bold text-ink'
                 : 'text-ink hover:bg-surface-subtle'
             }`}
@@ -39,7 +39,7 @@ const Nav = ({ items }: Props) => {
                       href={child.href}
                       aria-current={child.current ? 'page' : undefined}
                       className={`block rounded-xl px-4 py-3 text-body font-bold whitespace-nowrap transition-colors ${
-                        child.current ? 'bg-surface-subtle' : 'hover:bg-surface-subtle'
+                        child.active ? 'bg-surface-subtle' : 'hover:bg-surface-subtle'
                       }`}
                     >
                       {child.label}

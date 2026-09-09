@@ -17,11 +17,14 @@ const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
 
 const toNavItem = (entry: NavEntry): NavItem => {
   const href = localizePath(entry.path, lang);
+  const children = entry.children?.map(toNavItem);
+  const current = href === currentPath;
   return {
     label: t(entry.key),
     href,
-    current: href === currentPath,
-    children: entry.children?.map(toNavItem),
+    current,
+    active: current || (children?.some((child) => child.active) ?? false),
+    children,
   };
 };
 
