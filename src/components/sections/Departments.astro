@@ -1,0 +1,34 @@
+---
+import { departments } from '../../data/departments';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import SubdivisionCard from '../SubdivisionCard';
+---
+<Section space="md">
+  <Stack gap="xl">
+    {
+      departments.map((department, i) => (
+        <section id={department.id} style={`--accent:var(--color-dept-${department.accent})`}>
+          <Stack gap="md">
+            <div class="flex items-baseline gap-4">
+              <span aria-hidden="true" class="font-heading text-h2 text-[color:var(--accent)]">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h2 class="text-h3">{department.title}</h2>
+            </div>
+
+            <p class="max-w-[56rem] text-body text-ink-secondary">{department.description}</p>
+
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {department.subdivisions.map((subdivision) => (
+                <li>
+                  <SubdivisionCard name={subdivision.name} description={subdivision.description} />
+                </li>
+              ))}
+            </ul>
+          </Stack>
+        </section>
+      ))
+    }
+  </Stack>
+</Section>

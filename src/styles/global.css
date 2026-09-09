@@ -61,6 +61,14 @@
   --container-content: 88rem;
 }
 
+@theme static {
+  --color-dept-fonduri: #00afef;
+  --color-dept-resurse-umane: #f2994a;
+  --color-dept-comunicare: #9b51e0;
+  --color-dept-dezvoltare: #27ae60;
+  --color-dept-administrativ: #eb5757;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
