@@ -3,8 +3,6 @@ import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import goalsBg from '../../assets/img/goals-bg.jpg';
 import Section from '../../layouts/primitives/Section.astro';
-import Stack from '../../layouts/primitives/Stack.astro';
-import Grid from '../../layouts/primitives/Grid.astro';
 import GoalCard from '../GoalCard';
 import Pill from '../Pill';
 
@@ -31,21 +29,31 @@ const goals = [
     loading="lazy"
   />
 
-  <Stack gap="xl" align="center">
-    <Pill variant="title">{t('goals.title')}</Pill>
+  <div class="grid items-start justify-items-center gap-5 xl:grid-cols-2 xl:gap-y-10">
+    <Pill variant="title" className="xl:col-start-1 xl:row-start-1 xl:justify-self-start">
+      {t('goals.title')}
+    </Pill>
 
-    <div class="relative mx-auto w-full xl:max-w-[70rem]">
-      <Grid as="ul" min="16rem" gap="md" class="xl:grid-flow-col xl:grid-cols-[265px_265px] xl:grid-rows-3 xl:justify-between xl:gap-y-14">
-        {goals.map((goal, i) => <GoalCard index={i + 1} label={goal} />)}
-      </Grid>
+    <ol class="flex w-full flex-col gap-2.5 xl:col-span-2 xl:row-start-2 xl:-mb-14 xl:flex-row xl:items-end xl:gap-0">
+      {
+        goals.map((goal, i) => (
+          <li
+            style={`--step:${i}`}
+            class="ps-[calc(var(--step)*4.5%)] xl:flex xl:flex-1 xl:flex-col xl:justify-end xl:gap-5 xl:ps-0"
+          >
+            <GoalCard index={i + 1} label={goal} className="xl:mx-[17px] xl:w-auto" />
+            <div class="hidden h-[calc(5.25rem+var(--step)*3.25rem)] rounded-t-xl bg-surface/40 xl:block" />
+          </li>
+        ))
+      }
+    </ol>
 
-      <img
-        src="/icons/logo-mark.svg"
-        alt=""
-        width={220}
-        height={120}
-        class="absolute top-1/2 left-1/2 hidden h-28 w-auto -translate-x-1/2 -translate-y-1/2 xl:block"
-      />
-    </div>
-  </Stack>
+    <img
+      src="/icons/logo-mark.svg"
+      alt=""
+      width={220}
+      height={120}
+      class="h-12 w-auto xl:col-start-2 xl:row-start-1 xl:h-[6.625rem] xl:justify-self-end"
+    />
+  </div>
 </Section>
