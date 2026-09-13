@@ -46,7 +46,7 @@ jobs:
 
       - name: Sync wordpress/
         run: |
-          rsync -rlptz --delete --itemize-changes \
+          rsync -rlpz --checksum --delete --itemize-changes \
             --exclude .env --exclude backup/.env.backup \
             wordpress/ "root@${{ vars.CMS_HOST }}:/opt/frends-website/wordpress/" | tee changes.txt
 

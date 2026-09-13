@@ -6,10 +6,14 @@ set -a
 source .env
 set +a
 
-changes="$(cat)"
+if [ -t 0 ]; then
+  changes=all
+else
+  changes="$(cat)"
+fi
 
 changed() {
-  [ -z "$changes" ] || grep -q " $1\$" <<<"$changes"
+  [ "$changes" = all ] || grep -q " $1\$" <<<"$changes"
 }
 
 chown -R 33:33 themes/frends-headless/acf-json

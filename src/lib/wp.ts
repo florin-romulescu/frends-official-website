@@ -47,6 +47,25 @@ const base = (() => {
 
 const describe = (post: WpPost<object>) => `"${decodeEntities(post.title.rendered)}" (id ${post.id})`;
 
+const retryDelayMs = 3000;
+const retries = 5;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const fetchWithRetry = async (url: URL, attempt = 1): Promise<Response> => {
+  const response = await fetch(url).catch((error: unknown) => {
+    throw new Error(`Could not reach WordPress at ${base} (WP_API_URL). Is the CMS running?`, {
+      cause: error,
+    });
+  });
+  if (response.ok) return response;
+  if (response.status >= 500 && attempt < retries) {
+    await sleep(retryDelayMs);
+    return fetchWithRetry(url, attempt + 1);
+  }
+  throw new Error(`WordPress returned ${response.status} ${response.statusText} for ${url}`);
+};
+
 export const wpFetchAll = async <T>(
   resource: string,
   params: Record<string, string> = {},
@@ -59,15 +78,7 @@ export const wpFetchAll = async <T>(
       Object.entries(query).filter(([, value]) => value !== ''),
     ).toString();
 
-    const response = await fetch(url).catch((error: unknown) => {
-      throw new Error(
-        `Could not reach WordPress at ${base} (WP_API_URL). Is the CMS running?`,
-        { cause: error },
-      );
-    });
-    if (!response.ok) {
-      throw new Error(`WordPress returned ${response.status} ${response.statusText} for ${url}`);
-    }
+    const response = await fetchWithRetry(url);
 
     items.push(...((await response.json()) as T[]));
     const totalPages = Number(response.headers.get('X-WP-TotalPages') ?? '1');

@@ -39,7 +39,7 @@ GitHub settings the workflow needs (repo → Settings):
 Run it by hand from the Actions tab (*Deploy CMS → Run workflow*) or from a laptop:
 
 ```sh
-rsync -rlptz --delete --itemize-changes --exclude .env --exclude backup/.env.backup \
+rsync -rlpz --checksum --delete --itemize-changes --exclude .env --exclude backup/.env.backup \
   wordpress/ root@65.109.134.217:/opt/frends-website/wordpress/ | ssh root@65.109.134.217 /opt/frends-website/wordpress/deploy.sh
 ```
 
