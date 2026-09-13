@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Article from '../../layouts/Article.astro';
+import Cluster from '../../layouts/primitives/Cluster.astro';
+import Pill from '../../components/Pill';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+
+export const getStaticPaths = async () =>
+  (await getCollection('projects')).map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+
+const { project } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<Article
+  title={project.data.title}
+  description={project.data.summary}
+  image={project.data.image}
+  imageAlt={project.data.imageAlt}
+  body={project.data.body}
+  back={{ label: t('projects.back'), href: localizePath('/proiecte', lang) }}
+>
+  <Cluster slot="meta" gap="sm">
+    {project.data.year && <Pill variant="label">{project.data.year}</Pill>}
+    {project.data.featured && <Pill variant="label">{t('projects.featured')}</Pill>}
+  </Cluster>
+</Article>

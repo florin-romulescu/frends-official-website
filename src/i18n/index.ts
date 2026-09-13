@@ -37,3 +37,13 @@ export const localizePath = (path: string, lang: Lang): string => {
   if (lang === defaultLang) return clean;
   return clean === '/' ? `/${lang}/` : `/${lang}${clean}`;
 };
+
+export const isExternal = (href: string): boolean => /^(https?:)?\/\//.test(href) || href.startsWith('mailto:');
+
+export const localizeHref = (href: string, lang: Lang): string =>
+  isExternal(href) ? href : localizePath(href, lang);
+
+const locales: Record<Lang, string> = { ro: 'ro-RO' };
+
+export const formatDate = (isoDate: string, lang: Lang): string =>
+  new Intl.DateTimeFormat(locales[lang], { dateStyle: 'long' }).format(new Date(isoDate));

@@ -1,0 +1,106 @@
+{
+  "key": "group_frends_event",
+  "title": "Detalii eveniment",
+  "fields": [
+    {
+      "key": "field_event_period",
+      "label": "Perioadă",
+      "name": "period",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "Octombrie 2025 - Aprilie 2026",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_event_status",
+      "label": "Stare",
+      "name": "status",
+      "type": "select",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "open": "Înregistrări deschise",
+        "ongoing": "În desfășurare",
+        "completed": "Terminat"
+      },
+      "default_value": "open",
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_event_date",
+      "label": "Data de început",
+      "name": "event_date",
+      "type": "date_picker",
+      "instructions": "Folosită pentru ordonare.",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d/m/Y",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_event_image_alt",
+      "label": "Text alternativ pentru imaginea principală",
+      "name": "image_alt",
+      "type": "text",
+      "instructions": "Descrie imaginea pentru cititoarele de ecran (accesibilitate).",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "event"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 1,
+  "modified": 1789293703
+}

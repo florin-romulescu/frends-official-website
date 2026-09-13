@@ -1,7 +1,6 @@
 ---
-import { getImage } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n';
-import { events } from '../../data/events';
+import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
 import type { EventStatus } from '../types';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -13,24 +12,7 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const cards = await Promise.all(
-  events.map(async (event) => {
-    const optimized = await getImage({
-      src: event.image,
-      widths: [440, 880],
-      sizes: '(width >= 40rem) 26rem, 85vw',
-    });
-    return {
-      ...event,
-      resolved: {
-        src: optimized.src,
-        srcSet: optimized.srcSet.attribute || undefined,
-        width: optimized.attributes.width,
-        height: optimized.attributes.height,
-      },
-    };
-  }),
-);
+const events = (await getCollection('events')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const statusLabels: Record<EventStatus, string> = {
   open: t('events.status.open'),
@@ -38,39 +20,41 @@ const statusLabels: Record<EventStatus, string> = {
   completed: t('events.status.completed'),
 };
 ---
-<Section id="evenimente" space="sm" band="warm" width="wide">
-  <Stack gap="xl" align="center">
-    <Pill variant="title">{t('events.title')}</Pill>
+{
+  events.length > 0 && (
+    <Section id="evenimente" space="sm" band="warm" width="wide">
+      <Stack gap="xl" align="center">
+        <Pill variant="title">{t('events.title')}</Pill>
 
-    <div class="w-full">
-      <Carousel
-        id="events"
-        count={cards.length}
-        label={t('events.title')}
-        labels={{
-          first: t('events.first'),
-          last: t('events.last'),
-          slide: (n: number) => `${t('events.title')} ${n}`,
-        }}
-      >
-        {
-          cards.map((event, i) => (
-            <CarouselSlide id="events" index={i + 1}>
-              <EventCard
-                title={event.title}
-                period={event.period}
-                description={event.description}
-                image={event.resolved}
-                imageAlt={event.imageAlt}
-                status={event.status}
-                statusLabel={statusLabels[event.status]}
-                href={event.href}
-                readMoreLabel={t('events.readMore')}
-              />
-            </CarouselSlide>
-          ))
-        }
-      </Carousel>
-    </div>
-  </Stack>
-</Section>
+        <div class="w-full">
+          <Carousel
+            id="events"
+            count={events.length}
+            label={t('events.title')}
+            labels={{
+              first: t('events.first'),
+              last: t('events.last'),
+              slide: (n: number) => `${t('events.title')} ${n}`,
+            }}
+          >
+            {events.map((event, i) => (
+              <CarouselSlide id="events" index={i + 1}>
+                <EventCard
+                  title={event.data.title}
+                  period={event.data.period}
+                  description={event.data.description}
+                  image={event.data.image}
+                  imageAlt={event.data.imageAlt}
+                  status={event.data.status}
+                  statusLabel={statusLabels[event.data.status]}
+                  href={localizePath(`/evenimente/${event.id}`, lang)}
+                  readMoreLabel={t('events.readMore')}
+                />
+              </CarouselSlide>
+            ))}
+          </Carousel>
+        </div>
+      </Stack>
+    </Section>
+  )
+}

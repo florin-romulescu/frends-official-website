@@ -2,7 +2,7 @@ import type { UIKey } from '../i18n';
 
 export interface StepCta {
   key: UIKey;
-  path: string;
+  href: 'volunteer' | `/${string}`;
   variant: 'primary' | 'secondary';
 }
 
@@ -17,7 +17,7 @@ export const steps: Step[] = [
   {
     title: 'Înregistrare',
     timing: 'astăzi',
-    cta: { key: 'community.stepsForm', path: '/fii-voluntar', variant: 'primary' },
+    cta: { key: 'community.stepsForm', href: 'volunteer', variant: 'primary' },
   },
   {
     title: 'Sesiune de Cunoaștere',
@@ -40,7 +40,7 @@ export const steps: Step[] = [
     title: 'Alegerea Diviziilor',
     timing: 'luna 3',
     description: 'Participi la activități de teambuilding și alegi divizia în care vei activa',
-    cta: { key: 'community.stepsDivisions', path: '/departamente', variant: 'secondary' },
+    cta: { key: 'community.stepsDivisions', href: '/departamente', variant: 'secondary' },
   },
   {
     title: 'Implementare',

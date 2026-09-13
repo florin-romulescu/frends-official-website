@@ -1,7 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
-import { site } from '../../data/site';
+import { getLangFromUrl, useTranslations, localizePath, localizeHref, isExternal } from '../../i18n';
+import { getSite } from '../../data/site';
 import heroPhoto from '../../assets/img/hero-group.jpg';
 import Section from '../../layouts/primitives/Section.astro';
 import Split from '../../layouts/primitives/Split.astro';
@@ -14,6 +14,7 @@ import Pill from '../Pill';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const site = await getSite();
 
 const optimized = await getImage({
   src: heroPhoto,
@@ -34,7 +35,7 @@ const photo = {
       <h1 class="font-display text-display font-extrabold text-brand">{t('hero.heading')}</h1>
       <p class="max-w-[430px] text-body-lg font-black">{t('hero.lede')}</p>
       <Cluster gap="md">
-        <Button href={localizePath(site.volunteerUrl, lang)} size="lg">
+        <Button href={localizeHref(site.volunteerUrl, lang)} external={isExternal(site.volunteerUrl)} size="lg">
           {t('nav.volunteer')}
         </Button>
         <Button href={localizePath('/proiecte', lang)} variant="secondary" size="lg">

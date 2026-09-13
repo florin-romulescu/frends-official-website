@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import Grid from '../../layouts/primitives/Grid.astro';
+import ArticleCard from '../../components/ArticleCard';
+import { getLangFromUrl, useTranslations, localizePath, formatDate } from '../../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+---
+<Base title={t('blog.title')} description={t('blog.description')}>
+  <Section space="md">
+    <Stack gap="xl">
+      <Stack gap="lg">
+        <h1 class="font-display text-display font-extrabold text-brand">{t('blog.heading')}</h1>
+        <p class="max-w-[47.5rem] text-body-lg text-ink-secondary">{t('blog.lede')}</p>
+      </Stack>
+
+      {
+        posts.length > 0 ? (
+          <Grid as="ul" min="20rem" gap="lg">
+            {posts.map((post) => (
+              <li>
+                <ArticleCard
+                  title={post.data.title}
+                  description={post.data.excerpt}
+                  image={post.data.image}
+                  imageAlt={post.data.imageAlt}
+                  href={localizePath(`/blog/${post.id}`, lang)}
+                  readMoreLabel={t('common.readMore')}
+                  tags={[formatDate(post.data.date, lang)]}
+                />
+              </li>
+            ))}
+          </Grid>
+        ) : (
+          <p class="text-body-lg text-ink-muted">{t('blog.empty')}</p>
+        )
+      }
+    </Stack>
+  </Section>
+</Base>

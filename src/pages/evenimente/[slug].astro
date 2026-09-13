@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import Article from '../../layouts/Article.astro';
+import Cluster from '../../layouts/primitives/Cluster.astro';
+import StatusBadge from '../../components/StatusBadge';
+import Pill from '../../components/Pill';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+
+export const getStaticPaths = async () =>
+  (await getCollection('events')).map((event) => ({ params: { slug: event.id }, props: { event } }));
+
+const { event } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const statusLabel = {
+  open: t('events.status.open'),
+  ongoing: t('events.status.ongoing'),
+  completed: t('events.status.completed'),
+}[event.data.status];
+---
+<Article
+  title={event.data.title}
+  description={event.data.description}
+  image={event.data.image}
+  imageAlt={event.data.imageAlt}
+  body={event.data.body}
+  back={{ label: t('events.back'), href: localizePath('/#evenimente', lang) }}
+>
+  <Cluster slot="meta" gap="sm">
+    <Pill variant="label">{event.data.period}</Pill>
+    <StatusBadge status={event.data.status} label={statusLabel} className="bg-surface-subtle" />
+  </Cluster>
+</Article>

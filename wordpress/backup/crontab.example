@@ -1,0 +1,1 @@
+30 3 * * * cd /opt/frends-website/wordpress && ./backup/backup.sh >> /var/log/frends-backup.log 2>&1

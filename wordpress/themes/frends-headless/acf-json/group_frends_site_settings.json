@@ -1,0 +1,184 @@
+{
+  "key": "group_frends_site_settings",
+  "title": "Setări site",
+  "fields": [
+    {
+      "key": "field_settings_org_name",
+      "label": "Denumirea organizației",
+      "name": "org_name",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Asociația FRENDS Pentru Dezvoltare",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_settings_short_name",
+      "label": "Denumire scurtă",
+      "name": "short_name",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "FRENDS",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_settings_email",
+      "label": "Email",
+      "name": "email",
+      "type": "email",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "office@frends.ro",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_settings_phone",
+      "label": "Telefon",
+      "name": "phone",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_settings_address_lines",
+      "label": "Adresă",
+      "name": "address_lines",
+      "type": "textarea",
+      "instructions": "Câte un rând pentru fiecare linie a adresei.",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 3,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_settings_volunteer_url",
+      "label": "Link „Fii voluntar”",
+      "name": "volunteer_url",
+      "type": "url",
+      "instructions": "Formularul de înscriere; poate fi un link extern (Google Forms) sau o pagină de pe site.",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_settings_social_facebook",
+      "label": "Facebook",
+      "name": "social_facebook",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_settings_social_instagram",
+      "label": "Instagram",
+      "name": "social_instagram",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_settings_social_tiktok",
+      "label": "TikTok",
+      "name": "social_tiktok",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "site_settings"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 1,
+  "modified": 1789293703
+}

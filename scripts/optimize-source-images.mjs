@@ -8,7 +8,6 @@ const MAX_WIDTH = {
   'hero-group.jpg': 1680,
   'about-group.jpg': 1680,
   'goals-bg.jpg': 1660,
-  'events-bg.jpg': 1100,
   'impact-poster.jpg': 1024,
   'impact-event.jpg': 1024,
   'impact-greenup.jpg': 1024,

@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizePath } from '../i18n';
-import { site, type NavEntry } from '../data/site';
+import { getLangFromUrl, useTranslations, localizePath, localizeHref, isExternal } from '../i18n';
+import { getSite, type NavEntry } from '../data/site';
 import sky from '../assets/img/sky.jpg';
 import type { NavItem } from './types';
 import Brand from './Brand';
@@ -13,6 +13,7 @@ import SocialLinks from './SocialLinks';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const site = await getSite();
 const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
 
 const toNavItem = (entry: NavEntry): NavItem => {
@@ -30,7 +31,7 @@ const toNavItem = (entry: NavEntry): NavItem => {
 
 const items = site.nav.map(toNavItem);
 
-const cta = { label: t('nav.volunteer'), href: localizePath(site.volunteerUrl, lang) };
+const cta = { label: t('nav.volunteer'), href: localizeHref(site.volunteerUrl, lang) };
 ---
 <header class="relative overflow-hidden bg-linear-to-b from-[#21b4ec] to-brand-light">
   <Image
@@ -57,7 +58,7 @@ const cta = { label: t('nav.volunteer'), href: localizePath(site.volunteerUrl, l
     <Nav items={items} />
 
     <div class="flex items-center gap-2 lg:flex-1 lg:justify-end">
-      <Button href={cta.href}>{cta.label}</Button>
+      <Button href={cta.href} external={isExternal(cta.href)}>{cta.label}</Button>
       <MobileNav items={items} openLabel={t('nav.menu')} />
     </div>
   </div>

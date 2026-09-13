@@ -1,19 +1,4 @@
 {
-  "name": "Asociația FRENDS Pentru Dezvoltare",
-  "shortName": "FRENDS",
-  "email": "office@frends.ro",
-  "phone": "031 437 7727",
-  "addressLines": [
-    "Bulevardul Mihail Kogălniceanu, nr. 39",
-    "Scara A, etaj 3, ap. 6",
-    "Sector 5, București, România"
-  ],
-  "volunteerUrl": "/fii-voluntar",
-  "social": [
-    { "label": "Facebook", "href": "https://facebook.com/" },
-    { "label": "Instagram", "href": "https://instagram.com/" },
-    { "label": "TikTok", "href": "https://tiktok.com/" }
-  ],
   "nav": [
     {
       "key": "nav.about",
@@ -31,7 +16,6 @@
   "footerNav": [
     { "key": "nav.projects", "path": "/proiecte" },
     { "key": "nav.departments", "path": "/departamente" },
-    { "key": "nav.contact", "path": "/contact" },
-    { "key": "nav.volunteer", "path": "/fii-voluntar" }
+    { "key": "nav.contact", "path": "/contact" }
   ]
 }

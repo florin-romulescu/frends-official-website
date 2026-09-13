@@ -5,6 +5,7 @@ import Pill from './Pill';
 interface Cta {
   label: string;
   href: string;
+  external?: boolean;
   variant: 'primary' | 'secondary';
 }
 
@@ -27,7 +28,7 @@ const StepCard = ({ index, title, timing, description, cta, className = '' }: Pr
       </div>
       {description && <p className="text-body text-ink">{description}</p>}
       {cta && (
-        <Button href={cta.href} variant={cta.variant}>
+        <Button href={cta.href} variant={cta.variant} external={cta.external}>
           {cta.label}
         </Button>
       )}

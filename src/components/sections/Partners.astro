@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -7,20 +8,43 @@ import Grid from '../../layouts/primitives/Grid.astro';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const placeholderCount = 4;
+const partners = (await getCollection('partners'))
+  .filter((partner) => partner.data.logo)
+  .sort((a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name));
 ---
-<Section id="parteneri" space="lg">
-  <Stack gap="xl">
-    <h2 class="text-h2">{t('partners.title')}</h2>
+{
+  partners.length > 0 && (
+    <Section id="parteneri" space="lg">
+      <Stack gap="xl">
+        <h2 class="text-h2">{t('partners.title')}</h2>
 
-    <Grid as="ul" min="8rem" gap="md" class="max-w-[42rem]">
-      {
-        Array.from({ length: placeholderCount }, (_, i) => (
-          <li class="grid aspect-square place-items-center rounded-[13px] bg-surface-placeholder p-3 text-center text-caption text-ink-muted">
-            {t('partners.placeholder')} {i + 1}
-          </li>
-        ))
-      }
-    </Grid>
-  </Stack>
-</Section>
+        <Grid as="ul" min="8rem" gap="md" class="max-w-[42rem]">
+          {partners.map(({ data }) => {
+            const Wrapper = data.url ? 'a' : 'div';
+            const linkProps = data.url
+              ? { href: data.url, target: '_blank', rel: 'noopener noreferrer' }
+              : {};
+            return (
+              <li class="aspect-square overflow-hidden rounded-[13px] bg-surface-subtle p-3">
+                <Wrapper
+                  {...linkProps}
+                  class="grid size-full place-items-center transition-opacity hover:opacity-80"
+                >
+                  <img
+                    src={data.logo!.src}
+                    srcset={data.logo!.srcSet}
+                    sizes="8rem"
+                    alt={data.name}
+                    loading="lazy"
+                    decoding="async"
+                    class="max-h-full max-w-full object-contain"
+                  />
+                </Wrapper>
+              </li>
+            );
+          })}
+        </Grid>
+      </Stack>
+    </Section>
+  )
+}

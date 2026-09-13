@@ -1,0 +1,62 @@
+{
+  "key": "group_frends_partner",
+  "title": "Detalii partener",
+  "fields": [
+    {
+      "key": "field_partner_url",
+      "label": "Site",
+      "name": "url",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_partner_order",
+      "label": "Ordine",
+      "name": "order",
+      "type": "number",
+      "instructions": "Partenerii sunt afișați crescător după această valoare.",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 0,
+      "min": "",
+      "max": "",
+      "step": 1,
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "partner"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 1,
+  "modified": 1789293703
+}

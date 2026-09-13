@@ -1,0 +1,39 @@
+---
+import Base from './Base.astro';
+import Section from './primitives/Section.astro';
+import Stack from './primitives/Stack.astro';
+import PhotoCard from '../components/PhotoCard';
+import type { ResolvedImage } from '../components/types';
+
+interface Props {
+  title: string;
+  description: string;
+  image: ResolvedImage;
+  imageAlt: string;
+  body: string;
+  back: { label: string; href: string };
+}
+
+const { title, description, image, imageAlt, body, back } = Astro.props;
+---
+<Base title={title} description={description}>
+  <Section space="md" width="prose">
+    <Stack gap="lg">
+      <a href={back.href} class="w-fit text-body font-bold text-ink-secondary hover:text-brand">
+        ← {back.label}
+      </a>
+
+      <Stack gap="sm">
+        <h1 class="text-h2">{title}</h1>
+        <slot name="meta" />
+      </Stack>
+
+      <PhotoCard image={image} imageAlt={imageAlt} shape="landscape" priority />
+
+      <div
+        class="prose prose-lg max-w-none text-ink prose-headings:font-heading prose-headings:font-medium prose-headings:text-ink prose-a:text-brand prose-a:no-underline hover:prose-a:underline prose-strong:text-ink prose-img:rounded-panel prose-figcaption:text-ink-muted"
+        set:html={body}
+      />
+    </Stack>
+  </Section>
+</Base>

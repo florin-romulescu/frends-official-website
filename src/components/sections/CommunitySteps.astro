@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import { getLangFromUrl, useTranslations, localizeHref, isExternal } from '../../i18n';
+import { getSite } from '../../data/site';
 import { steps } from '../../data/steps';
 import stepsBg from '../../assets/img/community-steps-bg.jpg';
 import Section from '../../layouts/primitives/Section.astro';
@@ -8,12 +9,17 @@ import StepCard from '../StepCard';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const site = await getSite();
+
+const resolveHref = (href: 'volunteer' | `/${string}`) =>
+  localizeHref(href === 'volunteer' ? site.volunteerUrl : href, lang);
 
 const cards = steps.map((step) => ({
   ...step,
   cta: step.cta && {
     label: t(step.cta.key),
-    href: localizePath(step.cta.path, lang),
+    href: resolveHref(step.cta.href),
+    external: isExternal(resolveHref(step.cta.href)),
     variant: step.cta.variant,
   },
 }));

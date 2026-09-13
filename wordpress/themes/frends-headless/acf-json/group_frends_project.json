@@ -1,0 +1,103 @@
+{
+  "key": "group_frends_project",
+  "title": "Detalii proiect",
+  "fields": [
+    {
+      "key": "field_project_summary",
+      "label": "Rezumat",
+      "name": "summary",
+      "type": "textarea",
+      "instructions": "Un paragraf scurt afișat pe card și în lista de proiecte.",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 3,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_project_year",
+      "label": "An",
+      "name": "year",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 2010,
+      "max": 2100,
+      "step": 1,
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_project_featured",
+      "label": "Proiect principal",
+      "name": "featured",
+      "type": "true_false",
+      "instructions": "Afișat cu prioritate în lista de proiecte.",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    },
+    {
+      "key": "field_project_image_alt",
+      "label": "Text alternativ pentru imaginea principală",
+      "name": "image_alt",
+      "type": "text",
+      "instructions": "Descrie imaginea pentru cititoarele de ecran (accesibilitate).",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "project"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 1,
+  "modified": 1789293703
+}

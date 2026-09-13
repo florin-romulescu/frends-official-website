@@ -1,15 +1,17 @@
 ---
-import { getLangFromUrl, useTranslations, localizePath } from '../i18n';
-import { site } from '../data/site';
+import { getLangFromUrl, useTranslations, localizePath, localizeHref } from '../i18n';
+import { getSite } from '../data/site';
 import Footer from './Footer';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const items = site.footerNav.map((entry) => ({
-  label: t(entry.key),
-  href: localizePath(entry.path, lang),
-}));
+const site = await getSite();
+
+const items = [
+  ...site.footerNav.map((entry) => ({ label: t(entry.key), href: localizePath(entry.path, lang) })),
+  { label: t('nav.volunteer'), href: localizeHref(site.volunteerUrl, lang) },
+];
 ---
 <footer class="mt-24 border-t border-border-default">
   <div class="container-content">
