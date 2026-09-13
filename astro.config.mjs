@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import wpRefresh from './src/integrations/wp-refresh';
 
 export default defineConfig({
-  site: 'https://example.org',
+  site: 'https://frends.ro',
 
   i18n: {
     locales: ['ro'],
