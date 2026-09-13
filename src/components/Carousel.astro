@@ -1,46 +1,27 @@
 ---
-import { getSiteImage } from '../data/images';
-
 interface Props {
   label: string;
   id: string;
   count: number;
-  labels: {
-    first: string;
-    last: string;
-    slide: (n: number) => string;
-  };
+  slideLabel: (n: number) => string;
+  autoplay?: boolean;
+  interval?: number;
 }
 
-const { label, id, count, labels }: Props = Astro.props;
-const arrow = await getSiteImage('icon_arrow');
+const { label, id, count, slideLabel, autoplay = true, interval = 5000 }: Props = Astro.props;
 
 const slideId = (n: number) => `${id}-slide-${n}`;
-
-const arrowClass =
-  'hidden size-14 shrink-0 place-items-center rounded-full bg-surface shadow-control transition-transform hover:scale-105 xl:grid xl:size-20';
 ---
-<div class="relative">
-  <div class="flex items-stretch gap-4">
-    <a href={`#${slideId(1)}`} class={arrowClass}>
-      <span class="sr-only">{labels.first}</span>
-      <img src={arrow.src} alt="" width={32} height={32} class="size-8 rotate-180" />
-    </a>
-
-    <ul
-      class="snap-track -mx-4 min-w-0 flex-1 gap-6 px-4 py-2 xl:mx-0 xl:px-0"
-      tabindex="0"
-      role="group"
-      aria-label={label}
-    >
-      <slot />
-    </ul>
-
-    <a href={`#${slideId(count)}`} class={arrowClass}>
-      <span class="sr-only">{labels.last}</span>
-      <img src={arrow.src} alt="" width={32} height={32} class="size-8" />
-    </a>
-  </div>
+<div data-carousel data-autoplay={autoplay ? '' : undefined} data-interval={interval}>
+  <ul
+    data-track
+    class="snap-track -mx-4 min-w-0 gap-6 px-4 py-2 xl:mx-0 xl:px-0"
+    tabindex="0"
+    role="group"
+    aria-label={label}
+  >
+    <slot />
+  </ul>
 
   <ul class="mt-6 flex items-center justify-center gap-2">
     {
@@ -48,12 +29,112 @@ const arrowClass =
         <li>
           <a
             href={`#${slideId(i + 1)}`}
-            class="block size-2.5 rounded-full bg-surface/70 transition-colors hover:bg-surface"
+            data-dot
+            class="block size-2.5 rounded-full bg-surface/70 transition-colors hover:bg-surface aria-[current]:bg-ink"
           >
-            <span class="sr-only">{labels.slide(i + 1)}</span>
+            <span class="sr-only">{slideLabel(i + 1)}</span>
           </a>
         </li>
       ))
     }
   </ul>
 </div>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const setup = (root: HTMLElement) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    if (!track) return;
+    const slides = [...track.children] as HTMLElement[];
+    const dots = [...root.querySelectorAll<HTMLAnchorElement>('[data-dot]')];
+    const interval = Number(root.dataset.interval) || 5000;
+    let current = 0;
+    let paused = false;
+    let visible = false;
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const centerOf = (el: HTMLElement) => el.offsetLeft - track.offsetLeft + el.clientWidth / 2;
+
+    const goTo = (index: number) => {
+      const slide = slides[index];
+      if (!slide) return;
+      track.scrollTo({ left: centerOf(slide) - track.clientWidth / 2, behavior: 'smooth' });
+    };
+
+    const nearestToCenter = () => {
+      const middle = track.scrollLeft + track.clientWidth / 2;
+      return slides.reduce(
+        (best, slide, i) =>
+          Math.abs(centerOf(slide) - middle) < Math.abs(centerOf(slides[best]!) - middle) ? i : best,
+        0,
+      );
+    };
+
+    const syncCurrent = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      current =
+        track.scrollLeft <= 1 ? 0 : track.scrollLeft >= maxScroll - 1 ? slides.length - 1 : nearestToCenter();
+      dots.forEach((dot, i) => {
+        if (i === current) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+    };
+
+    const overflows = () => track.scrollWidth > track.clientWidth + 1;
+
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = undefined;
+    };
+
+    const start = () => {
+      stop();
+      if (!('autoplay' in root.dataset) || reducedMotion || paused || !visible || !overflows()) return;
+      timer = setInterval(() => goTo((current + 1) % slides.length), interval);
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', (event) => {
+        event.preventDefault();
+        goTo(i);
+      });
+    });
+
+    let frame = 0;
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(syncCurrent);
+    });
+
+    const pause = () => {
+      paused = true;
+      stop();
+    };
+    const resume = () => {
+      paused = false;
+      start();
+    };
+    root.addEventListener('pointerenter', pause);
+    root.addEventListener('pointerleave', resume);
+    root.addEventListener('focusin', pause);
+    root.addEventListener('focusout', resume);
+    track.addEventListener('touchstart', pause, { passive: true });
+    track.addEventListener('touchend', resume);
+
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+        start();
+      },
+      { threshold: 0.4 },
+    ).observe(root);
+
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    window.addEventListener('resize', start);
+
+    syncCurrent();
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(setup);
+</script>

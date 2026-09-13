@@ -28,7 +28,6 @@ declare -A files=(
   [icon_instagram]="public/icons/instagram.svg"
   [icon_tiktok]="public/icons/tiktok.svg"
   [icon_caret]="public/icons/caret.svg"
-  [icon_arrow]="public/icons/arrow.png"
   [icon_help]="public/icons/help.png"
 )
 

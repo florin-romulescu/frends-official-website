@@ -515,30 +515,6 @@
       "preview_size": "medium"
     },
     {
-      "key": "field_img_icon_arrow",
-      "label": "Săgeată carusel",
-      "name": "icon_arrow",
-      "type": "image",
-      "instructions": "Butoanele înainte/înapoi din caruselul de evenimente.",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "50",
-        "class": "",
-        "id": ""
-      },
-      "return_format": "array",
-      "library": "all",
-      "min_width": "",
-      "min_height": "",
-      "min_size": "",
-      "max_width": "",
-      "max_height": "",
-      "max_size": "",
-      "mime_types": "",
-      "preview_size": "medium"
-    },
-    {
       "key": "field_img_icon_help",
       "label": "Iconiță „voluntari activi”",
       "name": "icon_help",

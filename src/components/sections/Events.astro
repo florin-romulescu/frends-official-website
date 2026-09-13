@@ -33,11 +33,7 @@ const statusLabels: Record<EventStatus, string> = {
             id="events"
             count={events.length}
             label={t('events.title')}
-            labels={{
-              first: t('events.first'),
-              last: t('events.last'),
-              slide: (n: number) => `${t('events.title')} ${n}`,
-            }}
+            slideLabel={(n: number) => `${t('events.title')} ${n}`}
           >
             {events.map((event, i) => (
               <CarouselSlide id="events" index={i + 1}>

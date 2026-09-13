@@ -67,7 +67,6 @@ export const imageSlots = [
   'icon_instagram',
   'icon_tiktok',
   'icon_caret',
-  'icon_arrow',
   'icon_help',
 ] as const;
 

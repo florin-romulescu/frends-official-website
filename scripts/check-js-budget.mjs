@@ -3,7 +3,7 @@ import { join, relative, sep } from 'node:path';
 
 const DIST = 'dist';
 
-const ALLOWED_ISLAND_ROUTES = {};
+const ALLOWED_ISLAND_ROUTES = { '/': 'events carousel autoplay (vanilla, no framework)' };
 
 const htmlFiles = async (dir) => {
   const out = [];
