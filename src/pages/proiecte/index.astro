@@ -1,14 +1,18 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
-import Grid from '../../layouts/primitives/Grid.astro';
-import ArticleCard from '../../components/ArticleCard';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import ProjectCard from '../../components/ProjectCard';
+import Button from '../../components/Button';
+import banner from '../../assets/img/projects-banner.jpg';
+import { getSite } from '../../data/site';
+import { getLangFromUrl, useTranslations, localizePath, localizeHref, isExternal } from '../../i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const site = await getSite();
 
 const projects = (await getCollection('projects')).sort(
   (a, b) =>
@@ -16,37 +20,50 @@ const projects = (await getCollection('projects')).sort(
     (b.data.year ?? 0) - (a.data.year ?? 0) ||
     b.data.date.localeCompare(a.data.date),
 );
+
+const volunteerHref = localizeHref(site.volunteerUrl, lang);
 ---
 <Base title={t('projects.title')} description={t('projects.description')}>
   <Section space="md">
     <Stack gap="xl">
-      <Stack gap="lg">
-        <h1 class="font-display text-display font-extrabold text-brand">{t('projects.heading')}</h1>
-        <p class="max-w-[47.5rem] text-body-lg text-ink-secondary">{t('projects.lede')}</p>
-      </Stack>
+      <div class="relative overflow-hidden rounded-media bg-surface">
+        <Image
+          src={banner}
+          alt=""
+          widths={[768, 1280, 1660]}
+          sizes="100vw"
+          class="absolute inset-0 size-full object-cover opacity-15"
+          loading="eager"
+        />
+        <div class="relative grid min-h-[12rem] place-items-center px-6 py-14 lg:min-h-[19rem]">
+          <h1 class="font-display text-display font-extrabold text-brand text-center">
+            {t('projects.heading')}
+          </h1>
+        </div>
+      </div>
 
       {
         projects.length > 0 ? (
-          <Grid as="ul" min="20rem" gap="lg">
+          <ul class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 xl:gap-12">
             {projects.map((project) => (
               <li>
-                <ArticleCard
+                <ProjectCard
                   title={project.data.title}
-                  description={project.data.summary}
                   image={project.data.image}
                   imageAlt={project.data.imageAlt}
                   href={localizePath(`/proiecte/${project.id}`, lang)}
-                  readMoreLabel={t('common.readMore')}
-                  tags={[
-                    ...(project.data.year ? [String(project.data.year)] : []),
-                    ...(project.data.featured ? [t('projects.featured')] : []),
-                  ]}
                 />
               </li>
             ))}
-          </Grid>
+          </ul>
         ) : (
-          <p class="text-body-lg text-ink-muted">{t('projects.empty')}</p>
+          <Stack gap="md" align="center" class="rounded-panel bg-surface-subtle px-6 py-14 text-center">
+            <h2 class="text-h3">{t('projects.emptyTitle')}</h2>
+            <p class="max-w-[36rem] text-body-lg text-ink-secondary">{t('projects.empty')}</p>
+            <Button href={volunteerHref} external={isExternal(volunteerHref)}>
+              {t('nav.volunteer')}
+            </Button>
+          </Stack>
         )
       }
     </Stack>

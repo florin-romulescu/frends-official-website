@@ -17,6 +17,7 @@ const MAX_WIDTH = {
   'community-univibes.jpg': 1024,
   'community-band-bg.jpg': 1660,
   'community-steps-bg.jpg': 1660,
+  'projects-banner.jpg': 1660,
 };
 
 let before = 0;
