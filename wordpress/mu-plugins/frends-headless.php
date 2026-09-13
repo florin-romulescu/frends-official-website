@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-const FRENDS_SYNCED_POST_TYPES = ['post', 'event', 'project', 'partner', 'site_settings'];
+const FRENDS_SYNCED_POST_TYPES = ['post', 'event', 'project', 'impact', 'partner', 'site_settings'];
 
 add_action('init', static function (): void {
     register_post_type('event', [
@@ -33,6 +33,19 @@ add_action('init', static function (): void {
         'menu_icon' => 'dashicons-portfolio',
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
         'rewrite' => ['slug' => 'proiecte'],
+    ]);
+
+    register_post_type('impact', [
+        'labels' => frends_labels('Rezultate', 'Rezultat'),
+        'public' => true,
+        'publicly_queryable' => false,
+        'exclude_from_search' => true,
+        'has_archive' => false,
+        'show_in_rest' => true,
+        'rest_base' => 'impacts',
+        'show_in_menu' => 'edit.php?post_type=project',
+        'supports' => ['title', 'thumbnail'],
+        'rewrite' => false,
     ]);
 
     register_post_type('partner', [

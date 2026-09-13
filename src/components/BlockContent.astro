@@ -1,0 +1,15 @@
+---
+interface Props {
+  html: string;
+  class?: string;
+}
+
+const { html, class: className = '' }: Props = Astro.props;
+---
+<div
+  class:list={[
+    'wp-content prose prose-lg max-w-none text-ink prose-headings:font-heading prose-headings:font-medium prose-headings:text-ink prose-a:no-underline hover:prose-a:underline prose-strong:text-ink prose-img:rounded-panel prose-figcaption:text-ink-muted',
+    className,
+  ]}
+  set:html={html}
+/>

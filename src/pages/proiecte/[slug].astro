@@ -1,9 +1,27 @@
 ---
 import { getCollection } from 'astro:content';
-import Article from '../../layouts/Article.astro';
+import Base from '../../layouts/Base.astro';
+import Section from '../../layouts/primitives/Section.astro';
+import Split from '../../layouts/primitives/Split.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
 import Cluster from '../../layouts/primitives/Cluster.astro';
+import Grid from '../../layouts/primitives/Grid.astro';
+import Button from '../../components/Button';
 import Pill from '../../components/Pill';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import PhotoCard from '../../components/PhotoCard';
+import PhotoCardSlot from '../../components/PhotoCardSlot';
+import BlockContent from '../../components/BlockContent.astro';
+import StatusBadge from '../../components/StatusBadge';
+import { getSite } from '../../data/site';
+import { getSiteImage } from '../../data/images';
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  localizeHref,
+  isExternal,
+  formatPeriod,
+} from '../../i18n';
 
 export const getStaticPaths = async () =>
   (await getCollection('projects')).map((project) => ({
@@ -12,19 +30,111 @@ export const getStaticPaths = async () =>
   }));
 
 const { project } = Astro.props;
+const { data } = project;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const site = await getSite();
+const highlightIcon = await getSiteImage('icon_help');
+
+const statusLabel = {
+  open: t('projects.status.open'),
+  ongoing: t('projects.status.ongoing'),
+  completed: t('projects.status.completed'),
+}[data.status];
+
+const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
+  .filter(Boolean)
+  .join('  ·  ');
+
+const volunteerHref = localizeHref(site.volunteerUrl, lang);
 ---
-<Article
-  title={project.data.title}
-  description={project.data.summary}
-  image={project.data.image}
-  imageAlt={project.data.imageAlt}
-  body={project.data.body}
-  back={{ label: t('projects.back'), href: localizePath('/proiecte', lang) }}
->
-  <Cluster slot="meta" gap="sm">
-    {project.data.year && <Pill variant="label">{project.data.year}</Pill>}
-    {project.data.featured && <Pill variant="label">{t('projects.featured')}</Pill>}
-  </Cluster>
-</Article>
+<Base title={data.title} description={data.summary}>
+  <div style={`--accent:${data.accentColor ?? 'var(--color-brand)'}`}>
+    <Section space="md">
+      <Split at="xl" gap="xl">
+        <Stack gap="lg">
+          <Cluster gap="sm">
+            <StatusBadge status={data.status} label={statusLabel} className="-ml-4" />
+            {data.category && <Pill variant="caption">{data.category}</Pill>}
+          </Cluster>
+
+          <Stack gap="sm">
+            <h1 class="font-display text-display font-extrabold text-(--accent)">{data.title}</h1>
+            <p class="text-body-lg font-black text-ink-muted">{meta}</p>
+          </Stack>
+
+          <p class="max-w-[39rem] text-body-lg">{data.summary}</p>
+
+          <Cluster gap="md">
+            <Button href={volunteerHref} external={isExternal(volunteerHref)} tone="accent">
+              {t('nav.volunteer')}
+            </Button>
+            <Button href={localizePath('/proiecte', lang)} variant="secondary" tone="accent">
+              {t('projects.viewAll')}
+            </Button>
+          </Cluster>
+        </Stack>
+
+        <PhotoCard image={data.image} imageAlt={data.imageAlt} shape="landscape" priority>
+          {
+            data.highlight && (
+              <PhotoCardSlot corner="bottom-right">
+                <p class="flex max-w-[300px] items-center gap-3 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:gap-4 xl:p-6">
+                  <img src={highlightIcon.src} alt="" width={36} height={36} class="size-9 shrink-0" />
+                  <span>{data.highlight}</span>
+                </p>
+              </PhotoCardSlot>
+            )
+          }
+        </PhotoCard>
+      </Split>
+    </Section>
+
+    <Section space="md">
+      <Stack gap="lg">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <h2 class="shrink-0 text-h2 text-(--accent)">{t('projects.about')}</h2>
+          {
+            data.facts.length > 0 && (
+              <ul class="-mx-4 flex min-w-0 gap-3 overflow-x-auto px-4 py-1 [scrollbar-width:none] lg:mx-0 lg:justify-end lg:px-0 [&::-webkit-scrollbar]:hidden">
+                {data.facts.map((fact) => (
+                  <li class="shrink-0">
+                    <Pill variant="label">{fact}</Pill>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+
+        <BlockContent html={data.body} class="prose-a:text-(--accent)" />
+      </Stack>
+    </Section>
+
+    {
+      data.impact.length > 0 && (
+        <Section space="lg">
+          <Stack gap="xl">
+            <Stack gap="md" align="center" class="text-center">
+              <h2 class="text-h2 text-(--accent)">{t('projects.impact')}</h2>
+              {data.impactLede && <p class="text-body-lg text-ink-muted">{data.impactLede}</p>}
+            </Stack>
+
+            <Grid as="ul" min="20rem" gap="lg">
+              {data.impact.map((card) => (
+                <li>
+                  <PhotoCard image={card.photo} imageAlt={card.photo.alt}>
+                    <PhotoCardSlot corner="top-left">
+                      <Pill variant="stat">{card.stat}</Pill>
+                      {card.label && <Pill variant="stat">{card.label}</Pill>}
+                    </PhotoCardSlot>
+                  </PhotoCard>
+                </li>
+              ))}
+            </Grid>
+          </Stack>
+        </Section>
+      )
+    }
+  </div>
+</Base>

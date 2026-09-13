@@ -3,6 +3,7 @@ import Base from './Base.astro';
 import Section from './primitives/Section.astro';
 import Stack from './primitives/Stack.astro';
 import PhotoCard from '../components/PhotoCard';
+import BlockContent from '../components/BlockContent.astro';
 import type { ResolvedImage } from '../components/types';
 
 interface Props {
@@ -30,10 +31,7 @@ const { title, description, image, imageAlt, body, back } = Astro.props;
 
       <PhotoCard image={image} imageAlt={imageAlt} shape="landscape" priority />
 
-      <div
-        class="prose prose-lg max-w-none text-ink prose-headings:font-heading prose-headings:font-medium prose-headings:text-ink prose-a:text-brand prose-a:no-underline hover:prose-a:underline prose-strong:text-ink prose-img:rounded-panel prose-figcaption:text-ink-muted"
-        set:html={body}
-      />
+      <BlockContent html={body} class="prose-a:text-brand" />
     </Stack>
   </Section>
 </Base>

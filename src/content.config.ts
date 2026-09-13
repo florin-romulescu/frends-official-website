@@ -30,11 +30,24 @@ interface EventAcf {
   image_alt?: string;
 }
 
+interface ImpactAcf {
+  label?: string;
+  image_alt?: string;
+}
+
 interface ProjectAcf {
   summary: string;
-  year: number | string;
+  category?: string;
+  location?: string;
+  start_date?: string;
+  end_date?: string;
+  accent_color?: string;
+  highlight?: string;
   featured: boolean;
   image_alt?: string;
+  facts?: string;
+  impact_lede?: string;
+  impact_cards?: number[] | false;
 }
 
 interface PostAcf {
@@ -115,27 +128,79 @@ const events = defineCollection({
   }),
 });
 
+const lines = (value: string | undefined): string[] =>
+  (value ?? '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
 const projects = defineCollection({
-  loader: async () =>
-    (await wpFetchAll<WpPost<ProjectAcf>>('projects')).map((post) => ({
-      id: post.slug,
-      title: decodeEntities(post.title.rendered),
-      summary: post.acf?.summary || plainText(post.excerpt?.rendered ?? ''),
-      year: post.acf?.year ? Number(post.acf.year) : undefined,
-      featured: Boolean(post.acf?.featured),
-      image: requireFeaturedImage(post, 'project'),
-      imageAlt: featuredAlt(post),
-      date: post.date.slice(0, 10),
-      body: cleanHtml(post.content?.rendered ?? ''),
-    })),
+  loader: async () => {
+    const [posts, impacts] = await Promise.all([
+      wpFetchAll<WpPost<ProjectAcf>>('projects'),
+      wpFetchAll<WpPost<ImpactAcf>>('impacts'),
+    ]);
+    const cards = new Map(
+      impacts.flatMap((impact) => {
+        const photo = featuredImage(impact);
+        if (!photo) return [];
+        const card = {
+          photo: { ...photo, alt: featuredAlt(impact) },
+          stat: decodeEntities(impact.title.rendered),
+          label: impact.acf?.label || undefined,
+        };
+        return [[impact.id, card] as const];
+      }),
+    );
+
+    return posts.map((post) => {
+      const acf = post.acf;
+      const startDate = acfDate(acf?.start_date) ?? post.date.slice(0, 10);
+      const endDate = acfDate(acf?.end_date);
+
+      return {
+        id: post.slug,
+        title: decodeEntities(post.title.rendered),
+        summary: acf?.summary || plainText(post.excerpt?.rendered ?? ''),
+        category: acf?.category || undefined,
+        location: acf?.location || undefined,
+        startDate,
+        endDate,
+        status: eventStatus(startDate, endDate),
+        accentColor: acf?.accent_color || undefined,
+        highlight: acf?.highlight || undefined,
+        featured: Boolean(acf?.featured),
+        image: requireFeaturedImage(post, 'project'),
+        imageAlt: featuredAlt(post),
+        facts: lines(acf?.facts),
+        impactLede: acf?.impact_lede || undefined,
+        impact: (acf?.impact_cards || []).flatMap((id) => cards.get(id) ?? []),
+        body: cleanHtml(post.content?.rendered ?? ''),
+      };
+    });
+  },
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    year: z.number().optional(),
+    category: z.string().optional(),
+    location: z.string().optional(),
+    startDate: z.string(),
+    endDate: z.string().optional(),
+    status: z.enum(['open', 'ongoing', 'completed']),
+    accentColor: z.string().optional(),
+    highlight: z.string().optional(),
     featured: z.boolean(),
     image,
     imageAlt: z.string(),
-    date: z.string(),
+    facts: z.array(z.string()),
+    impactLede: z.string().optional(),
+    impact: z.array(
+      z.object({
+        photo: image.extend({ alt: z.string() }),
+        stat: z.string(),
+        label: z.string().optional(),
+      }),
+    ),
     body: z.string(),
   }),
 });
