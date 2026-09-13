@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { getLangFromUrl, useTranslations } from '../i18n';
+import CommunityHero from '../components/sections/CommunityHero.astro';
+import CommunityJourney from '../components/sections/CommunityJourney.astro';
+import CommunityInvolvement from '../components/sections/CommunityInvolvement.astro';
+import CommunitySteps from '../components/sections/CommunitySteps.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<Base title={t('community.title')} description={t('community.description')}>
+  <CommunityHero />
+  <CommunityJourney />
+  <CommunityInvolvement />
+  <CommunitySteps />
+</Base>

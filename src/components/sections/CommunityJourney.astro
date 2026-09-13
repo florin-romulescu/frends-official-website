@@ -1,0 +1,50 @@
+---
+import { getImage } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+import comedyPhoto from '../../assets/img/community-comedy.jpg';
+import univibesPhoto from '../../assets/img/community-univibes.jpg';
+import Section from '../../layouts/primitives/Section.astro';
+import Stack from '../../layouts/primitives/Stack.astro';
+import PhotoCard from '../PhotoCard';
+import PhotoCardSlot from '../PhotoCardSlot';
+import Pill from '../Pill';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const resolve = async (src: ImageMetadata) => {
+  const optimized = await getImage({
+    src,
+    widths: [480, 768, 1024],
+    sizes: '(width >= 80rem) 33vw, (width >= 40rem) 50vw, 100vw',
+  });
+  return {
+    src: optimized.src,
+    srcSet: optimized.srcSet.attribute || undefined,
+    width: optimized.attributes.width,
+    height: optimized.attributes.height,
+  };
+};
+
+const [comedy, univibes] = await Promise.all([resolve(comedyPhoto), resolve(univibesPhoto)]);
+---
+<Section space="md">
+  <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-[409fr_500fr_483fr] xl:items-center xl:gap-10">
+    <Stack gap="md" align="center" class="text-center sm:col-span-2 xl:order-2 xl:col-span-1">
+      <Pill variant="headline">{t('community.journeyTitle')}</Pill>
+      <p class="max-w-[29rem] text-body-lg">{t('community.journeyBody')}</p>
+    </Stack>
+
+    <PhotoCard image={comedy} imageAlt={t('community.comedyAlt')} shape="square" className="xl:order-1 xl:self-end">
+      <PhotoCardSlot corner="bottom-left">
+        <Pill variant="caption">{t('community.comedyCaption')}</Pill>
+      </PhotoCardSlot>
+    </PhotoCard>
+
+    <PhotoCard image={univibes} imageAlt={t('community.univibesAlt')} shape="square" className="xl:order-3 xl:-mt-32 xl:self-start">
+      <PhotoCardSlot corner="bottom-right">
+        <Pill variant="caption">{t('community.univibesCaption')}</Pill>
+      </PhotoCardSlot>
+    </PhotoCard>
+  </div>
+</Section>

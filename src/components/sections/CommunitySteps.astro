@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import { steps } from '../../data/steps';
+import stepsBg from '../../assets/img/community-steps-bg.jpg';
+import Section from '../../layouts/primitives/Section.astro';
+import StepCard from '../StepCard';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const cards = steps.map((step) => ({
+  ...step,
+  cta: step.cta && {
+    label: t(step.cta.key),
+    href: localizePath(step.cta.path, lang),
+    variant: step.cta.variant,
+  },
+}));
+---
+<Section id="pasi" space="md">
+  <div class="relative overflow-hidden rounded-panel bg-surface">
+    <Image
+      src={stepsBg}
+      alt=""
+      widths={[768, 1280, 1660]}
+      sizes="100vw"
+      class="absolute inset-0 size-full object-cover opacity-15"
+      loading="lazy"
+    />
+    <div class="relative flex flex-col gap-10 px-6 py-10 lg:gap-14 lg:px-16 lg:py-14">
+      <h2 class="text-h2 text-center">{t('community.stepsTitle')}</h2>
+
+      <ol class="grid gap-x-12 gap-y-10 md:grid-flow-col md:grid-rows-3 md:grid-cols-2 lg:gap-x-20 lg:gap-y-14">
+        {
+          cards.map((step, i) => (
+            <li>
+              <StepCard
+                index={i + 1}
+                title={step.title}
+                timing={step.timing}
+                description={step.description}
+                cta={step.cta}
+              />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</Section>

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { BaseProp, ResolvedImage } from './types';
 
-type Shape = 'portrait' | 'landscape';
+type Shape = 'portrait' | 'landscape' | 'wide' | 'square';
 
 interface Props extends BaseProp {
   image: ResolvedImage;
@@ -14,6 +14,8 @@ interface Props extends BaseProp {
 const shapes: Record<Shape, string> = {
   portrait: 'aspect-[409/484] rounded-media',
   landscape: 'aspect-[699/460] rounded-panel',
+  wide: 'aspect-[4/3] rounded-panel xl:aspect-[804/449]',
+  square: 'aspect-square rounded-panel',
 };
 
 const PhotoCard = ({

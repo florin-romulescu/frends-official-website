@@ -13,6 +13,11 @@ const MAX_WIDTH = {
   'impact-event.jpg': 1024,
   'impact-greenup.jpg': 1024,
   'sky.jpg': 1280,
+  'community-hero.jpg': 1680,
+  'community-comedy.jpg': 1024,
+  'community-univibes.jpg': 1024,
+  'community-band-bg.jpg': 1660,
+  'community-steps-bg.jpg': 1660,
 };
 
 let before = 0;
