@@ -137,3 +137,9 @@ export const requireFeaturedImage = (post: WpPost<object>, type: string): Resolv
 
 export const featuredAlt = (post: WpPost<{ image_alt?: string }>): string =>
   post.acf?.image_alt?.trim() || featuredMedia(post)?.alt_text?.trim() || '';
+
+export const acfDate = (value: string | null | undefined): string | undefined => {
+  if (!value) return undefined;
+  const digits = value.replace(/\D/g, '');
+  return digits.length === 8 ? `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6)}` : value;
+};

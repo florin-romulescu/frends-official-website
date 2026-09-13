@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import {
+  acfDate,
   cleanHtml,
   decodeEntities,
   featuredAlt,
@@ -10,6 +11,7 @@ import {
   wpFetchAll,
   type WpPost,
 } from './lib/wp';
+import { eventStatus } from './lib/events';
 
 const image = z.object({
   src: z.string(),
@@ -21,9 +23,8 @@ const image = z.object({
 const link = z.object({ label: z.string(), href: z.string() });
 
 interface EventAcf {
-  period: string;
-  status: 'open' | 'ongoing' | 'completed';
-  event_date: string;
+  start_date: string;
+  end_date?: string;
   image_alt?: string;
 }
 
@@ -57,25 +58,29 @@ interface SettingsAcf {
 
 const events = defineCollection({
   loader: async () =>
-    (await wpFetchAll<WpPost<EventAcf>>('events')).map((post) => ({
-      id: post.slug,
-      title: decodeEntities(post.title.rendered),
-      period: post.acf?.period ?? '',
-      description: plainText(post.excerpt?.rendered ?? ''),
-      status: post.acf?.status ?? 'open',
-      image: requireFeaturedImage(post, 'event'),
-      imageAlt: featuredAlt(post),
-      date: post.acf?.event_date || post.date.slice(0, 10),
-      body: cleanHtml(post.content?.rendered ?? ''),
-    })),
+    (await wpFetchAll<WpPost<EventAcf>>('events')).map((post) => {
+      const startDate = acfDate(post.acf?.start_date) ?? post.date.slice(0, 10);
+      const endDate = acfDate(post.acf?.end_date);
+      return {
+        id: post.slug,
+        title: decodeEntities(post.title.rendered),
+        description: plainText(post.excerpt?.rendered ?? ''),
+        startDate,
+        endDate,
+        status: eventStatus(startDate, endDate),
+        image: requireFeaturedImage(post, 'event'),
+        imageAlt: featuredAlt(post),
+        body: cleanHtml(post.content?.rendered ?? ''),
+      };
+    }),
   schema: z.object({
     title: z.string(),
-    period: z.string(),
     description: z.string(),
+    startDate: z.string(),
+    endDate: z.string().optional(),
     status: z.enum(['open', 'ongoing', 'completed']),
     image,
     imageAlt: z.string(),
-    date: z.string(),
     body: z.string(),
   }),
 });

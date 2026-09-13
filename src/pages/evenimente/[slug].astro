@@ -4,7 +4,7 @@ import Article from '../../layouts/Article.astro';
 import Cluster from '../../layouts/primitives/Cluster.astro';
 import StatusBadge from '../../components/StatusBadge';
 import Pill from '../../components/Pill';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import { getLangFromUrl, useTranslations, localizePath, formatPeriod } from '../../i18n';
 
 export const getStaticPaths = async () =>
   (await getCollection('events')).map((event) => ({ params: { slug: event.id }, props: { event } }));
@@ -28,7 +28,7 @@ const statusLabel = {
   back={{ label: t('events.back'), href: localizePath('/#evenimente', lang) }}
 >
   <Cluster slot="meta" gap="sm">
-    <Pill variant="label">{event.data.period}</Pill>
+    <Pill variant="label">{formatPeriod(event.data.startDate, event.data.endDate, lang)}</Pill>
     <StatusBadge status={event.data.status} label={statusLabel} className="bg-surface-subtle" />
   </Cluster>
 </Article>

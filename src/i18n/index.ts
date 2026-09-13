@@ -47,3 +47,16 @@ const locales: Record<Lang, string> = { ro: 'ro-RO' };
 
 export const formatDate = (isoDate: string, lang: Lang): string =>
   new Intl.DateTimeFormat(locales[lang], { dateStyle: 'long' }).format(new Date(isoDate));
+
+const capitalize = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1);
+
+const formatMonthYear = (isoDate: string, lang: Lang): string =>
+  capitalize(
+    new Intl.DateTimeFormat(locales[lang], { month: 'long', year: 'numeric' }).format(new Date(isoDate)),
+  );
+
+export const formatPeriod = (startDate: string, endDate: string | undefined, lang: Lang): string => {
+  const start = formatMonthYear(startDate, lang);
+  const end = endDate ? formatMonthYear(endDate, lang) : start;
+  return start === end ? start : `${start} - ${end}`;
+};

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n';
+import { getLangFromUrl, useTranslations, localizePath, formatPeriod } from '../../i18n';
 import type { EventStatus } from '../types';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -12,7 +12,9 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const events = (await getCollection('events')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const events = (await getCollection('events')).sort((a, b) =>
+  b.data.startDate.localeCompare(a.data.startDate),
+);
 
 const statusLabels: Record<EventStatus, string> = {
   open: t('events.status.open'),
@@ -41,7 +43,7 @@ const statusLabels: Record<EventStatus, string> = {
               <CarouselSlide id="events" index={i + 1}>
                 <EventCard
                   title={event.data.title}
-                  period={event.data.period}
+                  period={formatPeriod(event.data.startDate, event.data.endDate, lang)}
                   description={event.data.description}
                   image={event.data.image}
                   imageAlt={event.data.imageAlt}

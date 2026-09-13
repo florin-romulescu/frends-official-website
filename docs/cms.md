@@ -44,7 +44,8 @@ Admin: <http://localhost:8080/wp-admin> (user/password from `.env`). In the proj
 2. `git clone` into `/opt/frends-website`, `cd wordpress`, `cp .env.example .env` and fill in: passwords, `CMS_DOMAIN=cms.frends.ro`, `WP_HOME=https://cms.frends.ro`, `ASTRO_SITE_URL=https://frends.ro`, `BUILD_HOOK_URL` (see below).
 3. `docker compose --profile prod up -d` — Caddy obtains the certificate; then `./setup.sh`.
 4. Updates: `git pull && docker compose --profile prod pull && docker compose --profile prod up -d`, once a month. WordPress applies minor core updates on its own.
-5. Backups: `cp backup/.env.backup.example backup/.env.backup`, fill in the restic repository (S3-compatible: Backblaze B2, Hetzner Storage Box), run `restic init`, then add the cron job from `backup/crontab.example`. Restore with `./backup/restore.sh [snapshot]`.
+5. Cron: `backup/crontab.example` holds the nightly backup and a daily build trigger (so event statuses roll over even without edits).
+6. Backups: `cp backup/.env.backup.example backup/.env.backup`, fill in the restic repository (S3-compatible: Backblaze B2, Hetzner Storage Box), run `restic init`, then add the cron job from `backup/crontab.example`. Restore with `./backup/restore.sh [snapshot]`.
 
 The only data that cannot be regenerated is the database and `wp-content/uploads`. Everything else (theme, plugin, ACF schema) is in git.
 
@@ -56,7 +57,7 @@ The only data that cannot be regenerated is the database and `wp-content/uploads
 
 Every type requires a **featured image** — the build stops with a clear message if one is missing. Also fill in "Text alternativ pentru imaginea principală" (or the file's alt text in Media).
 
-- **Event**: title, excerpt (shown on the card), content (detail page), *Perioadă*, *Stare* (open / ongoing / completed), *Data de început* (used for ordering).
+- **Event**: title, excerpt (shown on the card), content (detail page), *Data de început* and optional *Data de sfârșit*. The status badge and the period label are derived from the dates at build time: before the start → "Înregistrări deschise", between start and end → "În desfășurare", after the end → "Terminat" (a missing end date means a one-day event). Because statuses depend on the calendar, the cron in `backup/crontab.example` also triggers one build per day.
 - **Project**: title, *Rezumat*, *An*, *Proiect principal* (listed first), content.
 - **Post**: title, excerpt, content, featured image. The publish date is shown on the card.
 - **Partner**: title = name, featured image = logo, *Site*, *Ordine* (ascending).

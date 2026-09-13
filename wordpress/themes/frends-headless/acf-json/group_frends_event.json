@@ -3,60 +3,32 @@
   "title": "Detalii eveniment",
   "fields": [
     {
-      "key": "field_event_period",
-      "label": "Perioadă",
-      "name": "period",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "maxlength": "",
-      "placeholder": "Octombrie 2025 - Aprilie 2026",
-      "prepend": "",
-      "append": ""
-    },
-    {
-      "key": "field_event_status",
-      "label": "Stare",
-      "name": "status",
-      "type": "select",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "choices": {
-        "open": "Înregistrări deschise",
-        "ongoing": "În desfășurare",
-        "completed": "Terminat"
-      },
-      "default_value": "open",
-      "return_format": "value",
-      "multiple": 0,
-      "allow_null": 0,
-      "ui": 0,
-      "ajax": 0,
-      "placeholder": ""
-    },
-    {
-      "key": "field_event_date",
+      "key": "field_event_start_date",
       "label": "Data de început",
-      "name": "event_date",
+      "name": "start_date",
       "type": "date_picker",
-      "instructions": "Folosită pentru ordonare.",
+      "instructions": "Până la această dată evenimentul apare cu „Înregistrări deschise”.",
       "required": 1,
       "conditional_logic": 0,
       "wrapper": {
-        "width": "",
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d/m/Y",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_event_end_date",
+      "label": "Data de sfârșit",
+      "name": "end_date",
+      "type": "date_picker",
+      "instructions": "Între început și sfârșit evenimentul apare „În desfășurare”, apoi „Terminat”. Lasă gol pentru evenimente de o zi.",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
         "class": "",
         "id": ""
       },
@@ -102,5 +74,5 @@
   "active": true,
   "description": "",
   "show_in_rest": 1,
-  "modified": 1789293703
+  "modified": 1789295885
 }
