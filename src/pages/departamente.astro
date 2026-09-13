@@ -1,12 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getLangFromUrl, useTranslations, localizePath } from '../i18n';
-import { site } from '../data/site';
+import { getLangFromUrl, useTranslations } from '../i18n';
 import Section from '../layouts/primitives/Section.astro';
 import Stack from '../layouts/primitives/Stack.astro';
 import Cluster from '../layouts/primitives/Cluster.astro';
 import Departments from '../components/sections/Departments.astro';
-import Button from '../components/Button';
 import Pill from '../components/Pill';
 
 const lang = getLangFromUrl(Astro.url);
@@ -32,17 +30,4 @@ const stats = [
   </Section>
 
   <Departments />
-
-  <Section space="md" band="sky">
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-      <Stack gap="sm">
-        <h2 class="text-h3">{t('departments.ctaTitle')}</h2>
-        <p class="max-w-[43.75rem] text-body text-ink-secondary">{t('departments.ctaLede')}</p>
-      </Stack>
-
-      <Button href={localizePath(site.volunteerUrl, lang)} className="shrink-0">
-        {t('nav.volunteer')}
-      </Button>
-    </div>
-  </Section>
 </Base>
