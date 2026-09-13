@@ -31,6 +31,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Require settings
+        run: |
+          test -n "${{ vars.CMS_HOST }}" || { echo "repository variable CMS_HOST is not set"; exit 1; }
+          test -n "${{ secrets.CMS_SSH_KEY }}" || { echo "secret CMS_SSH_KEY is not set"; exit 1; }
+          test -n "${{ secrets.CMS_SSH_KNOWN_HOSTS }}" || { echo "secret CMS_SSH_KNOWN_HOSTS is not set"; exit 1; }
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
