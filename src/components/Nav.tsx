@@ -2,9 +2,10 @@ import type { NavItem } from './types';
 
 interface Props {
   items: NavItem[];
+  caret: string;
 }
 
-const Nav = ({ items }: Props) => {
+const Nav = ({ items, caret }: Props) => {
   return (
     <ul className="hidden items-center gap-1.5 lg:flex">
       {items.map((item) => (
@@ -21,7 +22,7 @@ const Nav = ({ items }: Props) => {
             {item.label}
             {item.children && (
               <img
-                src="/icons/caret.svg"
+                src={caret}
                 alt=""
                 width={10}
                 height={6}

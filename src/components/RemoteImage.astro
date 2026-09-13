@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { ResolvedImage } from './types';
+
+interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'srcset' | 'width' | 'height'> {
+  image: ResolvedImage;
+  alt: string;
+}
+
+const { image, alt, loading = 'lazy', decoding = 'async', ...rest } = Astro.props;
+---
+<img
+  src={image.src}
+  srcset={image.srcSet}
+  width={image.width}
+  height={image.height}
+  alt={alt}
+  loading={loading}
+  decoding={decoding}
+  {...rest}
+/>

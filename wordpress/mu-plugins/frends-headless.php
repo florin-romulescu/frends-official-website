@@ -140,4 +140,23 @@ add_filter('rest_endpoints', static function (array $endpoints): array {
     return $endpoints;
 });
 
+function frends_can_upload_svg(): bool
+{
+    return current_user_can('manage_options') || (defined('WP_CLI') && WP_CLI);
+}
+
+add_filter('upload_mimes', static function (array $mimes): array {
+    if (frends_can_upload_svg()) {
+        $mimes['svg'] = 'image/svg+xml';
+    }
+    return $mimes;
+});
+
+add_filter('wp_check_filetype_and_ext', static function (array $data, string $file, string $filename): array {
+    if (str_ends_with(strtolower($filename), '.svg') && frends_can_upload_svg()) {
+        return ['ext' => 'svg', 'type' => 'image/svg+xml', 'proper_filename' => $data['proper_filename'] ?? false];
+    }
+    return $data;
+}, 10, 3);
+
 add_filter('login_errors', static fn(): string => 'Date de autentificare incorecte.');

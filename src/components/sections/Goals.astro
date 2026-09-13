@@ -1,13 +1,18 @@
 ---
-import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
-import goalsBg from '../../assets/img/goals-bg.jpg';
+import { getSiteImage } from '../../data/images';
+import RemoteImage from '../RemoteImage.astro';
 import Section from '../../layouts/primitives/Section.astro';
 import GoalCard from '../GoalCard';
 import Pill from '../Pill';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const [background, logoMark] = await Promise.all([
+  getSiteImage('goals_background'),
+  getSiteImage('logo_mark'),
+]);
 
 const goals = [
   t('goals.1'),
@@ -19,14 +24,12 @@ const goals = [
 ];
 ---
 <Section id="obiective" space="sm" band="sky" width="wide">
-  <Image
+  <RemoteImage
     slot="background"
-    src={goalsBg}
+    image={background}
     alt=""
-    widths={[768, 1280, 1660]}
     sizes="100vw"
     class="absolute inset-0 size-full object-cover opacity-20"
-    loading="lazy"
   />
 
   <div class="grid items-start justify-items-center gap-5 xl:grid-cols-2 xl:gap-y-10">
@@ -49,7 +52,7 @@ const goals = [
     </ol>
 
     <img
-      src="/icons/logo-mark.svg"
+      src={logoMark.src}
       alt=""
       width={220}
       height={120}

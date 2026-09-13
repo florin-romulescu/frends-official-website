@@ -1,8 +1,7 @@
 ---
-import { getImage } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizePath, localizeHref, isExternal } from '../../i18n';
 import { getSite } from '../../data/site';
-import heroPhoto from '../../assets/img/hero-group.jpg';
+import { getSiteImage } from '../../data/images';
 import Section from '../../layouts/primitives/Section.astro';
 import Split from '../../layouts/primitives/Split.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -15,19 +14,7 @@ import Pill from '../Pill';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const site = await getSite();
-
-const optimized = await getImage({
-  src: heroPhoto,
-  widths: [480, 768, 1024, 1400],
-  sizes: '(width >= 80rem) 50vw, 100vw',
-});
-
-const photo = {
-  src: optimized.src,
-  srcSet: optimized.srcSet.attribute || undefined,
-  width: optimized.attributes.width,
-  height: optimized.attributes.height,
-};
+const [photo, helpIcon] = await Promise.all([getSiteImage('hero_photo'), getSiteImage('icon_help')]);
 ---
 <Section id="acasa" space="md">
   <Split at="xl" gap="xl">
@@ -44,7 +31,7 @@ const photo = {
       </Cluster>
     </Stack>
 
-    <PhotoCard image={photo} imageAlt={t('hero.photoAlt')} shape="landscape" priority>
+    <PhotoCard image={photo} imageAlt={photo.alt} shape="landscape" priority>
       <PhotoCardSlot corner="top-left">
         <Pill variant="caption">{t('hero.photoCaption')}</Pill>
       </PhotoCardSlot>
@@ -53,7 +40,7 @@ const photo = {
         <p
           class="flex max-w-[280px] items-center gap-2.5 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:p-6"
         >
-          <img src="/icons/help.png" alt="" width={36} height={36} class="size-9 shrink-0" />
+          <img src={helpIcon.src} alt="" width={36} height={36} class="size-9 shrink-0" />
           <span>{t('hero.statCard')}</span>
         </p>
       </PhotoCardSlot>

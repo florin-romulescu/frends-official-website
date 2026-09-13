@@ -1,12 +1,15 @@
 ---
 import { getLangFromUrl, useTranslations, localizePath, localizeHref } from '../i18n';
 import { getSite } from '../data/site';
+import { getSiteImage } from '../data/images';
+import { socialIcons } from '../data/social';
 import Footer from './Footer';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const site = await getSite();
+const [logo, icons] = await Promise.all([getSiteImage('logo_footer'), socialIcons()]);
 
 const items = [
   ...site.footerNav.map((entry) => ({ label: t(entry.key), href: localizePath(entry.path, lang) })),
@@ -22,6 +25,8 @@ const items = [
       addressLines={site.addressLines}
       items={items}
       social={site.social}
+      logo={logo.src}
+      socialIcons={icons}
       labels={{
         brand: site.name,
         links: t('footer.links'),

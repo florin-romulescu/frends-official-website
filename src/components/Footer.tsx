@@ -8,6 +8,8 @@ interface Props {
   addressLines: string[];
   items: NavItem[];
   social: LinkProps[];
+  logo: string;
+  socialIcons: Record<string, string>;
   labels: {
     brand: string;
     links: string;
@@ -25,6 +27,8 @@ const Footer = ({
   addressLines,
   items,
   social,
+  logo,
+  socialIcons,
   labels,
   year,
 }: Props) => {
@@ -32,7 +36,7 @@ const Footer = ({
     <div className="py-14">
       <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <img src="/icons/logo-footer.svg" alt={labels.brand} width={116} height={48} className="h-10 w-auto" />
+          <img src={logo} alt={labels.brand} width={116} height={48} className="h-10 w-auto" />
           <p className="mt-4 max-w-[330px] text-body-sm text-ink-muted">{tagline}</p>
         </div>
 
@@ -84,7 +88,7 @@ const Footer = ({
         <p className="text-caption text-ink-muted">
           © {year} {labels.brand}. {labels.rights}
         </p>
-        <SocialLinks links={social} />
+        <SocialLinks links={social} icons={socialIcons} />
       </div>
     </div>
   );

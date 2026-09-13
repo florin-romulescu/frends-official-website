@@ -1,7 +1,6 @@
 ---
-import { getImage } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
-import heroPhoto from '../../assets/img/community-hero.jpg';
+import { getSiteImage } from '../../data/images';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import PhotoCard from '../PhotoCard';
@@ -11,19 +10,7 @@ import StatusBadge from '../StatusBadge';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-const optimized = await getImage({
-  src: heroPhoto,
-  widths: [480, 768, 1024, 1400],
-  sizes: '(width >= 80rem) 57vw, 100vw',
-});
-
-const photo = {
-  src: optimized.src,
-  srcSet: optimized.srcSet.attribute || undefined,
-  width: optimized.attributes.width,
-  height: optimized.attributes.height,
-};
+const photo = await getSiteImage('community_hero');
 ---
 <Section space="md">
   <div class="grid gap-8 xl:grid-cols-[4fr_3fr] xl:items-start xl:gap-14">
@@ -36,7 +23,7 @@ const photo = {
 
     <PhotoCard
       image={photo}
-      imageAlt={t('community.heroAlt')}
+      imageAlt={photo.alt}
       shape="wide"
       priority
       className="xl:order-first"

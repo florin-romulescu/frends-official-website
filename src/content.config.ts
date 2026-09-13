@@ -6,6 +6,8 @@ import {
   decodeEntities,
   featuredAlt,
   featuredImage,
+  fetchMedia,
+  mediaImage,
   plainText,
   requireFeaturedImage,
   wpFetchAll,
@@ -44,7 +46,36 @@ interface PartnerAcf {
   order?: number | string;
 }
 
-interface SettingsAcf {
+export const imageSlots = [
+  'header_sky',
+  'hero_photo',
+  'about_photo',
+  'goals_background',
+  'impact_greenup',
+  'impact_poster',
+  'impact_event',
+  'community_hero',
+  'community_comedy',
+  'community_univibes',
+  'community_band_background',
+  'community_steps_background',
+  'projects_banner',
+  'logo',
+  'logo_footer',
+  'logo_mark',
+  'icon_facebook',
+  'icon_instagram',
+  'icon_tiktok',
+  'icon_caret',
+  'icon_arrow',
+  'icon_help',
+] as const;
+
+export type ImageSlot = (typeof imageSlots)[number];
+
+type ImageSlotAcf = Partial<Record<ImageSlot, number | string | null>>;
+
+interface SettingsAcf extends ImageSlotAcf {
   org_name: string;
   short_name: string;
   email: string;
@@ -148,16 +179,20 @@ const partners = defineCollection({
   }),
 });
 
+const fetchSettings = async (): Promise<SettingsAcf> => {
+  const [entry] = await wpFetchAll<WpPost<SettingsAcf>>('site-settings', {
+    per_page: '1',
+    orderby: 'modified',
+  });
+  if (!entry?.acf) {
+    throw new Error('WordPress has no published "Setări site" entry. Create one under Setări site.');
+  }
+  return entry.acf;
+};
+
 const settings = defineCollection({
   loader: async () => {
-    const [entry] = await wpFetchAll<WpPost<SettingsAcf>>('site-settings', {
-      per_page: '1',
-      orderby: 'modified',
-    });
-    if (!entry?.acf) {
-      throw new Error('WordPress has no published "Setări site" entry. Create one under Setări site.');
-    }
-    const acf = entry.acf;
+    const acf = await fetchSettings();
     const social = [
       { label: 'Facebook', href: acf.social_facebook },
       { label: 'Instagram', href: acf.social_instagram },
@@ -188,4 +223,20 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { events, projects, blog, partners, settings };
+const images = defineCollection({
+  loader: async () => {
+    const acf = await fetchSettings();
+    const assigned = imageSlots
+      .map((slot) => ({ slot, id: Number(acf[slot] ?? 0) }))
+      .filter(({ id }) => id > 0);
+    const media = await fetchMedia(assigned.map(({ id }) => id));
+
+    return assigned.flatMap(({ slot, id }) => {
+      const item = media.get(id);
+      return item ? [{ id: slot, ...mediaImage(item), alt: item.alt_text ?? '' }] : [];
+    });
+  },
+  schema: image.extend({ alt: z.string() }),
+});
+
+export const collections = { events, projects, blog, partners, settings, images };

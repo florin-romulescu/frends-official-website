@@ -1,18 +1,19 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import ProjectCard from '../../components/ProjectCard';
 import Button from '../../components/Button';
-import banner from '../../assets/img/projects-banner.jpg';
+import RemoteImage from '../../components/RemoteImage.astro';
 import { getSite } from '../../data/site';
+import { getSiteImage } from '../../data/images';
 import { getLangFromUrl, useTranslations, localizePath, localizeHref, isExternal } from '../../i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const site = await getSite();
+const banner = await getSiteImage('projects_banner');
 
 const projects = (await getCollection('projects')).sort(
   (a, b) =>
@@ -27,10 +28,9 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
   <Section space="md">
     <Stack gap="xl">
       <div class="relative overflow-hidden rounded-media bg-surface">
-        <Image
-          src={banner}
+        <RemoteImage
+          image={banner}
           alt=""
-          widths={[768, 1280, 1660]}
           sizes="100vw"
           class="absolute inset-0 size-full object-cover opacity-15"
           loading="eager"

@@ -1,15 +1,16 @@
 ---
-import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizeHref, isExternal } from '../../i18n';
 import { getSite } from '../../data/site';
+import { getSiteImage } from '../../data/images';
 import { steps } from '../../data/steps';
-import stepsBg from '../../assets/img/community-steps-bg.jpg';
+import RemoteImage from '../RemoteImage.astro';
 import Section from '../../layouts/primitives/Section.astro';
 import StepCard from '../StepCard';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const site = await getSite();
+const background = await getSiteImage('community_steps_background');
 
 const resolveHref = (href: 'volunteer' | `/${string}`) =>
   localizeHref(href === 'volunteer' ? site.volunteerUrl : href, lang);
@@ -26,13 +27,11 @@ const cards = steps.map((step) => ({
 ---
 <Section id="pasi" space="md">
   <div class="relative overflow-hidden rounded-panel bg-surface">
-    <Image
-      src={stepsBg}
+    <RemoteImage
+      image={background}
       alt=""
-      widths={[768, 1280, 1660]}
       sizes="100vw"
       class="absolute inset-0 size-full object-cover opacity-15"
-      loading="lazy"
     />
     <div class="relative flex flex-col gap-10 px-6 py-10 lg:gap-14 lg:px-16 lg:py-14">
       <h2 class="text-h2 text-center">{t('community.stepsTitle')}</h2>

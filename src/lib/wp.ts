@@ -15,9 +15,10 @@ export interface WpMedia {
   id: number;
   alt_text: string;
   source_url: string;
+  mime_type?: string;
   media_details?: {
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     sizes?: Record<string, WpMediaSize>;
   };
 }
@@ -53,12 +54,10 @@ export const wpFetchAll = async <T>(
   const items: T[] = [];
   for (let page = 1; ; page++) {
     const url = new URL(`${base}/wp-json/wp/v2/${resource}`);
-    url.search = new URLSearchParams({
-      per_page: '100',
-      _embed: 'wp:featuredmedia',
-      ...params,
-      page: String(page),
-    }).toString();
+    const query = { per_page: '100', _embed: 'wp:featuredmedia', ...params, page: String(page) };
+    url.search = new URLSearchParams(
+      Object.entries(query).filter(([, value]) => value !== ''),
+    ).toString();
 
     const response = await fetch(url).catch((error: unknown) => {
       throw new Error(
@@ -110,14 +109,14 @@ export const featuredMedia = (post: WpPost<object>): WpMedia | undefined => {
   return media && 'source_url' in media ? media : undefined;
 };
 
-export const featuredImage = (post: WpPost<object>): ResolvedImage | undefined => {
-  const media = featuredMedia(post);
-  if (!media?.media_details) return undefined;
-
-  const { width, height, sizes = {} } = media.media_details;
-  const candidates = Object.values(sizes)
-    .filter((size) => size.width && size.height && isSameShape(size, { width, height }))
-    .sort((a, b) => a.width - b.width);
+export const mediaImage = (media: WpMedia): ResolvedImage => {
+  const { width, height, sizes = {} } = media.media_details ?? {};
+  const candidates =
+    width && height
+      ? Object.values(sizes)
+          .filter((size) => size.width && size.height && isSameShape(size, { width, height }))
+          .sort((a, b) => a.width - b.width)
+      : [];
 
   return {
     src: media.source_url,
@@ -125,6 +124,22 @@ export const featuredImage = (post: WpPost<object>): ResolvedImage | undefined =
     width,
     height,
   };
+};
+
+export const featuredImage = (post: WpPost<object>): ResolvedImage | undefined => {
+  const media = featuredMedia(post);
+  return media?.media_details ? mediaImage(media) : undefined;
+};
+
+export const fetchMedia = async (ids: number[]): Promise<Map<number, WpMedia>> => {
+  const unique = [...new Set(ids.filter(Boolean))];
+  if (!unique.length) return new Map();
+  const media = await wpFetchAll<WpMedia>('media', {
+    include: unique.join(','),
+    _embed: '',
+    _fields: 'id,alt_text,source_url,mime_type,media_details',
+  });
+  return new Map(media.map((item) => [item.id, item]));
 };
 
 export const requireFeaturedImage = (post: WpPost<object>, type: string): ResolvedImage => {

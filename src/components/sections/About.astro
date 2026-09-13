@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
-import aboutPhoto from '../../assets/img/about-group.jpg';
+import { getSiteImage } from '../../data/images';
+import RemoteImage from '../RemoteImage.astro';
 import Section from '../../layouts/primitives/Section.astro';
 import Split from '../../layouts/primitives/Split.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -12,6 +12,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const tags = [t('about.tag1'), t('about.tag2'), t('about.tag3')];
+const photo = await getSiteImage('about_photo');
 ---
 <Section id="despre" space="lg">
   <Split at="xl" gap="xl" reverse>
@@ -25,13 +26,11 @@ const tags = [t('about.tag1'), t('about.tag2'), t('about.tag3')];
     </Stack>
 
     <figure class="relative">
-      <Image
-        src={aboutPhoto}
-        alt={t('about.photoAlt')}
-        widths={[480, 768, 1024, 1400]}
+      <RemoteImage
+        image={photo}
+        alt={photo.alt}
         sizes="(width >= 80rem) 50vw, 100vw"
         class="aspect-[699/560] w-full rounded-panel object-cover"
-        loading="lazy"
       />
       <figcaption>
         <Pill variant="caption" className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6">

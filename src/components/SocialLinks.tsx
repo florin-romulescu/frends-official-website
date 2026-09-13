@@ -2,15 +2,10 @@ import type { BaseProp, LinkProps } from './types';
 
 interface Props extends BaseProp {
   links: LinkProps[];
+  icons: Record<string, string>;
 }
 
-const icons: Record<string, string> = {
-  Facebook: '/icons/facebook.svg',
-  Instagram: '/icons/instagram.svg',
-  TikTok: '/icons/tiktok.svg',
-};
-
-const SocialLinks = ({ links, className = '' }: Props) => {
+const SocialLinks = ({ links, icons, className = '' }: Props) => {
   return (
     <ul className={`flex items-center gap-3 ${className}`}>
       {links.map((link) => (
@@ -23,7 +18,7 @@ const SocialLinks = ({ links, className = '' }: Props) => {
           >
             <span className="sr-only">{link.label}</span>
             <img
-              src={icons[link.label] ?? '/icons/facebook.svg'}
+              src={icons[link.label]}
               alt=""
               width={20}
               height={20}

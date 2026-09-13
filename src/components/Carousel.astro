@@ -1,4 +1,6 @@
 ---
+import { getSiteImage } from '../data/images';
+
 interface Props {
   label: string;
   id: string;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const { label, id, count, labels }: Props = Astro.props;
+const arrow = await getSiteImage('icon_arrow');
 
 const slideId = (n: number) => `${id}-slide-${n}`;
 
@@ -21,7 +24,7 @@ const arrowClass =
   <div class="flex items-stretch gap-4">
     <a href={`#${slideId(1)}`} class={arrowClass}>
       <span class="sr-only">{labels.first}</span>
-      <img src="/icons/arrow.png" alt="" width={32} height={32} class="size-8 rotate-180" />
+      <img src={arrow.src} alt="" width={32} height={32} class="size-8 rotate-180" />
     </a>
 
     <ul
@@ -35,7 +38,7 @@ const arrowClass =
 
     <a href={`#${slideId(count)}`} class={arrowClass}>
       <span class="sr-only">{labels.last}</span>
-      <img src="/icons/arrow.png" alt="" width={32} height={32} class="size-8" />
+      <img src={arrow.src} alt="" width={32} height={32} class="size-8" />
     </a>
   </div>
 

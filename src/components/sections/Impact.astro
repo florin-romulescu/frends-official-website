@@ -1,9 +1,6 @@
 ---
-import { getImage } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n';
-import greenup from '../../assets/img/impact-greenup.jpg';
-import poster from '../../assets/img/impact-poster.jpg';
-import event from '../../assets/img/impact-event.jpg';
+import { getSiteImage } from '../../data/images';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import Grid from '../../layouts/primitives/Grid.astro';
@@ -16,42 +13,24 @@ const t = useTranslations(lang);
 
 const projects = [
   {
-    image: greenup,
-    imageAlt: 'Voluntar FRENDS plantând un puiet într-o pădure',
+    slot: 'impact_greenup',
     stats: ['4,000+ puieți plantați', 'Green Up'],
   },
   {
-    image: poster,
-    imageAlt: 'Vizitatori la standurile evenimentului Fii Artă',
+    slot: 'impact_poster',
     stats: ['200+ artiști expuși', 'Fii Artă'],
     caption: 'Eveniment cultural',
   },
   {
-    image: event,
-    imageAlt: 'Voluntari FRENDS la târgul de ONG-uri',
+    slot: 'impact_event',
     stats: ['500+ participanți', 'Fii Voluntar'],
     caption:
       'Târg de ONG-uri și activități interactive pentru promovarea voluntariatului în rândul publicului larg.',
   },
-];
+] as const;
 
 const cards = await Promise.all(
-  projects.map(async (project) => {
-    const optimized = await getImage({
-      src: project.image,
-      widths: [409, 818],
-      sizes: '(width >= 80rem) 26rem, (width >= 40rem) 45vw, 90vw',
-    });
-    return {
-      ...project,
-      resolved: {
-        src: optimized.src,
-        srcSet: optimized.srcSet.attribute || undefined,
-        width: optimized.attributes.width,
-        height: optimized.attributes.height,
-      },
-    };
-  }),
+  projects.map(async (project) => ({ ...project, image: await getSiteImage(project.slot) })),
 );
 ---
 <Section id="impact" space="lg">
@@ -65,13 +44,13 @@ const cards = await Promise.all(
       {
         cards.map((project) => (
           <li>
-            <PhotoCard image={project.resolved} imageAlt={project.imageAlt}>
+            <PhotoCard image={project.image} imageAlt={project.image.alt}>
               <PhotoCardSlot corner="top-left">
                 {project.stats.map((stat) => (
                   <Pill variant="stat">{stat}</Pill>
                 ))}
               </PhotoCardSlot>
-              {project.caption && (
+              {'caption' in project && (
                 <PhotoCardSlot corner="bottom-left">
                   <Pill variant="note" className="text-left">
                     {project.caption}
