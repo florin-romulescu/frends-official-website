@@ -3,17 +3,11 @@ name: Deploy site
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - wordpress/**
-      - .github/workflows/deploy-cms.yml
   workflow_dispatch:
 
 concurrency:
   group: deploy-site
   cancel-in-progress: true
-
-env:
-  WP_API_URL: https://cms.frends.ro
 
 jobs:
   deploy:

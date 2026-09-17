@@ -18,9 +18,10 @@ const navigation = siteJson as SiteNav;
 export const getSite = async () => {
   const settings = await getEntry('settings', 'site');
   if (!settings) {
-    throw new Error('Site settings were not loaded from WordPress.');
+    throw new Error('src/content/settings/site.json is missing.');
   }
-  return { ...settings.data, ...navigation };
+  const { images, ...data } = settings.data;
+  return { ...data, ...navigation };
 };
 
 export type SiteData = Awaited<ReturnType<typeof getSite>>;

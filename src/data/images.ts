@@ -7,11 +7,10 @@ export interface SiteImage extends ResolvedImage {
 }
 
 export const getSiteImage = async (slot: ImageSlot): Promise<SiteImage> => {
-  const entry = await getEntry('images', slot);
-  if (!entry) {
-    throw new Error(
-      `Image slot "${slot}" is empty. Assign it in WordPress → Setări site → Imagini și logo-uri.`,
-    );
+  const settings = await getEntry('settings', 'site');
+  const image = settings?.data.images[slot];
+  if (!image) {
+    throw new Error(`Image slot "${slot}" is empty. Add it to src/content/settings/site.json.`);
   }
-  return entry.data;
+  return { ...image.src, alt: image.alt };
 };

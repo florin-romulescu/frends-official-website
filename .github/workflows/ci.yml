@@ -5,9 +5,6 @@ on:
   push:
     branches: [main]
 
-env:
-  WP_API_URL: https://cms.frends.ro
-
 jobs:
   verify:
     runs-on: ubuntu-latest

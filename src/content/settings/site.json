@@ -1,0 +1,112 @@
+{
+  "name": "Asociația FRENDS Pentru Dezvoltare",
+  "shortName": "FRENDS",
+  "email": "office@frends.ro",
+  "phone": "031 437 7727",
+  "addressLines": [
+    "Bulevardul Mihail Kogălniceanu, nr. 39",
+    "Scara A, etaj 3, ap. 6",
+    "Sector 5, București, România"
+  ],
+  "volunteerUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfaYHEtT6_gOOBjs9iFaVdx1R6a7FGw2FzBSYKQs5pgQeSUNw/viewform",
+  "social": [
+    {
+      "label": "Facebook",
+      "href": "https://facebook.com/"
+    },
+    {
+      "label": "Instagram",
+      "href": "https://instagram.com/"
+    },
+    {
+      "label": "TikTok",
+      "href": "https://tiktok.com/"
+    }
+  ],
+  "images": {
+    "header_sky": {
+      "src": "../../assets/site/sky.avif",
+      "alt": ""
+    },
+    "hero_photo": {
+      "src": "../../assets/site/hero-photo.avif",
+      "alt": ""
+    },
+    "about_photo": {
+      "src": "../../assets/site/about-group.avif",
+      "alt": "Voluntarii FRENDS într-o sală de conferință la evenimentul din Predeal"
+    },
+    "goals_background": {
+      "src": "../../assets/site/goals-bg.avif",
+      "alt": ""
+    },
+    "impact_greenup": {
+      "src": "../../assets/site/impact-greenup-1.avif",
+      "alt": "Voluntar FRENDS plantând un puiet într-o pădure"
+    },
+    "impact_poster": {
+      "src": "../../assets/site/impact-event.avif",
+      "alt": "Voluntari FRENDS într-un training de grup"
+    },
+    "impact_event": {
+      "src": "../../assets/site/impact-poster-1.avif",
+      "alt": "Vizitatori la standurile evenimentului Fii Artă"
+    },
+    "community_hero": {
+      "src": "../../assets/site/events-bg.avif",
+      "alt": "Voluntari FRENDS la standul de înscrieri"
+    },
+    "community_comedy": {
+      "src": "../../assets/site/community-comedy-1.avif",
+      "alt": "Scena Comedy Point la evenimentul Râsete la orice vârstă"
+    },
+    "community_univibes": {
+      "src": "../../assets/site/community-univibes-1.avif",
+      "alt": "Voluntari FRENDS la standul UniVibes discutând cu participanții"
+    },
+    "community_band_background": {
+      "src": "../../assets/site/community-band-bg.avif",
+      "alt": ""
+    },
+    "community_steps_background": {
+      "src": "../../assets/site/community-steps-bg.avif",
+      "alt": ""
+    },
+    "projects_banner": {
+      "src": "../../assets/site/projects-banner.avif",
+      "alt": ""
+    },
+    "logo": {
+      "src": "../../assets/site/logo.svg",
+      "alt": "FRENDS"
+    },
+    "logo_footer": {
+      "src": "../../assets/site/logo-footer.svg",
+      "alt": "FRENDS"
+    },
+    "logo_mark": {
+      "src": "../../assets/site/logo-mark.svg",
+      "alt": ""
+    },
+    "icon_facebook": {
+      "src": "../../assets/site/facebook.svg",
+      "alt": ""
+    },
+    "icon_instagram": {
+      "src": "../../assets/site/instagram.svg",
+      "alt": ""
+    },
+    "icon_tiktok": {
+      "src": "../../assets/site/tiktok.svg",
+      "alt": ""
+    },
+    "icon_caret": {
+      "src": "../../assets/site/caret.svg",
+      "alt": ""
+    },
+    "icon_help": {
+      "src": "../../assets/site/help.avif",
+      "alt": ""
+    }
+  }
+}

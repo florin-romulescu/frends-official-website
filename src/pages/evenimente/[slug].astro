@@ -24,7 +24,7 @@ const statusLabel = {
   description={event.data.description}
   image={event.data.image}
   imageAlt={event.data.imageAlt}
-  body={event.data.body}
+  body={event.body ?? ''}
   back={{ label: t('events.back'), href: localizePath('/#evenimente', lang) }}
 >
   <Cluster slot="meta" gap="sm">

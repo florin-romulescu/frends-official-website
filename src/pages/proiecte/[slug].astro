@@ -107,7 +107,7 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
           }
         </div>
 
-        <BlockContent html={data.body} class="prose-a:text-(--accent)" />
+        <BlockContent html={project.body ?? ''} class="prose-a:text-(--accent)" />
       </Stack>
     </Section>
 
@@ -123,7 +123,7 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
             <Grid as="ul" min="20rem" gap="lg">
               {data.impact.map((card) => (
                 <li>
-                  <PhotoCard image={card.photo} imageAlt={card.photo.alt}>
+                  <PhotoCard image={card.photo} imageAlt={card.photoAlt}>
                     <PhotoCardSlot corner="top-left">
                       <Pill variant="stat">{card.stat}</Pill>
                       {card.label && <Pill variant="stat">{card.label}</Pill>}

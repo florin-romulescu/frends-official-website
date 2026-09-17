@@ -15,7 +15,7 @@ const t = useTranslations(lang);
   description={post.data.excerpt}
   image={post.data.image}
   imageAlt={post.data.imageAlt}
-  body={post.data.body}
+  body={post.body ?? ''}
   back={{ label: t('blog.back'), href: localizePath('/blog', lang) }}
 >
   <time slot="meta" datetime={post.data.date} class="text-body text-ink-muted">

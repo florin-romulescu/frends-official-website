@@ -1,2 +1,0 @@
-30 3 * * * cd /opt/frends-website/wordpress && ./backup/backup.sh >> /var/log/frends-backup.log 2>&1
-0 4 * * * . /opt/frends-website/wordpress/.env && [ -n "$BUILD_HOOK_URL" ] && curl -fsS -X POST "$BUILD_HOOK_URL" >/dev/null

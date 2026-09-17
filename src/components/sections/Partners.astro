@@ -32,8 +32,8 @@ const partners = (await getCollection('partners'))
                 >
                   <img
                     src={data.logo!.src}
-                    srcset={data.logo!.srcSet}
-                    sizes="8rem"
+                    width={data.logo!.width}
+                    height={data.logo!.height}
                     alt={data.name}
                     loading="lazy"
                     decoding="async"

@@ -1,6 +1,6 @@
 # Frends website
 
-Landing page + blog for Frends. Astro 7 (static) · React 19 components · WordPress (headless) · Cloudflare Workers.
+Landing page + blog for Frends. Astro 7 (static) · React 19 components · content in git · Cloudflare Workers.
 
 ## Requirements
 
@@ -15,7 +15,6 @@ Node ≥ 22.12 (see `.nvmrc`) and pnpm.
 | `pnpm preview` | Serve the built output |
 | `pnpm check` | Astro + TypeScript diagnostics |
 | `pnpm budget` | Fail if any route ships unbudgeted JavaScript |
-| `pnpm images` | Downscale source photos in `src/assets/img` after a Figma export |
 | `pnpm verify` | `check` + `build` + `budget` — what CI runs |
 
 ## Architecture notes
@@ -40,16 +39,21 @@ would have put ~60 KB gzipped of React runtime on every page of the site.
 - `src/layouts/Base.astro` — html shell, head, font preloads, skip link.
 - `src/styles/global.css` — **the design tokens**. See "Design system" below.
 - `src/styles/fonts.css` — generated `@font-face` block for the self-hosted fonts.
-- `src/assets/img/` — source photos, optimized at build time by `astro:assets`.
-- `public/icons/`, `public/fonts/` — assets served as-is (SVG icons, woff2).
+- `src/content/` — **the content**: `blog/`, `events/`, `projects/` (markdown
+  with frontmatter; the body is the article HTML), `partners/*.json`, and
+  `settings/site.json` (organisation details, socials, volunteer URL and the
+  named image slots used by the layout). Schemas live in `src/content.config.ts`.
+- `src/assets/{site,blog,events,projects}/` — images referenced from content
+  frontmatter; `astro:assets` reads their dimensions and hashes them at build.
+- `public/uploads/` — images referenced from inside article bodies, served as-is.
+- `public/fonts/` — self-hosted woff2.
 - `src/i18n/index.ts` — locale detection, translation, path localization.
 - `src/data/i18n/ro.json` — UI strings, and the source of truth for the key set.
   Every dictionary is typed `Record<UIKey, string>`, so when a second locale is
   added a missing key is a **compile error**, not a silent fallback.
-- `src/data/site.json` — site identity, nav, socials, volunteer URL.
-- `src/data/events.ts` — homepage carousel content. A typed module rather than
-  JSON so the image imports go through `astro:assets`; a bare path string would
-  skip optimization and ship the multi-megabyte originals.
+- `src/data/site.json` — header and footer navigation.
+- `src/data/site.ts`, `src/data/images.ts` — typed accessors over
+  `settings/site.json` (`getSite()`, `getSiteImage(slot)`).
 
 **Two React-in-Astro rules to remember:**
 
@@ -179,8 +183,7 @@ The site is served as static assets by a Cloudflare Worker named
 `frends-official-website` (`wrangler.jsonc`). `.github/workflows/deploy-site.yml`
 builds the site and runs `wrangler deploy` on every push to `main` (and on
 manual dispatch), only after `pnpm verify` passes, so a broken build never
-reaches production. Pushes that only touch `wordpress/` are skipped — those go
-through `deploy-cms.yml` instead.
+reaches production.
 
 One-time setup:
 
@@ -196,13 +199,10 @@ One-time setup:
 4. Push to `main` or run the workflow from the Actions tab.
 5. On the Worker → **Domains & Routes**, enable the `workers.dev` URL for a
    quick check, then add `frends.ro` and `www.frends.ro` as custom domains.
-   The apex needs the `frends.ro` zone on Cloudflare DNS; when moving it, keep
-   `cms.frends.ro` DNS-only (grey cloud) so SSH and the CMS's own TLS keep
-   working.
+   The apex needs the `frends.ro` zone on Cloudflare DNS.
 
-Content is fetched from WordPress at build time, so editing a post does not
-change the live site until the workflow runs again. Trigger it from the Actions
-tab, or wire WordPress to call the GitHub API (`workflow_dispatch`) on save.
+Content lives in the repo, so publishing is a commit: merge to `main` and the
+workflow rebuilds and deploys.
 
 ## Still to do
 
