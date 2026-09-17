@@ -41,8 +41,8 @@ jobs:
 
       - run: pnpm verify
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm dlx wrangler@4 pages deploy dist --project-name=frends-official-website --branch=main --commit-dirty=true
+        run: pnpm dlx wrangler@4 deploy

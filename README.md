@@ -1,6 +1,6 @@
 # Frends website
 
-Landing page + blog for Frends. Astro 7 (static) · React 19 components · Sveltia CMS · Cloudflare Pages.
+Landing page + blog for Frends. Astro 7 (static) · React 19 components · WordPress (headless) · Cloudflare Workers.
 
 ## Requirements
 
@@ -173,29 +173,32 @@ The plumbing is still in place, so adding a locale is a contained change:
    `otherLang()` were removed in the single-locale cleanup and are recoverable
    from git history.
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
 
-`.github/workflows/deploy-site.yml` builds the site and uploads `dist/` to
-Cloudflare Pages on every push to `main` (and on manual dispatch). The upload
-only happens after `pnpm verify` passes, so a broken build never reaches
-production. Pushes that only touch `wordpress/` are skipped — those go through
-`deploy-cms.yml` instead.
+The site is served as static assets by a Cloudflare Worker named
+`frends-official-website` (`wrangler.jsonc`). `.github/workflows/deploy-site.yml`
+builds the site and runs `wrangler deploy` on every push to `main` (and on
+manual dispatch), only after `pnpm verify` passes, so a broken build never
+reaches production. Pushes that only touch `wordpress/` are skipped — those go
+through `deploy-cms.yml` instead.
 
 One-time setup:
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
-   **Upload assets** (Direct Upload, not Git) → project name `frends-official-website`.
-   Upload anything for the first deploy; the workflow overwrites it.
-2. Create an API token at **My Profile → API Tokens** with the
-   *Cloudflare Pages → Edit* permission scoped to the account.
+1. Cloudflare dashboard → **Workers & Pages** → the `frends-official-website`
+   Worker. If it was created with a Git connection, disconnect it under
+   **Settings → Build** so Cloudflare does not build on its own in parallel
+   with the GitHub workflow.
+2. Create an API token at **My Profile → API Tokens** using the
+   **Edit Cloudflare Workers** template, scoped to the account.
 3. In the GitHub repo → **Settings → Environments → production**, add the
    secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` (the account ID
-   is in the URL of the Cloudflare dashboard).
-4. Push to `main` or run the workflow from the Actions tab. The site appears at
-   `frends-official-website.pages.dev`.
-5. **Custom domains** → add `frends.ro` and `www.frends.ro`. The apex needs the
-   `frends.ro` zone on Cloudflare DNS; when moving it, keep `cms.frends.ro`
-   DNS-only (grey cloud) so SSH and the CMS's own TLS keep working.
+   is on the Workers & Pages overview page).
+4. Push to `main` or run the workflow from the Actions tab.
+5. On the Worker → **Domains & Routes**, enable the `workers.dev` URL for a
+   quick check, then add `frends.ro` and `www.frends.ro` as custom domains.
+   The apex needs the `frends.ro` zone on Cloudflare DNS; when moving it, keep
+   `cms.frends.ro` DNS-only (grey cloud) so SSH and the CMS's own TLS keep
+   working.
 
 Content is fetched from WordPress at build time, so editing a post does not
 change the live site until the workflow runs again. Trigger it from the Actions
