@@ -184,7 +184,7 @@ production. Pushes that only touch `wordpress/` are skipped — those go through
 One-time setup:
 
 1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
-   **Upload assets** (Direct Upload, not Git) → project name `frends-website`.
+   **Upload assets** (Direct Upload, not Git) → project name `frends-official-website`.
    Upload anything for the first deploy; the workflow overwrites it.
 2. Create an API token at **My Profile → API Tokens** with the
    *Cloudflare Pages → Edit* permission scoped to the account.
@@ -192,7 +192,7 @@ One-time setup:
    secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` (the account ID
    is in the URL of the Cloudflare dashboard).
 4. Push to `main` or run the workflow from the Actions tab. The site appears at
-   `frends-website.pages.dev`.
+   `frends-official-website.pages.dev`.
 5. **Custom domains** → add `frends.ro` and `www.frends.ro`. The apex needs the
    `frends.ro` zone on Cloudflare DNS; when moving it, keep `cms.frends.ro`
    DNS-only (grey cloud) so SSH and the CMS's own TLS keep working.
