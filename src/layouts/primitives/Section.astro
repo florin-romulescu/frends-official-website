@@ -3,7 +3,7 @@ import Container from './Container.astro';
 
 interface Props {
   space?: 'none' | 'sm' | 'md' | 'lg';
-  band?: 'none' | 'warm' | 'sky';
+  band?: 'none' | 'warm' | 'sky' | 'subtle';
   width?: 'prose' | 'content' | 'wide' | 'full';
   bandPadding?: 'md' | 'lg';
   id?: string;
@@ -30,6 +30,7 @@ const bands = {
   none: '',
   warm: 'bg-accent-warm',
   sky: 'bg-brand-light',
+  subtle: 'bg-surface-subtle',
 } as const;
 
 const bandPaddings = {

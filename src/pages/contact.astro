@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import { getLangFromUrl, useTranslations } from '../i18n';
+import { getSite } from '../data/site';
+import Section from '../layouts/primitives/Section.astro';
+import Stack from '../layouts/primitives/Stack.astro';
+import Cluster from '../layouts/primitives/Cluster.astro';
+import Split from '../layouts/primitives/Split.astro';
+import Pill from '../components/Pill';
+import Button from '../components/Button';
+import ContactCard from '../components/ContactCard';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const site = await getSite();
+
+const address = site.addressLines.join(', ');
+const mapsQuery = encodeURIComponent(address);
+const mapsEmbedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+
+const quickFacts = [site.email, site.phone, site.addressLines.at(-1) ?? ''].filter(Boolean);
+
+const cards = [
+  {
+    label: t('contact.emailLabel'),
+    value: site.email,
+    helper: t('contact.emailHelper'),
+    href: `mailto:${site.email}`,
+  },
+  {
+    label: t('contact.phoneLabel'),
+    value: site.phone,
+    helper: t('contact.phoneHelper'),
+    href: `tel:${site.phone.replace(/\s/g, '')}`,
+  },
+];
+
+const hashtags = ['#instaredebine', '#implicareafacediferenta', '#kaufland', '#fdsc'];
+---
+<Base title={t('contact.title')} description={t('contact.description')}>
+  <Section space="md">
+    <Stack gap="lg">
+      <h1 class="font-display text-display font-extrabold text-brand">{t('contact.heading')}</h1>
+      <p class="max-w-[47.5rem] text-body-lg text-ink-secondary">{t('contact.lede')}</p>
+      <Cluster gap="sm" as="ul">
+        {quickFacts.map((fact) => <li><Pill variant="gray">{fact}</Pill></li>)}
+      </Cluster>
+    </Stack>
+  </Section>
+
+  <Section space="sm">
+    <ul class="grid gap-6 md:grid-cols-2 xl:max-w-[60rem]">
+      {cards.map((card) => <li><ContactCard {...card} /></li>)}
+    </ul>
+  </Section>
+
+  <Section space="md">
+    <Split at="lg" align="center">
+      <iframe
+        src={mapsEmbedUrl}
+        title={t('contact.mapTitle')}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="aspect-[16/10] w-full rounded-panel border-0 bg-surface-placeholder"
+      ></iframe>
+
+      <Stack gap="md" align="start">
+        <h2 class="text-h2">{t('contact.visitTitle')}</h2>
+        <p class="text-body-lg text-ink-secondary">{t('contact.visitBody')}</p>
+        <address class="text-body font-bold not-italic">
+          {site.addressLines.map((line) => <span class="block">{line}</span>)}
+        </address>
+        <Button href={mapsUrl} variant="secondary" external>{t('contact.openMaps')}</Button>
+        <Cluster gap="sm">
+          <span class="font-heading text-body-sm text-ink-secondary">{t('contact.follow')}</span>
+          {
+            site.social.map((link) => (
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                <Pill variant="label">{link.label}</Pill>
+              </a>
+            ))
+          }
+        </Cluster>
+      </Stack>
+    </Split>
+  </Section>
+
+  <Section space="sm" band="subtle">
+    <Stack gap="md">
+      <h2 class="text-h3">{t('contact.fundingTitle')}</h2>
+      <p class="max-w-[56rem] text-body text-ink-secondary">
+        {t('contact.fundingBody')} {t('contact.fundingWebsite')}{' '}
+        <a href="https://www.instaredebine.ro" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand">
+          www.instaredebine.ro
+        </a>.
+      </p>
+      <Cluster gap="xs" as="ul">
+        {hashtags.map((tag) => <li><Pill variant="label">{tag}</Pill></li>)}
+      </Cluster>
+      <p class="text-caption text-ink-muted">{t('contact.fundingLegal')}</p>
+    </Stack>
+  </Section>
+</Base>
