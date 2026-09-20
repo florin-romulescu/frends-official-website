@@ -54,11 +54,6 @@ export const departments: Department[] = [
           'Menține legături puternice între membri prin jocuri, aniversări și evenimente de team building.',
       },
       {
-        name: 'Sport',
-        description:
-          'Promovează un stil de viață sănătos prin activități sportive accesibile, de la yoga la baschet.',
-      },
-      {
         name: 'Training',
         description:
           'Identifică nevoile de formare și organizează traininguri, team-building și Training of Trainers.',
@@ -111,11 +106,6 @@ export const departments: Department[] = [
         description:
           'Oferă consultanță pentru start-up-uri, susține planuri de afaceri și organizează traininguri.',
       },
-      {
-        name: 'Bibliotecă',
-        description:
-          'Asigură accesul membrilor la cărți și jocuri și ține evidența împrumuturilor.',
-      },
     ],
   },
   {
@@ -126,7 +116,7 @@ export const departments: Department[] = [
       'Coordonarea, monitorizarea și desfășurarea activităților administrative ale asociației.',
     subdivisions: [
       {
-        name: 'Housekeeping',
+        name: 'Sediu',
         description:
           'Asigură buna funcționare a sediului și menținerea acestuia curat și ordonat.',
       },
@@ -141,9 +131,9 @@ export const departments: Department[] = [
           'Creează platforme și site-uri interactive, cu experiență în front-end, back-end și web design.',
       },
       {
-        name: 'Legal-Financiar',
+        name: 'Bibliotecă',
         description:
-          'Menține relația cu contabilitatea și obține documentele necesare depunerii proiectelor.',
+          'Asigură accesul membrilor la cărți și jocuri și ține evidența împrumuturilor.',
       },
     ],
   },
