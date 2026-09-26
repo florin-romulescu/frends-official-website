@@ -125,16 +125,6 @@ export const departments: Department[] = [
         description:
           'Redactează procesele-verbale, informează membrii și menține colaborarea cu partenerii.',
       },
-      {
-        name: 'IT',
-        description:
-          'Creează platforme și site-uri interactive, cu experiență în front-end, back-end și web design.',
-      },
-      {
-        name: 'Bibliotecă',
-        description:
-          'Asigură accesul membrilor la cărți și jocuri și ține evidența împrumuturilor.',
-      },
     ],
   },
 ];
