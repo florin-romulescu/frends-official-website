@@ -9,7 +9,6 @@ import Cluster from '../../layouts/primitives/Cluster.astro';
 import Button from '../Button';
 import PhotoCard from '../PhotoCard';
 import PhotoCardSlot from '../PhotoCardSlot';
-import Pill from '../Pill';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -32,15 +31,11 @@ const [photo, helpIcon] = await Promise.all([getSiteImage('hero_photo'), getSite
     </Stack>
 
     <PhotoCard image={photo} imageAlt={photo.alt} shape="landscape" priority>
-      <PhotoCardSlot corner="top-left">
-        <Pill variant="caption">{t('hero.photoCaption')}</Pill>
-      </PhotoCardSlot>
-
-      <PhotoCardSlot corner="bottom-right">
+      <PhotoCardSlot corner="top-right">
         <p
-          class="flex max-w-[280px] items-center gap-2.5 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:p-6"
+          class="flex max-w-[240px] items-center gap-2 rounded-card bg-surface p-3 text-body font-black shadow-card xl:p-4"
         >
-          <img src={helpIcon.src} alt="" width={36} height={36} class="size-9 shrink-0" />
+          <img src={helpIcon.src} alt="" width={28} height={28} class="size-7 shrink-0" />
           <span>{t('hero.statCard')}</span>
         </p>
       </PhotoCardSlot>

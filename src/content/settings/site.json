@@ -29,12 +29,12 @@
       "alt": ""
     },
     "hero_photo": {
-      "src": "../../assets/site/hero-photo.avif",
+      "src": "../../assets/site/hero-stickman.gif",
       "alt": ""
     },
     "about_photo": {
-      "src": "../../assets/site/about-group.avif",
-      "alt": "Voluntarii FRENDS într-o sală de conferință la evenimentul din Predeal"
+      "src": "../../assets/site/hero-photo.avif",
+      "alt": "Voluntarii FRENDS în fața bannerului asociației, la Oarja"
     },
     "goals_background": {
       "src": "../../assets/site/goals-bg.avif",
