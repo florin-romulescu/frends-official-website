@@ -28,6 +28,7 @@ const organization = toJsonLd({
     addressLocality: 'București',
     addressCountry: 'RO',
   },
+  sameAs: site.social.map((link) => link.href),
 });
 ---
 <Base title={t('home.title')} description={t('home.description')}>
