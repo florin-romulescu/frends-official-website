@@ -3,26 +3,41 @@ import { departments } from '../../data/departments';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
 import SubdivisionCard from '../SubdivisionCard';
+
+const numberOf = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <Section space="md">
   <Stack gap="xl">
     {
       departments.map((department, i) => (
-        <section id={department.id} style={`--accent:var(--color-dept-${department.accent})`}>
-          <Stack gap="md">
-            <div class="flex items-baseline gap-4">
-              <span aria-hidden="true" class="font-heading text-h2 text-[color:var(--accent)]">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h2 class="text-h3">{department.title}</h2>
-            </div>
+        <section
+          id={department.id}
+          style={`--accent:var(--color-dept-${department.accent})`}
+          class="relative overflow-hidden rounded-panel bg-[color-mix(in_oklab,var(--accent)_6%,white)] px-5 py-8 sm:px-8 lg:px-12 lg:py-12 target:animate-target-pulse"
+        >
+          <span
+            aria-hidden="true"
+            class="reveal-grow absolute top-8 bottom-8 left-0 w-1.5 rounded-r-full bg-(--accent) lg:top-12 lg:bottom-12"
+          />
 
-            <p class="max-w-[56rem] text-body text-ink-secondary">{department.description}</p>
+          <div aria-hidden="true" class="reveal pointer-events-none absolute top-3 right-3 sm:top-4 sm:right-6 lg:right-10">
+            <span
+              class="block font-display text-[clamp(5rem,3rem+9vw,10rem)] leading-none font-extrabold text-transparent opacity-50 motion-safe:animate-float [-webkit-text-stroke:2px_var(--accent)]"
+              style={`animation-delay:-${i * 1.7}s`}
+            >
+              {numberOf(i)}
+            </span>
+          </div>
+
+          <Stack gap="md" class="relative">
+            <h2 class="reveal pr-24 text-h3 sm:pr-40">{department.title}</h2>
+
+            <p class="reveal max-w-[56rem] text-body text-ink-secondary">{department.description}</p>
 
             <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {department.subdivisions.map((subdivision) => (
-                <li>
-                  <SubdivisionCard name={subdivision.name} description={subdivision.description} />
+              {department.subdivisions.map((subdivision, j) => (
+                <li class="reveal" style={`--reveal-delay:${j * 12}%`}>
+                  <SubdivisionCard index={j} name={subdivision.name} description={subdivision.description} />
                 </li>
               ))}
             </ul>

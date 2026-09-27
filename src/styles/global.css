@@ -60,6 +60,29 @@
   --shadow-control: 0 4px 6px 0 rgb(0 0 0 / 0.18);
 
   --container-content: 88rem;
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-target-pulse: target-pulse 1.4s ease-out 1;
+
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(0, -14px, 0) rotate(3deg); }
+  }
+
+  @keyframes target-pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 45%, transparent); }
+    100% { box-shadow: 0 0 0 18px transparent; }
+  }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 1.5rem, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }
 
 @theme static {
@@ -233,6 +256,33 @@
 
   @media (width >= 64rem) {
     padding-block: 4.5rem;
+  }
+}
+
+@utility enter {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--enter-delay, 0ms) both;
+  }
+}
+
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry var(--reveal-delay, 0%) entry calc(60% + var(--reveal-delay, 0%));
+    }
+  }
+}
+
+@utility reveal-grow {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      transform-origin: top;
+      animation: grow-y linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
   }
 }
 

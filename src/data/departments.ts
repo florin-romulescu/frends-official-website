@@ -6,6 +6,7 @@ export interface Subdivision {
 export interface Department {
   id: string;
   accent: string;
+  name: string;
   title: string;
   description: string;
   subdivisions: Subdivision[];
@@ -15,6 +16,7 @@ export const departments: Department[] = [
   {
     id: 'fonduri',
     accent: 'fonduri',
+    name: 'Fonduri',
     title: 'Departamentul de Fonduri',
     description:
       'Înglobează 3 subdiviziuni esențiale pentru buna desfășurare a proiectelor și activităților.',
@@ -39,6 +41,7 @@ export const departments: Department[] = [
   {
     id: 'resurse-umane',
     accent: 'resurse-umane',
+    name: 'Resurse Umane',
     title: 'Departamentul de Resurse Umane',
     description:
       'Managerierea, monitorizarea și ghidarea activității voluntarilor și a recruților.',
@@ -63,6 +66,7 @@ export const departments: Department[] = [
   {
     id: 'comunicare',
     accent: 'comunicare',
+    name: 'Comunicare',
     title: 'Departamentul de Comunicare',
     description:
       'Transmiterea informației cât mai creativ și clar cu privire la activitățile realizate în asociație.',
@@ -92,6 +96,7 @@ export const departments: Department[] = [
   {
     id: 'dezvoltare',
     accent: 'dezvoltare',
+    name: 'Dezvoltare',
     title: 'Departamentul de Dezvoltare',
     description:
       'Susținerea și facilitarea dezvoltării voluntarilor și recruților în diverse domenii.',
@@ -111,6 +116,7 @@ export const departments: Department[] = [
   {
     id: 'administrativ',
     accent: 'administrativ',
+    name: 'Administrativ',
     title: 'Departamentul Administrativ',
     description:
       'Coordonarea, monitorizarea și desfășurarea activităților administrative ale asociației.',
