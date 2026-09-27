@@ -21,7 +21,7 @@ const ArticleCard = ({
   tags = [],
 }: Props) => {
   return (
-    <article className="relative flex h-full w-full flex-col overflow-hidden rounded-panel bg-surface shadow-card">
+    <article className="group lift relative flex h-full w-full flex-col overflow-hidden rounded-panel bg-surface shadow-card">
       <div className="relative aspect-[440/250] w-full shrink-0 overflow-hidden">
         <img
           src={image.src}
@@ -32,7 +32,7 @@ const ArticleCard = ({
           alt={imageAlt}
           loading="lazy"
           decoding="async"
-          className="size-full object-cover"
+          className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
         {tags.length > 0 && (
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
@@ -52,7 +52,12 @@ const ArticleCard = ({
           </a>
         </h3>
         <p className="text-body text-ink-secondary">{description}</p>
-        <span className="mt-auto pt-2 text-body font-black text-brand">{readMoreLabel} →</span>
+        <span className="mt-auto pt-2 text-body font-black text-brand">
+          {readMoreLabel}{' '}
+          <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+        </span>
       </div>
     </article>
   );

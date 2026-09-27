@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import { getSiteImage } from '../../data/images';
 import RemoteImage from '../RemoteImage.astro';
@@ -33,7 +34,7 @@ const goals = [
   />
 
   <div class="grid items-start justify-items-center gap-5 xl:grid-cols-2 xl:gap-y-10">
-    <Pill variant="title" className="xl:col-start-1 xl:row-start-1 xl:justify-self-start">
+    <Pill variant="title" className="reveal xl:col-start-1 xl:row-start-1 xl:justify-self-start">
       {t('goals.title')}
     </Pill>
 
@@ -44,8 +45,10 @@ const goals = [
             style={`--step:${i}`}
             class="ps-[calc(var(--step)*4.5%)] xl:flex xl:flex-1 xl:flex-col xl:justify-end xl:gap-5 xl:ps-0"
           >
-            <GoalCard index={i + 1} label={goal} className="xl:mx-[17px] xl:w-auto" />
-            <div class="hidden h-[calc(5.25rem+var(--step)*3.25rem)] rounded-t-xl bg-surface/40 xl:block" />
+            <div class="reveal" style={revealDelay(i, 8)}>
+              <GoalCard index={i + 1} label={goal} className="xl:mx-[17px] xl:w-auto" />
+            </div>
+            <div class="reveal-grow hidden h-[calc(5.25rem+var(--step)*3.25rem)] rounded-t-xl bg-surface/40 [--grow-origin:bottom] xl:block" />
           </li>
         ))
       }

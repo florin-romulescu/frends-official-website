@@ -26,9 +26,9 @@ const statusLabels: Record<EventStatus, string> = {
   events.length > 0 && (
     <Section id="evenimente" space="sm" band="warm" width="wide">
       <Stack gap="xl" align="center">
-        <Pill variant="title">{t('events.title')}</Pill>
+        <Pill variant="title" className="reveal">{t('events.title')}</Pill>
 
-        <div class="w-full">
+        <div class="reveal w-full">
           <Carousel
             id="events"
             count={events.length}

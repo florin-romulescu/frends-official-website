@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../layouts/primitives/Section.astro';
@@ -47,19 +48,19 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
     <Section space="md">
       <Split at="xl" gap="xl">
         <Stack gap="lg">
-          <Cluster gap="sm">
+          <Cluster gap="sm" class="enter">
             <StatusBadge status={data.status} label={statusLabel} className="-ml-4" />
             {data.category && <Pill variant="caption">{data.category}</Pill>}
           </Cluster>
 
-          <Stack gap="sm">
+          <Stack gap="sm" class="enter [--enter-delay:120ms]">
             <h1 class="font-display text-display font-extrabold text-(--accent)">{data.title}</h1>
             <p class="text-body-lg font-black text-ink-muted">{meta}</p>
           </Stack>
 
-          <p class="max-w-[39rem] text-body-lg">{data.summary}</p>
+          <p class="enter max-w-[39rem] text-body-lg [--enter-delay:240ms]">{data.summary}</p>
 
-          <Cluster gap="md">
+          <Cluster gap="md" class="enter [--enter-delay:360ms]">
             <Button href={localizePath('/proiecte', lang)} variant="secondary" tone="accent">
               {t('projects.viewAll')}
             </Button>
@@ -70,7 +71,7 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
           {
             data.highlight && (
               <PhotoCardSlot corner="bottom-right">
-                <p class="flex max-w-[300px] items-center gap-3 rounded-card bg-surface p-4 text-body-lg font-black shadow-card xl:gap-4 xl:p-6">
+                <p class="flex max-w-[300px] items-center gap-3 rounded-card bg-surface p-4 text-body-lg font-black shadow-card motion-safe:animate-float xl:gap-4 xl:p-6">
                   <img src={highlightIcon.src} alt="" width={36} height={36} class="size-9 shrink-0" />
                   <span>{data.highlight}</span>
                 </p>
@@ -84,12 +85,12 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
     <Section space="md">
       <Stack gap="lg">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-          <h2 class="shrink-0 text-h2 text-(--accent)">{t('projects.about')}</h2>
+          <h2 class="reveal shrink-0 text-h2 text-(--accent)">{t('projects.about')}</h2>
           {
             data.facts.length > 0 && (
               <ul class="-mx-4 flex min-w-0 gap-3 overflow-x-auto px-4 py-1 [scrollbar-width:none] lg:mx-0 lg:justify-end lg:px-0 [&::-webkit-scrollbar]:hidden">
                 {data.facts.map((fact) => (
-                  <li class="shrink-0">
+                  <li class="shrink-0 transition-transform duration-300 hover:-translate-y-0.5">
                     <Pill variant="label">{fact}</Pill>
                   </li>
                 ))}
@@ -98,7 +99,7 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
           }
         </div>
 
-        <BlockContent html={project.body ?? ''} class="prose-a:text-(--accent)" />
+        <BlockContent html={project.body ?? ''} class="reveal prose-a:text-(--accent)" />
       </Stack>
     </Section>
 
@@ -106,15 +107,15 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
       data.impact.length > 0 && (
         <Section space="lg">
           <Stack gap="xl">
-            <Stack gap="md" align="center" class="text-center">
+            <Stack gap="md" align="center" class="reveal text-center">
               <h2 class="text-h2 text-(--accent)">{t('projects.impact')}</h2>
               {data.impactLede && <p class="text-body-lg text-ink-muted">{data.impactLede}</p>}
             </Stack>
 
             <Grid as="ul" min="20rem" gap="lg">
-              {data.impact.map((card) => (
-                <li>
-                  <PhotoCard image={card.photo} imageAlt={card.photoAlt}>
+              {data.impact.map((card, i) => (
+                <li class="reveal" style={revealDelay(i)}>
+                  <PhotoCard image={card.photo} imageAlt={card.photoAlt} zoom>
                     {(card.stat || card.label) && (
                       <PhotoCardSlot corner="top-left">
                         {card.stat && <Pill variant="stat">{card.stat}</Pill>}

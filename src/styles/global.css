@@ -63,10 +63,25 @@
 
   --animate-float: float 9s ease-in-out infinite;
   --animate-target-pulse: target-pulse 1.4s ease-out 1;
+  --animate-settle: settle 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-wobble: wobble 0.9s ease-in-out 0.5s 1 both;
 
   @keyframes float {
     0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
     50% { transform: translate3d(0, -14px, 0) rotate(3deg); }
+  }
+
+  @keyframes settle {
+    from { transform: scale(1.08); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes wobble {
+    0%, 100% { rotate: 0deg; }
+    20% { rotate: -4deg; }
+    40% { rotate: 3deg; }
+    60% { rotate: -2deg; }
+    80% { rotate: 1deg; }
   }
 
   @keyframes target-pulse {
@@ -76,7 +91,7 @@
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translate3d(0, 1.5rem, 0); }
+  from { opacity: 0; transform: translate3d(var(--reveal-x, 0), 1.5rem, 0); }
   to { opacity: 1; transform: none; }
 }
 
@@ -278,10 +293,30 @@
 @utility reveal-grow {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
-      transform-origin: top;
+      transform-origin: var(--grow-origin, top);
       animation: grow-y linear both;
       animation-timeline: view();
       animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+@utility lift {
+  transition-property: translate, box-shadow, border-color, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+
+  &:hover,
+  &:focus-visible,
+  &:has(:focus-visible) {
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover,
+    &:focus-visible,
+    &:has(:focus-visible) {
+      translate: 0 -0.25rem;
     }
   }
 }

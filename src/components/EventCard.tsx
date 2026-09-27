@@ -25,7 +25,7 @@ const EventCard = ({
   readMoreLabel,
 }: Props) => {
   return (
-    <article className="relative flex h-full w-full flex-col overflow-hidden rounded-panel bg-surface shadow-card">
+    <article className="group lift relative flex h-full w-full flex-col overflow-hidden rounded-panel bg-surface shadow-card">
       <div className="relative aspect-[440/190] w-full shrink-0 overflow-hidden">
         <img
           src={image.src}
@@ -35,7 +35,7 @@ const EventCard = ({
           alt={imageAlt}
           loading="lazy"
           decoding="async"
-          className="size-full object-cover"
+          className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <StatusBadge status={status} label={statusLabel} className="absolute top-4 left-4" />
       </div>
@@ -49,7 +49,10 @@ const EventCard = ({
         <p className="text-body-sm font-black text-ink-muted">{period}</p>
         <p className="text-body-sm text-ink-secondary">{description}</p>
         <p className="mt-auto pt-4 text-body-sm font-black text-brand">
-          {readMoreLabel} <span aria-hidden="true">→</span>
+          {readMoreLabel}{' '}
+          <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
         </p>
       </div>
     </article>

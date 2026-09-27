@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../layouts/primitives/Section.astro';
@@ -31,11 +32,11 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
           image={banner}
           alt=""
           sizes="100vw"
-          class="absolute inset-0 size-full object-cover opacity-15"
+          class="absolute inset-0 size-full object-cover opacity-15 motion-safe:animate-settle"
           loading="eager"
         />
         <div class="relative grid min-h-[12rem] place-items-center px-6 py-14 lg:min-h-[19rem]">
-          <h1 class="font-display text-display font-extrabold text-brand text-center">
+          <h1 class="enter font-display text-display font-extrabold text-brand text-center">
             {t('projects.heading')}
           </h1>
         </div>
@@ -44,8 +45,8 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
       {
         projects.length > 0 ? (
           <ul class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 xl:gap-12">
-            {projects.map((project) => (
-              <li>
+            {projects.map((project, i) => (
+              <li class="reveal" style={revealDelay(i)}>
                 <ProjectCard
                   title={project.data.title}
                   image={project.data.image}
@@ -56,7 +57,7 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
             ))}
           </ul>
         ) : (
-          <Stack gap="md" align="center" class="rounded-panel bg-surface-subtle px-6 py-14 text-center">
+          <Stack gap="md" align="center" class="enter rounded-panel bg-surface-subtle px-6 py-14 text-center">
             <h2 class="text-h3">{t('projects.emptyTitle')}</h2>
             <p class="max-w-[36rem] text-body-lg text-ink-secondary">{t('projects.empty')}</p>
             <Button href={volunteerHref} external={isExternal(volunteerHref)}>

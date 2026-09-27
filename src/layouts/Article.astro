@@ -21,18 +21,19 @@ const { title, description, image, imageAlt, body, back, publishedTime } = Astro
   <slot name="head" slot="head" />
   <Section space="md" width="prose">
     <Stack gap="lg">
-      <a href={back.href} class="w-fit text-body font-bold text-ink-secondary hover:text-brand">
-        ← {back.label}
+      <a href={back.href} class="enter group w-fit text-body font-bold text-ink-secondary transition-colors hover:text-brand">
+        <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:-translate-x-1">←</span>
+        {back.label}
       </a>
 
-      <Stack gap="sm">
+      <Stack gap="sm" class="enter [--enter-delay:120ms]">
         <h1 class="text-h2">{title}</h1>
         <slot name="meta" />
       </Stack>
 
       <PhotoCard image={image} imageAlt={imageAlt} shape="landscape" priority />
 
-      <BlockContent html={body} class="prose-a:text-brand" />
+      <BlockContent html={body} class="reveal prose-a:text-brand" />
     </Stack>
   </Section>
 </Base>

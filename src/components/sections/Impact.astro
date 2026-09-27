@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import { getSiteImage } from '../../data/images';
 import Section from '../../layouts/primitives/Section.astro';
@@ -36,16 +37,16 @@ const cards = await Promise.all(
 ---
 <Section id="impact" space="lg">
   <Stack gap="xl">
-    <Stack gap="md" align="center" class="text-center">
+    <Stack gap="md" align="center" class="reveal text-center">
       <Pill variant="title">{t('impact.title')}</Pill>
       <p class="max-w-[434px] text-body font-bold text-ink-muted">{t('impact.lede')}</p>
     </Stack>
 
     <Grid as="ul" min="20rem" gap="lg">
       {
-        cards.map((project) => (
-          <li>
-            <PhotoCard image={project.image} imageAlt={project.image.alt}>
+        cards.map((project, i) => (
+          <li class="reveal" style={revealDelay(i)}>
+            <PhotoCard image={project.image} imageAlt={project.image.alt} zoom>
               <PhotoCardSlot corner="top-left">
                 {project.stats.map((stat) => (
                   <Pill variant="stat">{stat}</Pill>

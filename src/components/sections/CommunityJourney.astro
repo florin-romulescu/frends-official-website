@@ -15,20 +15,20 @@ const [comedy, univibes] = await Promise.all([
   getSiteImage('community_univibes'),
 ]);
 ---
-<Section space="md">
+<Section space="md" class="overflow-x-clip">
   <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-[409fr_500fr_483fr] xl:items-center xl:gap-10">
-    <Stack gap="md" align="center" class="text-center sm:col-span-2 xl:order-2 xl:col-span-1">
+    <Stack gap="md" align="center" class="reveal text-center sm:col-span-2 xl:order-2 xl:col-span-1">
       <Pill variant="headline">{t('community.journeyTitle')}</Pill>
       <p class="max-w-[29rem] text-body-lg">{t('community.journeyBody')}</p>
     </Stack>
 
-    <PhotoCard image={comedy} imageAlt={comedy.alt} shape="square" className="xl:order-1 xl:self-end">
+    <PhotoCard image={comedy} imageAlt={comedy.alt} shape="square" zoom className="reveal [--reveal-x:-2.5rem] xl:order-1 xl:self-end">
       <PhotoCardSlot corner="bottom-left">
         <Pill variant="caption">{t('community.comedyCaption')}</Pill>
       </PhotoCardSlot>
     </PhotoCard>
 
-    <PhotoCard image={univibes} imageAlt={univibes.alt} shape="square" className="xl:order-3 xl:-mt-32 xl:self-start">
+    <PhotoCard image={univibes} imageAlt={univibes.alt} shape="square" zoom className="reveal [--reveal-x:2.5rem] xl:order-3 xl:-mt-32 xl:self-start">
       <PhotoCardSlot corner="bottom-right">
         <Pill variant="caption">{t('community.univibesCaption')}</Pill>
       </PhotoCardSlot>

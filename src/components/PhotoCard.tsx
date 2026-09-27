@@ -8,6 +8,7 @@ interface Props extends BaseProp {
   imageAlt: string;
   shape?: Shape;
   priority?: boolean;
+  zoom?: boolean;
   children?: ReactNode;
 }
 
@@ -23,11 +24,12 @@ const PhotoCard = ({
   imageAlt,
   shape = 'portrait',
   priority = false,
+  zoom = false,
   children,
   className = '',
 }: Props) => {
   return (
-    <figure className={`relative w-full overflow-hidden ${shapes[shape]} ${className}`}>
+    <figure className={`relative w-full overflow-hidden ${zoom ? 'group' : ''} ${shapes[shape]} ${className}`}>
       <img
         src={image.src}
         srcSet={image.srcSet}
@@ -37,7 +39,7 @@ const PhotoCard = ({
         loading={priority ? 'eager' : 'lazy'}
         fetchPriority={priority ? 'high' : undefined}
         decoding="async"
-        className="absolute inset-0 size-full object-cover"
+        className={`absolute inset-0 size-full object-cover ${zoom ? 'transition-transform duration-500 ease-out group-hover:scale-105' : ''}`}
       />
       {children && <figcaption className="absolute inset-4 lg:inset-6">{children}</figcaption>}
     </figure>

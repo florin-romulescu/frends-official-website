@@ -8,7 +8,7 @@ const badgeLetter = (index: number) => String.fromCharCode(65 + index);
 
 const SubdivisionCard = ({ index, name, description }: Props) => {
   return (
-    <article className="group flex h-full flex-col gap-2.5 rounded-nav border border-border-default bg-surface p-6 transition duration-300 ease-out hover:-translate-y-1.5 hover:border-(--accent) hover:shadow-card">
+    <article className="group flex h-full flex-col gap-2.5 rounded-nav border border-border-default lift bg-surface p-6 hover:border-(--accent)">
       <div className="mb-2.5 flex items-center gap-3">
         <span
           aria-hidden="true"

@@ -12,7 +12,7 @@ const ProjectCard = ({ title, image, imageAlt, href }: Props) => {
   return (
     <a
       href={href}
-      className="group relative block aspect-square w-full overflow-hidden rounded-panel bg-surface-subtle"
+      className="group lift relative block aspect-square w-full overflow-hidden rounded-panel bg-surface-subtle"
     >
       <img
         src={image.src}
@@ -26,7 +26,7 @@ const ProjectCard = ({ title, image, imageAlt, href }: Props) => {
         className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
       <span className="absolute inset-0 grid place-items-center p-6">
-        <Pill variant="title" className="max-w-full text-center">
+        <Pill variant="title" className="max-w-full text-center transition-transform duration-300 ease-out group-hover:scale-105">
           {title}
         </Pill>
       </span>

@@ -21,8 +21,12 @@ const StepCard = ({ index, title, timing, description, cta, className = '' }: Pr
   return (
     <div className={`flex max-w-[27rem] flex-col items-start gap-4 ${className}`}>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <h3 className="text-h3">
-          {index}. {title}
+        <h3 className="flex items-center gap-3 text-h3">
+          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-brand font-heading text-h5 text-on-brand shadow-control">
+            {index}
+            <span className="sr-only">.</span>
+          </span>
+          {title}
         </h3>
         <Pill variant="label">{timing}</Pill>
       </div>

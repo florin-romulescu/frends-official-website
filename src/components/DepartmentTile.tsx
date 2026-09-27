@@ -13,7 +13,7 @@ const DepartmentTile = ({ href, number, name, meta, accent }: Props) => {
     <a
       href={href}
       style={{ '--accent': `var(--color-dept-${accent})` } as CSSProperties}
-      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-card border border-border-default border-t-4 border-t-(--accent) bg-surface p-5 transition duration-300 ease-out hover:-translate-y-1 hover:bg-[color-mix(in_oklab,var(--accent)_8%,white)] hover:shadow-card focus-visible:-translate-y-1 focus-visible:bg-[color-mix(in_oklab,var(--accent)_8%,white)] focus-visible:shadow-card"
+      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-card border border-border-default border-t-4 border-t-(--accent) lift bg-surface p-5 hover:bg-[color-mix(in_oklab,var(--accent)_8%,white)] focus-visible:bg-[color-mix(in_oklab,var(--accent)_8%,white)]"
     >
       <span aria-hidden="true" className="font-heading text-h3 text-(--accent)">
         {number}

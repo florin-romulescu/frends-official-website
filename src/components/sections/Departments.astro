@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { departments } from '../../data/departments';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
@@ -36,7 +37,7 @@ const numberOf = (i: number) => String(i + 1).padStart(2, '0');
 
             <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {department.subdivisions.map((subdivision, j) => (
-                <li class="reveal" style={`--reveal-delay:${j * 12}%`}>
+                <li class="reveal" style={revealDelay(j, 12)}>
                   <SubdivisionCard index={j} name={subdivision.name} description={subdivision.description} />
                 </li>
               ))}

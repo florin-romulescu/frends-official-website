@@ -12,9 +12,11 @@ const t = useTranslations(lang);
 <Base title={t('notFound.title')} description={t('notFound.description')} noindex>
   <Section space="lg">
     <Stack gap="lg" align="center" class="text-center">
-      <h1 class="font-display text-display font-extrabold text-brand">{t('notFound.heading')}</h1>
-      <p class="max-w-[39rem] text-body-lg text-ink-secondary">{t('notFound.body')}</p>
-      <Cluster gap="md" justify="center">
+      <div class="enter">
+        <h1 class="font-display text-display font-extrabold text-brand motion-safe:animate-wobble">{t('notFound.heading')}</h1>
+      </div>
+      <p class="enter max-w-[39rem] text-body-lg text-ink-secondary [--enter-delay:120ms]">{t('notFound.body')}</p>
+      <Cluster gap="md" justify="center" class="enter [--enter-delay:240ms]">
         <Button href={localizePath('/', lang)} size="lg">{t('notFound.home')}</Button>
         <Button href={localizePath('/proiecte', lang)} variant="secondary" size="lg">{t('nav.projects')}</Button>
       </Cluster>

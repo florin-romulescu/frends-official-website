@@ -15,10 +15,10 @@ const photo = await getSiteImage('community_hero');
 <Section space="md">
   <div class="grid gap-8 xl:grid-cols-[4fr_3fr] xl:items-start xl:gap-14">
     <Stack gap="lg" align="start" class="order-first xl:order-none xl:items-end xl:pt-6 xl:text-right">
-      <h1 class="max-w-[38rem] font-display text-display font-extrabold text-brand">
+      <h1 class="enter max-w-[38rem] font-display text-display font-extrabold text-brand">
         {t('community.heading')}
       </h1>
-      <StatusBadge status="open" label={t('events.status.open')} />
+      <StatusBadge status="open" label={t('events.status.open')} pulse className="enter [--enter-delay:160ms]" />
     </Stack>
 
     <PhotoCard

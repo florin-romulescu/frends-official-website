@@ -18,9 +18,9 @@ const [photo, helpIcon] = await Promise.all([getSiteImage('hero_photo'), getSite
 <Section id="acasa" space="md">
   <Split at="xl" gap="xl">
     <Stack gap="lg">
-      <h1 class="font-display text-display font-extrabold text-brand">{t('hero.heading')}</h1>
-      <p class="max-w-[430px] text-body-lg font-black">{t('hero.lede')}</p>
-      <Cluster gap="md">
+      <h1 class="enter font-display text-display font-extrabold text-brand">{t('hero.heading')}</h1>
+      <p class="enter max-w-[430px] text-body-lg font-black [--enter-delay:120ms]">{t('hero.lede')}</p>
+      <Cluster gap="md" class="enter [--enter-delay:240ms]">
         <Button href={localizeHref(site.volunteerUrl, lang)} external={isExternal(site.volunteerUrl)} size="lg">
           {t('nav.volunteer')}
         </Button>
@@ -33,7 +33,7 @@ const [photo, helpIcon] = await Promise.all([getSiteImage('hero_photo'), getSite
     <PhotoCard image={photo} imageAlt={photo.alt} shape="landscape" priority>
       <PhotoCardSlot corner="top-right">
         <p
-          class="flex max-w-[240px] items-center gap-2 rounded-card bg-surface p-3 text-body font-black shadow-card xl:p-4"
+          class="flex max-w-[240px] items-center gap-2 rounded-card bg-surface p-3 text-body font-black shadow-card motion-safe:animate-float xl:p-4"
         >
           <img src={helpIcon.src} alt="" width={28} height={28} class="size-7 shrink-0" />
           <span>{t('hero.statCard')}</span>

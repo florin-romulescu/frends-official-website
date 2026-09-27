@@ -41,9 +41,9 @@ const hashtags = ['#instaredebine', '#implicareafacediferenta', '#kaufland', '#f
 <Base title={t('contact.title')} description={t('contact.description')}>
   <Section space="md">
     <Stack gap="lg">
-      <h1 class="font-display text-display font-extrabold text-brand">{t('contact.heading')}</h1>
-      <p class="max-w-[47.5rem] text-body-lg text-ink-secondary">{t('contact.lede')}</p>
-      <Cluster gap="sm" as="ul">
+      <h1 class="enter font-display text-display font-extrabold text-brand">{t('contact.heading')}</h1>
+      <p class="enter max-w-[47.5rem] text-body-lg text-ink-secondary [--enter-delay:120ms]">{t('contact.lede')}</p>
+      <Cluster gap="sm" as="ul" class="enter [--enter-delay:240ms]">
         {quickFacts.map((fact) => <li><Pill variant="gray">{fact}</Pill></li>)}
       </Cluster>
     </Stack>
@@ -51,21 +51,21 @@ const hashtags = ['#instaredebine', '#implicareafacediferenta', '#kaufland', '#f
 
   <Section space="sm">
     <ul class="grid gap-6 md:grid-cols-2 xl:max-w-[60rem]">
-      {cards.map((card) => <li><ContactCard {...card} /></li>)}
+      {cards.map((card, i) => <li class="enter" style={`--enter-delay:${360 + i * 100}ms`}><ContactCard {...card} /></li>)}
     </ul>
   </Section>
 
-  <Section space="md">
+  <Section space="md" class="overflow-x-clip">
     <Split at="lg" align="center">
       <iframe
         src={mapsEmbedUrl}
         title={t('contact.mapTitle')}
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        class="aspect-[16/10] w-full rounded-panel border-0 bg-surface-placeholder"
+        class="reveal aspect-[16/10] w-full rounded-panel border-0 bg-surface-placeholder [--reveal-x:-2.5rem]"
       ></iframe>
 
-      <Stack gap="md" align="start">
+      <Stack gap="md" align="start" class="reveal [--reveal-x:2.5rem]">
         <h2 class="text-h2">{t('contact.visitTitle')}</h2>
         <p class="text-body-lg text-ink-secondary">{t('contact.visitBody')}</p>
         <address class="text-body font-bold not-italic">
@@ -77,7 +77,7 @@ const hashtags = ['#instaredebine', '#implicareafacediferenta', '#kaufland', '#f
           {
             site.social.map((link) => (
               <a href={link.href} target="_blank" rel="noopener noreferrer">
-                <Pill variant="label">{link.label}</Pill>
+                <Pill variant="label" className="transition-colors hover:bg-brand hover:text-on-brand">{link.label}</Pill>
               </a>
             ))
           }
@@ -87,7 +87,7 @@ const hashtags = ['#instaredebine', '#implicareafacediferenta', '#kaufland', '#f
   </Section>
 
   <Section space="sm" band="subtle">
-    <Stack gap="md">
+    <Stack gap="md" class="reveal">
       <h2 class="text-h3">{t('contact.fundingTitle')}</h2>
       <p class="max-w-[56rem] text-body text-ink-secondary">
         {t('contact.fundingBody')} {t('contact.fundingWebsite')}{' '}

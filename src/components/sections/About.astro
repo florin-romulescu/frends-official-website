@@ -1,4 +1,5 @@
 ---
+import { revealDelay } from '../../lib/motion';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import { getSiteImage } from '../../data/images';
 import RemoteImage from '../RemoteImage.astro';
@@ -14,18 +15,18 @@ const t = useTranslations(lang);
 const tags = [t('about.tag1'), t('about.tag2'), t('about.tag3')];
 const photo = await getSiteImage('about_photo');
 ---
-<Section id="despre" space="lg">
+<Section id="despre" space="lg" class="overflow-x-clip">
   <Split at="xl" gap="xl" reverse>
-    <Stack gap="lg">
+    <Stack gap="lg" class="reveal">
       <h2 class="font-display text-display font-extrabold text-brand">{t('about.heading')}</h2>
       <p class="max-w-[62ch] text-body-lg">{t('about.body')}</p>
       <p class="text-body-lg font-black">{t('about.moreLead')}</p>
       <Cluster as="ul" gap="sm">
-        {tags.map((tag) => <li><Pill variant="gray">{tag}</Pill></li>)}
+        {tags.map((tag, i) => <li class="reveal" style={revealDelay(i, 8)}><Pill variant="gray">{tag}</Pill></li>)}
       </Cluster>
     </Stack>
 
-    <figure class="relative">
+    <figure class="reveal relative [--reveal-x:2.5rem]">
       <RemoteImage
         image={photo}
         alt={photo.alt}
