@@ -14,10 +14,10 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const site = await getSite();
 
-const address = site.addressLines.join(', ');
-const mapsQuery = encodeURIComponent(address);
-const mapsEmbedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
-const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+const officeCoordinates = '44.4342677,26.0833529';
+const officePlaceId = '7916993024965370388';
+const mapsEmbedUrl = `https://www.google.com/maps?q=${officeCoordinates}&z=18&output=embed`;
+const mapsUrl = `https://maps.google.com/?cid=${officePlaceId}`;
 
 const quickFacts = [site.email, site.phone, site.addressLines.at(-1) ?? ''].filter(Boolean);
 
