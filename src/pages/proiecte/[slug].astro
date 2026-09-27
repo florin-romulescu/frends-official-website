@@ -12,14 +12,11 @@ import PhotoCard from '../../components/PhotoCard';
 import PhotoCardSlot from '../../components/PhotoCardSlot';
 import BlockContent from '../../components/BlockContent.astro';
 import StatusBadge from '../../components/StatusBadge';
-import { getSite } from '../../data/site';
 import { getSiteImage } from '../../data/images';
 import {
   getLangFromUrl,
   useTranslations,
   localizePath,
-  localizeHref,
-  isExternal,
   formatPeriod,
 } from '../../i18n';
 
@@ -33,7 +30,6 @@ const { project } = Astro.props;
 const { data } = project;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const site = await getSite();
 const highlightIcon = await getSiteImage('icon_help');
 
 const statusLabel = {
@@ -45,8 +41,6 @@ const statusLabel = {
 const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
   .filter(Boolean)
   .join('  ·  ');
-
-const volunteerHref = localizeHref(site.volunteerUrl, lang);
 ---
 <Base title={data.title} description={data.summary}>
   <div style={`--accent:${data.accentColor ?? 'var(--color-brand)'}`}>
@@ -66,9 +60,6 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
           <p class="max-w-[39rem] text-body-lg">{data.summary}</p>
 
           <Cluster gap="md">
-            <Button href={volunteerHref} external={isExternal(volunteerHref)} tone="accent">
-              {t('nav.volunteer')}
-            </Button>
             <Button href={localizePath('/proiecte', lang)} variant="secondary" tone="accent">
               {t('projects.viewAll')}
             </Button>
@@ -124,10 +115,12 @@ const volunteerHref = localizeHref(site.volunteerUrl, lang);
               {data.impact.map((card) => (
                 <li>
                   <PhotoCard image={card.photo} imageAlt={card.photoAlt}>
-                    <PhotoCardSlot corner="top-left">
-                      <Pill variant="stat">{card.stat}</Pill>
-                      {card.label && <Pill variant="stat">{card.label}</Pill>}
-                    </PhotoCardSlot>
+                    {(card.stat || card.label) && (
+                      <PhotoCardSlot corner="top-left">
+                        {card.stat && <Pill variant="stat">{card.stat}</Pill>}
+                        {card.label && <Pill variant="stat">{card.label}</Pill>}
+                      </PhotoCardSlot>
+                    )}
                   </PhotoCard>
                 </li>
               ))}

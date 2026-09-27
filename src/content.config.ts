@@ -74,7 +74,7 @@ const projects = defineCollection({
             z.object({
               photo: image(),
               photoAlt: z.string(),
-              stat: z.string(),
+              stat: z.string().optional(),
               label: z.string().optional(),
             }),
           )
