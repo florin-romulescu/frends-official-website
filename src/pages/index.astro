@@ -7,11 +7,31 @@ import Goals from '../components/sections/Goals.astro';
 import Impact from '../components/sections/Impact.astro';
 import Partners from '../components/sections/Partners.astro';
 import { useTranslations } from '../i18n';
+import { getSite } from '../data/site';
+import { toJsonLd } from '../lib/seo';
 
 const lang = 'ro' as const;
 const t = useTranslations(lang);
+const site = await getSite();
+
+const organization = toJsonLd({
+  '@type': 'NGO',
+  name: site.name,
+  alternateName: site.shortName,
+  url: Astro.site?.href,
+  logo: new URL('/favicon.png', Astro.site).href,
+  email: site.email,
+  telephone: site.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.addressLines.slice(0, 2).join(', '),
+    addressLocality: 'București',
+    addressCountry: 'RO',
+  },
+});
 ---
 <Base title={t('home.title')} description={t('home.description')}>
+  <script is:inline slot="head" type="application/ld+json" set:html={organization} />
   <Hero />
   <Events />
   <About />

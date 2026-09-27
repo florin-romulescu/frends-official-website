@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
-<Base title={t('blog.title')} description={t('blog.description')}>
+<Base title={t('blog.title')} description={t('blog.description')} noindex={posts.length === 0}>
   <Section space="md">
     <Stack gap="xl">
       <Stack gap="lg">

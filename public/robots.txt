@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://frends.ro/sitemap-index.xml

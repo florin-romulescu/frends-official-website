@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import Article from '../../layouts/Article.astro';
 import { getLangFromUrl, useTranslations, localizePath, formatDate } from '../../i18n';
+import { getSocialImageUrl, toJsonLd } from '../../lib/seo';
+import { getSite } from '../../data/site';
 
 export const getStaticPaths = async () =>
   (await getCollection('blog')).map((post) => ({ params: { slug: post.id }, props: { post } }));
@@ -9,6 +11,17 @@ export const getStaticPaths = async () =>
 const { post } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const site = await getSite();
+
+const blogPosting = toJsonLd({
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.excerpt,
+  datePublished: post.data.date,
+  image: await getSocialImageUrl(post.data.image, Astro.url),
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  publisher: { '@type': 'NGO', name: site.name, url: Astro.site?.href },
+});
 ---
 <Article
   title={post.data.title}
@@ -17,7 +30,9 @@ const t = useTranslations(lang);
   imageAlt={post.data.imageAlt}
   body={post.body ?? ''}
   back={{ label: t('blog.back'), href: localizePath('/blog', lang) }}
+  publishedTime={post.data.date}
 >
+  <script is:inline slot="head" type="application/ld+json" set:html={blogPosting} />
   <time slot="meta" datetime={post.data.date} class="text-body text-ink-muted">
     {formatDate(post.data.date, lang)}
   </time>

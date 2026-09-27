@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../layouts/primitives/Section.astro';
+import Stack from '../layouts/primitives/Stack.astro';
+import Cluster from '../layouts/primitives/Cluster.astro';
+import Button from '../components/Button';
+import { useTranslations, localizePath } from '../i18n';
+
+const lang = 'ro' as const;
+const t = useTranslations(lang);
+---
+<Base title={t('notFound.title')} description={t('notFound.description')} noindex>
+  <Section space="lg">
+    <Stack gap="lg" align="center" class="text-center">
+      <h1 class="font-display text-display font-extrabold text-brand">{t('notFound.heading')}</h1>
+      <p class="max-w-[39rem] text-body-lg text-ink-secondary">{t('notFound.body')}</p>
+      <Cluster gap="md" justify="center">
+        <Button href={localizePath('/', lang)} size="lg">{t('notFound.home')}</Button>
+        <Button href={localizePath('/proiecte', lang)} variant="secondary" size="lg">{t('nav.projects')}</Button>
+      </Cluster>
+    </Stack>
+  </Section>
+</Base>

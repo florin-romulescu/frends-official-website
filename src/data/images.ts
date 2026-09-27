@@ -1,8 +1,6 @@
 import { getEntry } from 'astro:content';
 import type { ImageSlot } from '../content.config';
-import type { ResolvedImage } from '../components/types';
-
-export interface SiteImage extends ResolvedImage {
+export interface SiteImage extends ImageMetadata {
   alt: string;
 }
 

@@ -3,20 +3,29 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { getSite } from '../data/site';
+import { getSiteImage } from '../data/images';
 import { getLangFromUrl, useTranslations } from '../i18n';
+import { getSocialImageUrl, toMetaDescription } from '../lib/seo';
 
 interface Props {
   title: string;
   description: string;
+  image?: ImageMetadata;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, type = 'website', publishedTime, noindex = false } = Astro.props;
 const site = await getSite();
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const metaDescription = toMetaDescription(description);
+const socialImage = image ?? (await getSiteImage('about_photo'));
+const socialImageUrl = await getSocialImageUrl(socialImage, canonical);
 ---
 <!doctype html>
 <html lang={lang}>
@@ -31,15 +40,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="preload" href="/fonts/lato-400-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <title>{title} · {site.name}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
     <link rel="canonical" href={canonical.href} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="google-site-verification" content="m85hBEi10aUDhzmX5g5kJxwZuWbFAc9DeQT4t_-Z0To" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="ro_RO" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
+
+    <slot name="head" />
   </head>
 
   <body class="flex min-h-screen flex-col">

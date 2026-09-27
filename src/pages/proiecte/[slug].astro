@@ -42,7 +42,7 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
   .filter(Boolean)
   .join('  ·  ');
 ---
-<Base title={data.title} description={data.summary}>
+<Base title={data.title} description={data.summary} image={data.image}>
   <div style={`--accent:${data.accentColor ?? 'var(--color-brand)'}`}>
     <Section space="md">
       <Split at="xl" gap="xl">

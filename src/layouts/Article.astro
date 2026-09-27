@@ -4,20 +4,21 @@ import Section from './primitives/Section.astro';
 import Stack from './primitives/Stack.astro';
 import PhotoCard from '../components/PhotoCard';
 import BlockContent from '../components/BlockContent.astro';
-import type { ResolvedImage } from '../components/types';
 
 interface Props {
   title: string;
   description: string;
-  image: ResolvedImage;
+  image: ImageMetadata;
   imageAlt: string;
   body: string;
   back: { label: string; href: string };
+  publishedTime?: string;
 }
 
-const { title, description, image, imageAlt, body, back } = Astro.props;
+const { title, description, image, imageAlt, body, back, publishedTime } = Astro.props;
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} image={image} type="article" publishedTime={publishedTime}>
+  <slot name="head" slot="head" />
   <Section space="md" width="prose">
     <Stack gap="lg">
       <a href={back.href} class="w-fit text-body font-bold text-ink-secondary hover:text-brand">
