@@ -19,7 +19,7 @@ const banner = await getSiteImage('projects_banner');
 const projects = (await getCollection('projects')).sort(
   (a, b) =>
     Number(b.data.featured) - Number(a.data.featured) ||
-    b.data.startDate.localeCompare(a.data.startDate),
+    (b.data.startDate ?? '').localeCompare(a.data.startDate ?? ''),
 );
 
 const volunteerHref = localizeHref(site.volunteerUrl, lang);

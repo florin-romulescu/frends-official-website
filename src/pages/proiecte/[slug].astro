@@ -33,13 +33,15 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const highlightIcon = await getSiteImage('icon_help');
 
-const statusLabel = {
+const statusLabels = {
   open: t('projects.status.open'),
   ongoing: t('projects.status.ongoing'),
   completed: t('projects.status.completed'),
-}[data.status];
+};
 
-const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
+const period = data.startDate && formatPeriod(data.startDate, data.endDate, lang);
+
+const meta = [period, data.location]
   .filter(Boolean)
   .join('  ·  ');
 ---
@@ -49,13 +51,15 @@ const meta = [formatPeriod(data.startDate, data.endDate, lang), data.location]
       <Split at="xl" gap="xl">
         <Stack gap="lg">
           <Cluster gap="sm" class="enter">
-            <StatusBadge status={data.status} label={statusLabel} className="-ml-4" />
+            {data.status && (
+              <StatusBadge status={data.status} label={statusLabels[data.status]} className="-ml-4" />
+            )}
             {data.category && <Pill variant="caption">{data.category}</Pill>}
           </Cluster>
 
           <Stack gap="sm" class="enter [--enter-delay:120ms]">
             <h1 class="font-display text-display font-extrabold text-(--accent)">{data.title}</h1>
-            <p class="text-body-lg font-black text-ink-muted">{meta}</p>
+            {meta && <p class="text-body-lg font-black text-ink-muted">{meta}</p>}
           </Stack>
 
           <p class="enter max-w-[39rem] text-body-lg [--enter-delay:240ms]">{data.summary}</p>

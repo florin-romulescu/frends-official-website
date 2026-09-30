@@ -10,6 +10,11 @@ const withStatus = <T extends { startDate: string; endDate?: string }>(data: T) 
   status: eventStatus(data.startDate, data.endDate),
 });
 
+const withOptionalStatus = <T extends { startDate?: string; endDate?: string }>(data: T) => ({
+  ...data,
+  status: data.startDate ? eventStatus(data.startDate, data.endDate) : undefined,
+});
+
 export const imageSlots = [
   'header_sky',
   'hero_photo',
@@ -60,7 +65,7 @@ const projects = defineCollection({
         summary: z.string(),
         category: z.string().optional(),
         location: z.string().optional(),
-        startDate: z.string(),
+        startDate: z.string().optional(),
         endDate: z.string().optional(),
         accentColor: z.string().optional(),
         highlight: z.string().optional(),
@@ -80,7 +85,7 @@ const projects = defineCollection({
           )
           .default([]),
       })
-      .transform(withStatus),
+      .transform(withOptionalStatus),
 });
 
 const blog = defineCollection({
