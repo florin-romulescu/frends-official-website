@@ -74,13 +74,11 @@ const projects = defineCollection({
         imageAlt: z.string(),
         facts: z.array(z.string()).default([]),
         impactLede: z.string().optional(),
-        impact: z
+        gallery: z
           .array(
             z.object({
               photo: image(),
               photoAlt: z.string(),
-              stat: z.string().optional(),
-              label: z.string().optional(),
             }),
           )
           .default([]),

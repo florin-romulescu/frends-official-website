@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import { revealDelay } from '../lib/motion';
+import { toWaterfallColumns } from '../lib/waterfall';
+
+interface Photo {
+  photo: ImageMetadata;
+  photoAlt: string;
+}
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+
+const relativeHeight = ({ photo }: Photo) => photo.height / photo.width;
+
+const layouts = [
+  { columnCount: 1, class: 'flex sm:hidden' },
+  { columnCount: 2, class: 'hidden sm:flex lg:hidden' },
+  { columnCount: 3, class: 'hidden lg:flex' },
+].map((layout) => ({
+  ...layout,
+  columns: toWaterfallColumns(photos, layout.columnCount, relativeHeight),
+}));
+---
+{
+  layouts.map((layout) => (
+    <div class:list={['gap-6 lg:gap-8', layout.class]}>
+      {layout.columns.map((column) => (
+        <ul class="flex min-w-0 flex-1 flex-col gap-6 lg:gap-8">
+          {column.map(({ photo, photoAlt }, i) => (
+            <li class="reveal overflow-hidden rounded-card" style={revealDelay(i)}>
+              <Image
+                src={photo}
+                alt={photoAlt}
+                format="avif"
+                widths={[400, 640, 880]}
+                sizes={`${Math.ceil(100 / layout.columnCount)}vw`}
+                class="shimmer h-auto w-full"
+              />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  ))
+}
