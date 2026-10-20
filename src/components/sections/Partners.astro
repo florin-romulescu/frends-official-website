@@ -4,7 +4,6 @@ import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../i18n';
 import Section from '../../layouts/primitives/Section.astro';
 import Stack from '../../layouts/primitives/Stack.astro';
-import Grid from '../../layouts/primitives/Grid.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -19,7 +18,7 @@ const partners = (await getCollection('partners'))
       <Stack gap="xl">
         <h2 class="reveal text-h2">{t('partners.title')}</h2>
 
-        <Grid as="ul" min="8rem" gap="md" class="max-w-[42rem]">
+        <ul class="grid max-w-[42rem] grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] gap-6">
           {partners.map(({ data }, i) => {
             const Wrapper = data.url ? 'a' : 'div';
             const linkProps = data.url
@@ -27,7 +26,7 @@ const partners = (await getCollection('partners'))
               : {};
             return (
               <li class="reveal" style={revealDelay(i, 6)}>
-                <div class="lift aspect-square overflow-hidden rounded-[13px] bg-surface-subtle p-3">
+                <div class="lift aspect-square overflow-hidden rounded-[13px] p-3">
                   <Wrapper
                     {...linkProps}
                     class="grid size-full place-items-center transition-opacity hover:opacity-80"
@@ -46,7 +45,7 @@ const partners = (await getCollection('partners'))
               </li>
             );
           })}
-        </Grid>
+        </ul>
       </Stack>
     </Section>
   )
